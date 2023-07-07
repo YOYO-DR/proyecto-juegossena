@@ -1,0 +1,31 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="inicio"><div><h1>Registro</h1>
+
+{% for field in form %}
+{% for error in field.errors %}
+<p>{{error}}</p>
+{% endfor %}
+{% endfor %}
+
+{% for error in form.non_field_errors %}
+<p class="text-danger">{{error}}</p>
+{% endfor %}
+
+<form method="POST" class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4">
+  {% csrf_token %}
+  {% for field in form.visible_fields %}
+  <div class="mb-3">
+  <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
+  {{field}}
+  </div>
+  {% endfor %}
+  <button class="btn btn-success" type="submit">Registrarse</button>
+</form></div></div>
+
+{% endblock contenido %}
+{% block js %}
+<script src="{% static 'js/verificarCorreos.js' %}"></script>
+{% endblock js %}

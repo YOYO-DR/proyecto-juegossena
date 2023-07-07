@@ -1,0 +1,68 @@
+{% load static %}
+<div
+  class="d-flex flex-column align-items-center align-items-md-start px-3 pt-2 text-white min-vh-100"
+>
+  {% comment %} Titulo {% endcomment %}
+  <span
+    class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+  >
+    <span class="fs-5 d-none d-md-inline">Menu</span>
+  </span>
+
+  <ul
+    class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-md-start h-100"
+    id="menu"
+  >
+    {% if user.is_authenticated %}
+    <li class="nav-item d-flex">
+      <a href="#" class="nav-link align-middle px-0">
+        <img
+          src="{{request.user.get_imagen}}"
+          alt="hugenerd"
+          width="30"
+          height="30"
+          class="rounded-circle"
+        />
+        <span class="ms-1 d-none d-md-inline">{{user.username|capfirst}}</span>
+      </a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+      <a href="/" class="nav-link align-middle px-0">
+        <i class="fs-4 bi-house"></i>
+        <span class="ms-1 d-none d-md-inline">Inicio</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/" class="nav-link align-middle px-0">
+        <i class="fs-4 bi-info-circle"></i>
+        <span class="ms-1 d-none d-md-inline">Blog</span>
+      </a>
+    </li>
+    {% if user.is_authenticated %}
+    <li class="nav-item">
+      <a href="{% url 'usuarios:cerrar' %}" class="nav-link px-0 align-middle">
+        <i class="fs-4 bi-escape"></i>
+        <span class="ms-1 d-none d-md-inline">Cerrar sesión</span></a
+      >
+    </li>
+    {% else %} {% if request.path_info != "/iniciarsesion/" %}
+    <li>
+      <a
+        href="{% url 'usuarios:iniciarsesion' %}"
+        class="nav-link px-0 align-middle"
+      >
+        <i class="fs-4 bi-door-open"></i>
+        <span class="ms-1 d-none d-md-inline">Iniciar sesión</span>
+      </a>
+    </li>
+    {% endif %} {% if request.path_info != "/registro/" %}
+    <li>
+      <a href="{% url 'usuarios:registro' %}" class="nav-link px-0 align-middle">
+        <i class="fs-4 bi-person-plus"></i>
+        <span class="ms-1 d-none d-md-inline">Registrarse</span></a
+      >
+    </li>
+    {% endif %} {% endif %}
+  </ul>
+</div>
