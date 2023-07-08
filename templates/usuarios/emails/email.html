@@ -1,4 +1,21 @@
-{% comment %} Siempre poner esto para la seguridad {% endcomment %}
-{% autoescape off %}
-Inicio de sesión correcto con el usuario {{usuario.username|capfirst}}
+{% comment %} Siempre poner esto para la seguridad {% endcomment %} {% autoescape off %}
+
+<div style="
+border: solid 1px blue;
+border-radius: 10px;
+padding: 15px;
+width: auto;
+display: inline-block;
+">
+  <h2>
+    Inicio de sesión correcto con el usuario
+    <strong style="color: red">{{usuario.username|capfirst}}</strong>
+  </h2>
+  <a
+    href="https://juegossena.azurewebsites.net/"
+    style="text-decoration: none; color: blue"
+    target="_blank"
+    >Página principal</a
+  >
+</div>
 {% endautoescape %}

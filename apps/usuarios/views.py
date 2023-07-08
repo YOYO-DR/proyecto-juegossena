@@ -6,6 +6,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 
+from config.settings import EMAIL_HOST_USER
+from django.core.mail import EmailMultiAlternatives
 from .forms import crearUsuarioForm
 
 from .forms import IniciarSesionForm, crearUsuarioForm
@@ -66,7 +68,13 @@ class IniciarSesionView(FormView):
         'usuario':usuario,
     })
     to_email = email
-    send_email=EmailMessage(mail_subject, body,to=[to_email])
+    #este envia un mensaje normal
+    # send_email=EmailMessage(mail_subject, body,to=[to_email])
+    #pero para html, lo hago de la siguiente forma
+    #le paso el asunto, las comillas vacias son para enviar texto plano, por si depronto el mail no puede renderizar el html, y si no se quiere pasar, solo se dejan vacias, y luego a donde se va a enviar en un arreglo
+    send_email = EmailMultiAlternatives(mail_subject, '', to=[to_email])
+    #luego con esa funcion le paso el html y le digo que va a ser un html
+    send_email.attach_alternative(body, "text/html")
     send_email.send()
 
     return HttpResponseRedirect(self.success_url)
