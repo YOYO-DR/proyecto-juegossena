@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 class InicioView(TemplateView): 
@@ -10,3 +11,5 @@ class InicioView(TemplateView):
       return context
 
 
+def prueba(request):
+   return render(request,'plantillas/prueba.html')

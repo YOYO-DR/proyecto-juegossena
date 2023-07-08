@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth import authenticate, login
 # from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
@@ -9,6 +10,13 @@ from .forms import crearUsuarioForm
 
 from .forms import IniciarSesionForm, crearUsuarioForm
 
+#correo
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.core.mail import EmailMessage
 
 class RegitroView(FormView):
   form_class = crearUsuarioForm
@@ -43,6 +51,24 @@ class IniciarSesionView(FormView):
 
   def form_valid(self, form):
     login(self.request, form.get_user())
+
+    #enviar correo
+    usuario=self.request.user
+    email=usuario.email
+    current_site = get_current_site(self.request)
+    if 'WEBSITE_HOSTNAME' in os.environ:
+        current_site = 'https://'+str(current_site)
+    else:
+        current_site = 'http://'+str(current_site)
+    mail_subject = 'Inicio de sesión correcto'
+    body = render_to_string('usuarios/emails/email.html',{
+       # data para manipular en el html
+        'usuario':usuario,
+    })
+    to_email = email
+    send_email=EmailMessage(mail_subject, body,to=[to_email])
+    send_email.send()
+
     return HttpResponseRedirect(self.success_url)
   
   def get_context_data(self, **kwargs):

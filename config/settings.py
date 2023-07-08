@@ -158,3 +158,22 @@ LOGIN_REDIRECT_URL = 'inicio'
 
 # por si dentra a una vista que requiera que el usuario inicie sesión
 LOGIN_URL = 'usuarios:iniciarsesion'
+
+
+# confirgurar servidor para enviar correos
+# host del envio de correos
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+if 'WEBSITE_HOSTNAME' in os.environ: 
+    config_email_tienda=os.environ['EMAIL_SEND']
+    config_email_tienda_valores={i.split('=')[0]:i.split('=')[1] for i in config_email_tienda.split(' ')}
+else:
+    config_email_tienda_valores={
+        'email':os.environ.get('CORREO'),
+        'password':os.environ.get('PASS_CORREO')
+    }
+# correo de gmail que va a enviar correos
+EMAIL_HOST_USER = config_email_tienda_valores['email']
+# la contraseña
+EMAIL_HOST_PASSWORD = config_email_tienda_valores['password']
+EMAIL_USE_TLS = True

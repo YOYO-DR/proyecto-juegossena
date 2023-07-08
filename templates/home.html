@@ -24,21 +24,39 @@
     <div class="container-fluid">
 
       <div class="row flex-nowrap">
-         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-           {% include 'plantillas/menu_lateral.html' %}
-         </div>
 
          <div class="col py-3">
           <div class="container">
             {% block contenido %}{% endblock contenido %}
           </div>
-
         </div>
-        
+        <div
+          id="container-menu"
+          class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark d-none"
+          {% comment %} fixed para que quede fijado, top para un margin y right 0 para decirle que a la derecha no quiero nada, entonces se posiciona a la derecha {% endcomment %}
+          style="position: fixed; right: 0;"
+        >
+           {% include 'plantillas/menu_lateral.html' %}
+         </div>
       </div>
       
       </div>
     <script src="{% static 'libs/bootstrap-5.3/js/bootstrap.min.js' %}"></script>
+    <script>
+      //Funciones del menu
+      document.addEventListener("DOMContentLoaded", function () {
+        const botonMenu = document.getElementById("btnmenu");
+        const containerMenu = document.getElementById("container-menu");
+
+        botonMenu.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (containerMenu.classList.contains("d-none")) {
+            containerMenu.classList.remove("d-none");
+          } else {
+            containerMenu.classList.add("d-none");
+          }
+        });
+      });</script>
     {% block js %}{% endblock js %}
   </body>
 </html>
