@@ -1,7 +1,5 @@
 from django.views.generic import TemplateView
 
-
-
 class InicioView(TemplateView): 
   template_name = 'juegos/inicio.html'
 
