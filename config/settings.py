@@ -151,7 +151,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
 # despues de que cierre sesión
-LOGOUT_REDIRECT_URL = 'inicio'
+LOGOUT_REDIRECT_URL = 'usuarios:iniciarsesion'
 
 # despues de iniciar sesion con el LoginView
 LOGIN_REDIRECT_URL = 'inicio'

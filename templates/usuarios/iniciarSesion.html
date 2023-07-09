@@ -5,13 +5,10 @@
 <div class="inicio mt-2">
   <div>
     <h1>Iniciar sesión</h1>
-    {% if form.errors %} {% for field in form %} {% for error in field.errors %}
-    <p class="text-danger">{{error}}</p>
-    {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
-    <p class="text-danger">{{error}}</p>
-    {% endfor %} {% endif %}
+    <p id="mensaje"></p>
 
     <form
+    id="form"
       method="POST"
       class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4 d-flex flex-column"
       >
@@ -33,3 +30,28 @@
   </div>
 </div>
 {% endblock contenido %}
+{% block js %}
+<script src="{% static 'js/enviarpost.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.getElementById('form')
+  const mensaje=document.getElementById('mensaje')
+
+  let callback=(data)=>{
+    if ('error'in data){
+      mensaje.className="mensaje-error"
+      mensaje.innerHTML=data.error
+    }else{
+      mensaje.innerHTML=""
+      window.location.href=data.urlRedirect
+    }
+  }
+  enviarPost(
+    "form", // id formulario
+    "{{csrf_token}}",
+    ".",
+    callback
+  )
+})
+</script>
+{% endblock js %}

@@ -2,18 +2,16 @@ import json
 import os
 from django.contrib.auth import authenticate, login
 # from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
-
 from apps.usuarios.models import Usuario
 from .forms import crearUsuarioForm
-
 from .forms import IniciarSesionForm, crearUsuarioForm
-
 #correo
 from .funciones import validar_patron_correo,validar_contra
 from django.template.loader import render_to_string
@@ -53,7 +51,14 @@ class IniciarSesionView(FormView):
   template_name = 'usuarios/iniciarSesion.html'
   success_url = reverse_lazy('inicio')
 
+  def dispatch(self, request, *args, **kwargs):
+      if request.user.is_authenticated:
+        return redirect('inicio')
+      return super().dispatch(request, *args, **kwargs)
+  
+
   def form_valid(self, form):
+    datos={}
     login(self.request, form.get_user())
 
     #enviar correo
@@ -79,9 +84,22 @@ class IniciarSesionView(FormView):
     #luego con esa funcion le paso el html y le digo que va a ser un html
     send_email.attach_alternative(body, "text/html")
     send_email.send()
+    datos['urlRedirect']=self.success_url
+    return JsonResponse(datos)
 
-    return HttpResponseRedirect(self.success_url)
-  
+  def form_invalid(self, form):
+    # Obtener los errores del formulario
+    errors = []
+    for field, error_list in form.errors.items():
+      for error in error_list:
+          errors.append(error)
+    if len(errors)>1:
+      mensaje=', '.join(errors)
+    else:
+      mensaje=errors[0]
+    datos={'error':mensaje}
+    return JsonResponse(datos)
+
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
       context["titulo"] = 'Iniciar sesión'
