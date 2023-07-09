@@ -1,0 +1,64 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block contenido %}
+<h1>Requerimientos hechos</h1>
+<div>
+{% if is_admin %}
+<form id="form">
+  <p id="mensaje"></p>
+  {% endif %} 
+  {% for requisito in requi %}
+  <div class="form-check">
+    <input
+      {% if requisito.hecho %}
+        checked
+      {% endif %}
+      {% if not is_admin %}
+        disabled
+      {% endif %}
+      class="form-check-input"
+      type="checkbox"
+      name="{{requisito.nombre}}"
+      value="{{requisito.id}}"
+      id="flexCheck{{requisito.nombre}}"
+    />
+    <label class="form-check-label" for="flexCheck{{requisito.nombre}}">
+      {{requisito.nombre}}
+    </label>
+  </div>
+  {% endfor %} 
+  {% if is_admin %}
+  <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+</form>
+{% endif %}
+</div>
+{% endblock contenido %}
+{% block js %}
+<script src="{% static 'js/enviarPost.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const form = document.getElementById('form')
+    let callback=(data)=>{
+      if ("error" in data) {
+        mensaje.className = "mensaje-error";
+        mensaje.innerHTML = data.error;
+      }else{
+        const mensaje = document.getElementById('mensaje')
+        mensaje.className="mensaje-correcto"
+        mensaje.innerHTML="Requisitos actualizados correctamente"
+        setTimeout(function(){
+          mensaje.className=""
+          mensaje.innerHTML=""
+        },4000)
+      }
+    }
+    enviarPost(
+      "form", // id formulario
+      "{{csrf_token}}",
+      ".",
+      callback,
+      false
+    );
+  })
+</script>
+{% endblock js %}

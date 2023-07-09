@@ -1,4 +1,4 @@
-function enviarPost(idForm, csrftoken, url, funcion) {
+function enviarPost(idForm, csrftoken, url, funcion,resetForm=true) {
   const form = document.getElementById(idForm);
 
   form.addEventListener("submit", async (e) => {
@@ -28,7 +28,9 @@ function enviarPost(idForm, csrftoken, url, funcion) {
       const data = await response.json();
       if (response.ok) {
         if (!("error" in data)) {
-          form.reset();
+          if (resetForm==true) {
+            form.reset();
+          }
         }
         funcion(data); //ejecutar funcion si la respuesta es correcta
       }
