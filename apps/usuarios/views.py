@@ -140,7 +140,7 @@ class CambioContraView(TemplateView):
         try:
           #decodifico el uidb64 y obtengo el usuario segun el uid
           uid = urlsafe_base64_decode(uidb64).decode()
-          usuario = Usuario._default_manager.get(pk=uid)
+          usuario = Usuario.objects.get(pk=uid)
         except (TypeError, ValueError,OverflowError, Usuario.DoesNotExist):
           # si sale algun error, dejo el usuario como None
           usuario = None
