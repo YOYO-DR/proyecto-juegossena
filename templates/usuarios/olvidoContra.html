@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contenido %}
+<div class="inicio mt-2">
+  <div>
+    <h1>Recuperar contraseña</h1>
+    <p id="mensaje"></p>
+    <form
+    id="form"
+      method="POST"
+      class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4">
+      <div class="mb-3">
+        <p>Ingresa el correo de tu cuenta</p>
+        <label for="email" class="form-label">
+          Email:</label>
+        <input required type="email" name="email" id="email" class="form-control">
+      </div>
+      <button class="btn btn-success w-50" type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+{% endblock contenido %}
+{% block js %}
+<script src="{% static 'js/enviarpost.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.getElementById('form')
+  const mensaje=document.getElementById('mensaje')
+
+  let callback=(data)=>{
+    if ('error'in data){
+      mensaje.className="mensaje-error"
+      mensaje.innerHTML=data.error
+    }else{
+      mensaje.className="mensaje-correcto"
+      mensaje.innerHTML="Correo enviado correctamente, revisa tu bandeja de entrada"
+      form.remove()
+    }
+  }
+  enviarPost(
+    "form", // id formulario
+    "{{csrf_token}}",
+    "{% url 'usuarios:olvidoContra' %}",
+    callback
+  )
+})
+</script>
+{% endblock js %}

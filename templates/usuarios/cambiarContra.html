@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contenido %}
+<div class="inicio mt-2">
+  <div>
+    {% if not token_expirado %}
+    <h1>Cambiar contraseña</h1>
+    <p id="mensaje"></p>
+    <form
+      id="form"
+      method="POST"
+      class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4">
+      <div class="mb-3">
+        <label for="contra" class="form-label">
+          Nueva contraseña:</label>
+        <input required type="password" name="contra" id="contra" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="contra_confir" class="form-label">
+          Confirmar contraseña:</label>
+        <input required type="password" name="contra_confirm" id="contra_confir" class="form-control">
+      </div>
+      <button class="btn btn-success w-50" type="submit">Cambiar contraseña</button>
+    </form>
+    {% else %}
+    <h1>El link ya expiró</h1>
+    {% endif %}
+  </div>
+</div>
+{% endblock contenido %}
+{% block js %}
+<script src="{% static 'js/enviarpost.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.getElementById('form')
+  const mensaje=document.getElementById('mensaje')
+
+  let callback=(data)=>{
+    if ('error'in data){
+      mensaje.className="mensaje-error"
+      mensaje.innerHTML=data.error
+    }else{
+      mensaje.className="mensaje-correcto"
+      let iniciarSesion =`<a href="{% url 'usuarios:iniciarsesion' %}" class="link-primary">iniciar sesión</a>`
+      mensaje.innerHTML="La contraseña se cambio correctamente, ya puedes "+iniciarSesion
+      form.remove()
+    }
+  }
+  enviarPost(
+    "form", // id formulario
+    "{{csrf_token}}",
+    ".",
+    callback
+  )
+})
+</script>
+{% endblock js %}

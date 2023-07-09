@@ -1,0 +1,14 @@
+
+{% extends 'usuarios/emails/plantillas_email/email_base.html' %}
+{% block contenido %}
+  <h2>
+    Inicio de sesión correcto con el usuario
+    <strong style="color: red">{{usuario.username|capfirst}}</strong>
+  </h2>
+  <a
+    href="{{dominio}}"
+    style="text-decoration: none; color: blue"
+    target="_blank"
+    >Página principal</a
+  >
+{% endblock contenido %}

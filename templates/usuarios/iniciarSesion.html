@@ -1,4 +1,4 @@
-{% extends 'home.html' %} 
+{% extends 'base.html' %} 
 {% load static %} 
 {% load widget_tweaks %} 
 {% block contenido %}
@@ -13,7 +13,7 @@
 
     <form
       method="POST"
-      class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4"
+      class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4 d-flex flex-column"
       >
       {% csrf_token %} {% for field in form.visible_fields %}
       <div class="mb-3">
@@ -25,9 +25,11 @@
         {{field}}
       </div>
       {% endfor %}
-      <button class="btn btn-success" type="submit">Iniciar sesión</button>
+      <div>
+      <a href="{% url 'usuarios:olvidoContra' %}" class="link-primary w-auto">¿Olvidé mi contraseña?</a>
+      </div>
+      <button class="btn btn-success w-50" type="submit">Iniciar sesión</button>
     </form>
   </div>
-  
 </div>
 {% endblock contenido %}
