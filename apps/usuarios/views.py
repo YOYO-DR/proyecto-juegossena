@@ -33,14 +33,31 @@ class RegitroView(FormView):
     return super().dispatch(request, *args, **kwargs)
 
   def form_valid(self, form):
+    datos={}
     form.save()
     user = form.cleaned_data['username']
     passw = form.cleaned_data['password1']
     user=authenticate(username=user, password=passw)
     #si es correcto el formulario, inicio sesión
     login(self.request, user)
-    return HttpResponseRedirect(self.success_url)
+    datos['urlRedirect']=self.success_url
+    return JsonResponse(datos)
+
+
+  def form_invalid(self, form):
+    # Obtener los errores del formulario
+    errors = []
+    for field, error_list in form.errors.items():
+      for error in error_list:
+          errors.append(error)
+    if len(errors)>1:
+      mensaje=' '.join(errors)
+    else:
+      mensaje=errors[0]
+    datos={'error':mensaje}
+    return JsonResponse(datos)
   
+
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['title'] = 'Iniciar sesión'
@@ -94,7 +111,7 @@ class IniciarSesionView(FormView):
       for error in error_list:
           errors.append(error)
     if len(errors)>1:
-      mensaje=', '.join(errors)
+      mensaje='\n'.join(errors)
     else:
       mensaje=errors[0]
     datos={'error':mensaje}

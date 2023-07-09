@@ -1,34 +1,54 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block contenido %}
-<div class="inicio"><div><h1>Registro</h1>
-
-{% for field in form %}
-{% for error in field.errors %}
-<p>{{error}}</p>
-{% endfor %}
-{% endfor %}
-
-{% for error in form.non_field_errors %}
-<p class="text-danger">{{error}}</p>
-{% endfor %}
-
-<form method="POST" class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4">
-  {% csrf_token %}
-  {% for field in form.visible_fields %}
-  <div class="mb-3">
-  <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
-  {{field}}
+{% extends 'base.html' %} {% load static %} {% block contenido %}
+<div class="inicio mt-2">
+  <div>
+    <h1>Registro</h1>
+    <p id="mensaje"></p>
+    <form
+    id="form"
+      method="POST"
+      class="border rounded p-3 col-lg-5 col-md-7 col-sm-9 col-xxl-4"
+    >
+      {% csrf_token %} {% for field in form.visible_fields %}
+      <div class="mb-3">
+        <label class="form-label" for="{{field.id_for_label}}"
+          >{{field.label}}</label
+        >
+        {{field}}
+      </div>
+      {% endfor %}
+      <div class="mb-3">
+        <a href="{% url 'usuarios:iniciarsesion' %}" class="link-primary w-auto"
+          >¿Ya tiene una cuenta?</a
+        >
+      </div>
+      <button class="btn btn-success" type="submit">Registrarse</button>
+    </form>
   </div>
-  {% endfor %}
-  <div class="mb-3">
-      <a href="{% url 'usuarios:iniciarsesion' %}" class="link-primary w-auto">¿Ya tiene una cuenta?</a>
-  </div>
-  <button class="btn btn-success" type="submit">Registrarse</button>
-</form></div></div>
+</div>
 
-{% endblock contenido %}
-{% block js %}
+{% endblock contenido %} {% block js %}
+<script src="{% static 'js/enviarpost.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("form");
+    const mensaje = document.getElementById("mensaje");
 
+    let callback = (data) => {
+      if ("error" in data) {
+        mensaje.className = "mensaje-error";
+        mensaje.innerHTML = data.error;
+      } else {
+        mensaje.className ="";
+        mensaje.innerHTML="";
+        window.location.href = data.urlRedirect;
+      }
+    };
+    enviarPost(
+      "form", // id formulario
+      "{{csrf_token}}",
+      ".",
+      callback
+    );
+  });
+</script>
 {% endblock js %}

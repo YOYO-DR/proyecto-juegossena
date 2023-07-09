@@ -20,12 +20,7 @@
 {% block js %}
 <script src="{% static 'js/enviarpost.js' %}"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () { //Ejecuto cuando el dom se cargue por completo
-
-    let callback = (data) => { //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
-      const divAcordeones = document.getElementById("carateristicas"); //selecciono donde voy a poner los datos devueltos
-      let acordeones = ``; //donde voy a crear el acordeon
-      let acordeon = (nombre, valores) => { //funcion para crear cada acordeon, recibe nombre de la caracteristica y su arreglo de valores
+  let acordeon = (nombre, valores) => { //funcion para crear cada acordeon, recibe nombre de la caracteristica y su arreglo de valores
         let ul = `<ul>`; //creo la ul para poner en el div seleccionado
         for (const diccionario of valores) { //recorro cada valor del diccionario con el for of (el for in me devolveria el indice)
           // utiliso el for of para el arreglo
@@ -64,6 +59,13 @@
           </div>`;
         return acor; // retorno el acordeon creado
       };
+
+document.addEventListener("DOMContentLoaded", function () { //Ejecuto cuando el dom se cargue por completo
+
+    let callback = (data) => { //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
+      const form = document.getElementById("envioTxt")
+      const divAcordeones = document.getElementById("carateristicas"); //selecciono donde voy a poner los datos devueltos
+      let acordeones = ``; //donde voy a crear el acordeon
 
       for (const key in data) { // recorro los datos pasados por la peticion, con el for in para extraer el key, o clave
         if (data.hasOwnProperty(key)) {

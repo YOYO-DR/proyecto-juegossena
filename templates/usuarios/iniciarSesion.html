@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function(){
       mensaje.className="mensaje-error"
       mensaje.innerHTML=data.error
     }else{
-      mensaje.innerHTML=""
+      mensaje.className ="";
+      mensaje.innerHTML="";
       window.location.href=data.urlRedirect
     }
   }

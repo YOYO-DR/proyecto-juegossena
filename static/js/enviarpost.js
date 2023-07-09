@@ -27,7 +27,9 @@ function enviarPost(idForm, csrftoken, url, funcion) {
       });
       const data = await response.json();
       if (response.ok) {
-        form.reset();
+        if (!("error" in data)) {
+          form.reset();
+        }
         funcion(data); //ejecutar funcion si la respuesta es correcta
       }
     } catch (error) {
