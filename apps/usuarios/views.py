@@ -78,29 +78,6 @@ class IniciarSesionView(FormView):
     datos={}
     login(self.request, form.get_user())
 
-    #enviar correo
-    usuario=self.request.user
-    email=usuario.email
-    dominio = get_current_site(self.request)
-    if 'WEBSITE_HOSTNAME' in os.environ:
-        dominio = 'https://'+str(dominio)
-    else:
-        dominio = 'http://'+str(dominio)
-    mail_subject = 'Inicio de sesión correcto'
-    body = render_to_string('usuarios/emails/email_iniciosesion.html',{
-       # data para manipular en el html
-        'usuario':usuario,
-        'dominio':dominio
-    })
-    to_email = email
-    #este envia un mensaje normal
-    # send_email=EmailMessage(mail_subject, body,to=[to_email])
-    #pero para html, lo hago de la siguiente forma
-    #le paso el asunto, las comillas vacias son para enviar texto plano, por si depronto el mail no puede renderizar el html, y si no se quiere pasar, solo se dejan vacias, y luego a donde se va a enviar en un arreglo
-    send_email = EmailMultiAlternatives(mail_subject, '', to=[to_email])
-    #luego con esa funcion le paso el html y le digo que va a ser un html
-    send_email.attach_alternative(body, "text/html")
-    send_email.send()
     datos['urlRedirect']=self.success_url
     return JsonResponse(datos)
 
