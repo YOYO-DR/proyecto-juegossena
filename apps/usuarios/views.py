@@ -13,6 +13,7 @@ from apps.usuarios.models import Usuario
 from .forms import crearUsuarioForm
 from .forms import IniciarSesionForm, crearUsuarioForm
 #correo
+from config.settings import EMAIL_HOST_USER
 from .funciones import validar_patron_correo,validar_contra
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -52,7 +53,7 @@ class RegitroView(FormView):
         'token':default_token_generator.make_token(usuario)
     })
     toEmail = email
-    envioEmail = EmailMultiAlternatives(asunto, '', to=[toEmail],from_email="Juegossena <correodjangoyoiner@gmail.com>")
+    envioEmail = EmailMultiAlternatives(asunto, '', to=[toEmail],from_email=f"Juegos Sena <{EMAIL_HOST_USER}>")
     #luego con esa funcion le paso el html y le digo que va a ser un html
     envioEmail.attach_alternative(cuerpoMensaje, "text/html")
     envioEmail.send()
@@ -124,7 +125,6 @@ class OlvidoContraEmailView(TemplateView):
     if request.POST.get('email'):
       #si existe, lo almaceno
       email = request.POST.get('email')
-      print(f'"{email}"')
       #valido si es correcto
       if not validar_patron_correo(email):
         datos['error'] = "Debe ingresar un correo valido"
@@ -149,7 +149,7 @@ class OlvidoContraEmailView(TemplateView):
               'token':default_token_generator.make_token(usuario)
           })
           toEmail = email
-          envioEmail = EmailMultiAlternatives(asunto, '', to=[toEmail])
+          envioEmail = EmailMultiAlternatives(asunto, '', to=[toEmail],from_email=f"Juegos Sena <{EMAIL_HOST_USER}>")
           #luego con esa funcion le paso el html y le digo que va a ser un html
           envioEmail.attach_alternative(cuerpoMensaje, "text/html")
           envioEmail.send()
