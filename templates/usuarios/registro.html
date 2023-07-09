@@ -38,9 +38,9 @@
         mensaje.className = "mensaje-error";
         mensaje.innerHTML = data.error;
       } else {
-        mensaje.className ="";
-        mensaje.innerHTML="";
-        window.location.href = data.urlRedirect;
+        mensaje.className ="mensaje-correcto";
+        mensaje.innerHTML="Se ha enviado un correo para activar su cuenta, revisa tu bandeja de entrada";
+        form.remove()
       }
     };
     enviarPost(

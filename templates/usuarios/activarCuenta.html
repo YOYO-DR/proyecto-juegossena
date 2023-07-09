@@ -1,0 +1,4 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h2>Hola {{username|capfirst}}, su cuenta ha sido activada correctamente, ya puede <a href="{% url 'usuarios:iniciarsesion' %}" class="link-primary">iniciar sesión</a></h2>
+{% endblock contenido %}

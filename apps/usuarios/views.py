@@ -35,12 +35,28 @@ class RegitroView(FormView):
   def form_valid(self, form):
     datos={}
     form.save()
-    user = form.cleaned_data['username']
-    passw = form.cleaned_data['password1']
-    user=authenticate(username=user, password=passw)
-    #si es correcto el formulario, inicio sesión
-    login(self.request, user)
-    datos['urlRedirect']=self.success_url
+    username=form.cleaned_data['username']
+    usuario = Usuario.objects.get(username=username)
+    #envio el correo de activacion
+    email=usuario.email
+    dominio = get_current_site(self.request)
+    if 'WEBSITE_HOSTNAME' in os.environ:
+        dominio = 'https://'+str(dominio)
+    else:
+        dominio = 'http://'+str(dominio)
+    asunto = 'Activar cuenta'
+    cuerpoMensaje = render_to_string('usuarios/emails/email_activarCuenta.html',{
+        'usuario':usuario,
+        'dominio':dominio,
+        'uid':urlsafe_base64_encode(force_bytes(usuario.pk)),
+        'token':default_token_generator.make_token(usuario)
+    })
+    toEmail = email
+    envioEmail = EmailMultiAlternatives(asunto, '', to=[toEmail],from_email="Juegossena <correodjangoyoiner@gmail.com>")
+    #luego con esa funcion le paso el html y le digo que va a ser un html
+    envioEmail.attach_alternative(cuerpoMensaje, "text/html")
+    envioEmail.send()
+
     return JsonResponse(datos)
 
 
@@ -196,3 +212,36 @@ class CambioContraView(TemplateView):
           usuario.save()
     return JsonResponse(datos)
 
+class ActivarCuentaView(TemplateView):
+  template_name="usuarios/activarCuenta.html"
+
+  def dispatch(self, request, *args, **kwargs):
+    uidb64 = kwargs.get('uidb64')
+    token = kwargs.get('token')
+    if not (uidb64 and token):
+      return redirect('inicio')
+    else:
+      try:
+        #decodifico el uidb64 y obtengo el usuario segun el uid
+        uid = urlsafe_base64_decode(uidb64).decode()
+        usuario = Usuario.objects.get(pk=uid)
+      except (TypeError, ValueError,OverflowError, Usuario.DoesNotExist):
+          # si sale algun error, dejo el usuario como None
+          usuario = None
+        
+      if not (usuario is not None and default_token_generator.check_token(usuario,token)):
+        return redirect('inicio')
+      else:
+        # activo la cuenta
+        usuario.is_active=True
+        usuario.save()
+
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      uid = urlsafe_base64_decode(kwargs.get("uidb64")).decode()
+      usuario = Usuario.objects.get(pk=uid)
+      context["username"] = usuario.username
+      return context
+  
