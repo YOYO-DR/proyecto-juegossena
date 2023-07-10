@@ -24,7 +24,7 @@ MIDDLEWARE = [
 # agregamos el storage
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 
-#Pedimos la config de la base de datos
+#Pedimos la config de la base de datos 
 conn_str = os.environ['AZURE_MYSQL_CONNECTIONSTRING']
 
 
