@@ -1,0 +1,17 @@
+.foto-perfil {
+  width: 40px;
+  border-radius: 50%;
+}
+.mensaje-error {
+  color: red;
+}
+.mensaje-correcto {
+  color: green;
+}
+.mensaje-error,.mensaje-correcto {
+border: solid 1px;
+display: inline-block;
+padding: 3px 5px;
+border-radius: 5px;
+font-style: italic;
+}
