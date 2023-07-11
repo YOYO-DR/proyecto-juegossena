@@ -1,57 +1,97 @@
-{% extends 'base.html' %} 
-{% load static %}
-{% block contenido %}
-<h1>Requerimientos hechos</h1>
+{% extends 'base.html' %} {% load static %} {% block contenido %}
+<h1>Requerimientos</h1>
 <div>
-{% if es_admin %}
-<form id="form">
-  <p id="mensaje"></p>
-  {% endif %} 
-  {% for requisito in requi %}
-  <div class="form-check">
-    <input
-      {% if requisito.hecho %}
+  {% if requi %} {% if es_admin %}
+  <form id="form">
+    <p id="mensaje"></p>
+    {% endif %} {% for requisito in requi %}
+    <div class="form-check">
+      <input
+        {% if requisito.hecho %}
         checked
-      {% endif %}
-      {% if not es_admin %}
+        {% endif %}
+        {% if not es_admin %}
         disabled
+        {% endif %}
+        class="form-check-input"
+        type="checkbox"
+        name="{{requisito.nombre}}"
+        value="{{requisito.id}}"
+        id="flexCheck{{requisito.nombre}}"
+      />
+      <label class="form-check-label" for="flexCheck{{requisito.nombre}}">
+        {{requisito.numero}}. {{requisito.nombre}}
+      </label>
+      {% if requisito.imagen %}
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#modal{{requisito.id}}"
+        type="button"
+        class="empty-requi ms-2"
+      >
+        <img src="{% static 'media/img/img-empty.png' %}" alt="" />
+      </button>
+
+      {% comment %} modal {% endcomment %}
+      <div
+        class="modal fade"
+        id="modal{{requisito.id}}"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                {{requisito.nombre|capfirst}}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+              <img
+                class="img-modal-requi border"
+                src="{{requisito.get_image}}"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {% comment %} fin modal {% endcomment %} 
       {% endif %}
-      class="form-check-input"
-      type="checkbox"
-      name="{{requisito.nombre}}"
-      value="{{requisito.id}}"
-      id="flexCheck{{requisito.nombre}}"
-    />
-    <label class="form-check-label" for="flexCheck{{requisito.nombre}}">
-      {{requisito.nombre}}
-    </label>
-  </div>
-  {% endfor %} 
-  {% if es_admin %}
-  <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-</form>
-{% endif %}
+    </div>
+    {% endfor %} {% if es_admin %}
+    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+  </form>
+  {% endif %} {% else %}
+  <h3>Sin requerimientos</h3>
+  {% endif %}
 </div>
-{% endblock contenido %}
-{% block js %}
+{% endblock contenido %} {% block js %}
 <script src="{% static 'js/enviarPost.js' %}"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
-    const form = document.getElementById('form')
-    let callback=(data)=>{
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("form");
+    let callback = (data) => {
       if ("error" in data) {
         mensaje.className = "mensaje-error";
         mensaje.innerHTML = data.error;
-      }else{
-        const mensaje = document.getElementById('mensaje')
-        mensaje.className="mensaje-correcto"
-        mensaje.innerHTML="Requisitos actualizados correctamente"
-        setTimeout(function(){
-          mensaje.className=""
-          mensaje.innerHTML=""
-        },4000)
+      } else {
+        const mensaje = document.getElementById("mensaje");
+        mensaje.className = "mensaje-correcto";
+        mensaje.innerHTML = "Requisitos actualizados correctamente";
+        setTimeout(function () {
+          mensaje.className = "";
+          mensaje.innerHTML = "";
+        }, 4000);
       }
-    }
+    };
     enviarPost(
       "form", // id formulario
       "{{csrf_token}}",
@@ -59,6 +99,6 @@
       callback,
       false
     );
-  })
+  });
 </script>
 {% endblock js %}

@@ -15,3 +15,16 @@ padding: 3px 5px;
 border-radius: 5px;
 font-style: italic;
 }
+
+.empty-requi img{
+width: 20px;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+.empty-requi {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+}
