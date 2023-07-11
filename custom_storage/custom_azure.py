@@ -1,5 +1,5 @@
 from storages.backends.azure_storage import AzureStorage
-from config.settings import azure_storage_blob_parametros
+from config.production import azure_storage_blob_parametros
     
 class PublicAzureStaticStorage(AzureStorage):
     account_name = azure_storage_blob_parametros['account_name']

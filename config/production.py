@@ -11,6 +11,8 @@ CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE
 #ponemos el DEBUG en false porque se va a ejecutar en produccion
 DEBUG = False
 
+INSTALLED_APPS.append('storages')
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     # Add whitenoise middleware after the security middleware
@@ -48,3 +50,20 @@ DATABASES = {
 }
 
 #AZURE_MYSQL_CONNECTIONSTRING = dbname=nombreBD host=elHost port=3306 sslmode=require user=usuario password=pass
+
+#almacenmiento azure
+# Configuración para el diccionario de storages
+# si estamos en producción o desarrollo, y saber de donde traer la configuración
+
+azure_storage_blob = os.environ['AZURE_STORAGE_BLOB']
+azure_storage_blob_parametros = {parte.split(' = ')[0]:parte.split(' = ')[1] for parte in azure_storage_blob.split('  ')}
+
+
+AZURE_CONTAINER = azure_storage_blob_parametros['container_name']
+AZURE_ACCOUNT_NAME = azure_storage_blob_parametros['account_name']
+AZURE_ACCOUNT_KEY = azure_storage_blob_parametros['account_key']
+STORAGES = {
+    "default": {"BACKEND": "storages.backends.azure_storage.AzureStorage"},
+    "staticfiles": {"BACKEND": "custom_storage.custom_azure.PublicAzureStaticStorage"},
+    "media": {"BACKEND": "custom_storage.custom_azure.PublicAzureMediaStorage"},
+}
