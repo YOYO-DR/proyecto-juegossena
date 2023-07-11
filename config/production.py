@@ -7,8 +7,9 @@ from .settings import BASE_DIR # importamos la ruta de inicio
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 #se pone las rutas de seguridad
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+
 #ponemos el DEBUG en false porque se va a ejecutar en produccion
-DEBUG = True
+DEBUG = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
