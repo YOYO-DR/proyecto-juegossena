@@ -2,7 +2,7 @@ from typing import Any, Dict
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
-
+from apps.usuarios.models import Usuario
 from apps.blogs.models import Requerimientos
 
 class BlogsInicioView(TemplateView):
@@ -27,10 +27,14 @@ class RequerimientosView(TemplateView):
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    usuario = self.request.user
+    try:
+      usuario = Usuario.objects.get(id=self.request.user.id)
+    except:
+      usuario=None
     admins=["duranyoiner86@gmail.com","breynnerper18@gmail.com","danielalexanderrojasquisacue2@gmail.com"]
-    if usuario.is_authenticated:
-      if usuario.email in admins:
-        context['is_admin']=True
+    if usuario:
+      if usuario.is_authenticated:
+        if usuario.email in admins:
+          context['es_admin']=True
     context['requi']=Requerimientos.objects.all()
     return context

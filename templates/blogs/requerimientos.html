@@ -3,7 +3,7 @@
 {% block contenido %}
 <h1>Requerimientos hechos</h1>
 <div>
-{% if is_admin %}
+{% if es_admin %}
 <form id="form">
   <p id="mensaje"></p>
   {% endif %} 
@@ -13,7 +13,7 @@
       {% if requisito.hecho %}
         checked
       {% endif %}
-      {% if not is_admin %}
+      {% if not es_admin %}
         disabled
       {% endif %}
       class="form-check-input"
@@ -27,7 +27,7 @@
     </label>
   </div>
   {% endfor %} 
-  {% if is_admin %}
+  {% if es_admin %}
   <button type="submit" class="btn btn-primary mt-3">Guardar</button>
 </form>
 {% endif %}
