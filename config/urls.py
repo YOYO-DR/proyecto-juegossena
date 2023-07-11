@@ -29,4 +29,3 @@ urlpatterns = [
     path('dispositivos/',include('apps.dispositivos.urls')),
     path('blogs/',include('apps.blogs.urls'))
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
