@@ -58,7 +58,6 @@ DATABASES = {
 azure_storage_blob = os.environ['AZURE_STORAGE_BLOB']
 azure_storage_blob_parametros = {parte.split(' = ')[0]:parte.split(' = ')[1] for parte in azure_storage_blob.split('  ')}
 
-
 AZURE_CONTAINER = azure_storage_blob_parametros['container_name']
 AZURE_ACCOUNT_NAME = azure_storage_blob_parametros['account_name']
 AZURE_ACCOUNT_KEY = azure_storage_blob_parametros['account_key']

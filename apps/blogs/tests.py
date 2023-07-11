@@ -1,3 +1,6 @@
-from django.test import TestCase
+# python manage.py test apps.blogs
+from config.wsgi import *
+from apps.blogs.models import Requerimientos
 
-# Create your tests here.
+for i in Requerimientos.objects.all():
+    print(f'Requerimiento: {i.nombre}')
