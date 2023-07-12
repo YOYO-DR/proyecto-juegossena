@@ -24,7 +24,7 @@
         id="flexCheck{{requisito.nombre}}"
       />
       <label class="form-check-label" for="flexCheck{{requisito.nombre}}">
-        {{requisito.numero}}. {{requisito.nombre}}
+        {{requisito.numero}}. {{requisito.nombre|capfirst}}
       </label>
       {% if requisito.imagen %}
       <button
