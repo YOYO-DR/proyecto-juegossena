@@ -1,10 +1,14 @@
 {% extends 'base.html' %} {% load static %} {% block contenido %}
 <h1>Requerimientos</h1>
 <div>
-  {% if requi %} {% if es_admin %}
+  {% if requi %} 
+  {% if es_admin %}
   <form id="form">
     <p id="mensaje"></p>
-    {% endif %} {% for requisito in requi %}
+    {% endif %} 
+
+
+    {% for requisito in requi %}
     <div class="form-check">
       <input
         {% if requisito.hecho %}
@@ -55,7 +59,7 @@
             </div>
             <div class="modal-body d-flex justify-content-center">
               <img
-                class="img-modal-requi border"
+                class="img-modal-requi border img-fluid"
                 src="{{requisito.get_image}}"
                 alt=""
               />
@@ -66,10 +70,13 @@
       {% comment %} fin modal {% endcomment %} 
       {% endif %}
     </div>
-    {% endfor %} {% if es_admin %}
+    {% endfor %}
+
+    {% if es_admin %}
     <button type="submit" class="btn btn-primary mt-3">Guardar</button>
   </form>
-  {% endif %} {% else %}
+  {% endif %} 
+  {% else %}
   <h3>Sin requerimientos</h3>
   {% endif %}
 </div>

@@ -15,4 +15,4 @@ class Requerimientos(models.Model):
     def get_image(self):
         if self.imagen:
             return self.imagen.url
-        return f'{STATIC_URL}'+self.imagen.url
+        return self.imagen.url
