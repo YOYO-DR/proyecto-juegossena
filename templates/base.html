@@ -38,9 +38,8 @@
         </div>
         <div
           id="container-menu"
-          class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark d-none"
+          class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark menu"
           {% comment %} fixed para que quede fijado, top para un margin y right 0 para decirle que a la derecha no quiero nada, entonces se posiciona a la derecha {% endcomment %}
-          style="position: fixed; right: 0;"
         >
            {% include 'plantillas/menu_lateral.html' %}
          </div>
@@ -56,11 +55,7 @@
 
         botonMenu.addEventListener("click", function (e) {
           e.preventDefault();
-          if (containerMenu.classList.contains("d-none")) {
-            containerMenu.classList.remove("d-none");
-          } else {
-            containerMenu.classList.add("d-none");
-          }
+          containerMenu.classList.toggle("es_activo")
         });
       });</script>
     {% block js %}{% endblock js %}

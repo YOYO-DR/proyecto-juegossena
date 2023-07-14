@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from apps.usuarios.models import Usuario
-from apps.blogs.models import Mockups, Requerimientos
+from apps.blogs.models import Requerimientos
 
 class BlogsInicioView(TemplateView):
   template_name="blogs/inicio.html"
@@ -38,5 +38,4 @@ class RequerimientosView(TemplateView):
         if usuario.email in admins:
           context['es_admin']=True
     context['requi']=Requerimientos.objects.all()
-    context['mockups']=Mockups.objects.all()
     return context
