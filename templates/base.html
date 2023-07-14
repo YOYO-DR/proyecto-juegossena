@@ -32,20 +32,24 @@
       <div class="row flex-nowrap">
 
          <div class="col py-3">
-          <div class="container">
-            {% block contenido %}{% endblock contenido %}
+          <div class="container-fluid container-md d-flex">
+            <div class="col-12 col-md-3 border">
+            {% include 'plantillas/busqueda.html' %}
+            </div>
+            <div class="col-12 col-md-9 border">
+              {% block contenido %}{% endblock contenido %}
+            </div>
           </div>
         </div>
         <div
           id="container-menu"
           class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark menu"
           {% comment %} fixed para que quede fijado, top para un margin y right 0 para decirle que a la derecha no quiero nada, entonces se posiciona a la derecha {% endcomment %}
-        >
+          >
            {% include 'plantillas/menu_lateral.html' %}
-         </div>
+        </div>
       </div>
-      
-      </div>
+    </div>
     <script src="{% static 'libs/bootstrap-5.3/js/bootstrap.min.js' %}"></script>
     <script>
       //Funciones del menu
