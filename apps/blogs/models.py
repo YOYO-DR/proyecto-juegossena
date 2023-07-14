@@ -17,3 +17,19 @@ class Requerimientos(models.Model):
             return self.imagen.url
         return self.imagen.url
     
+    class Meta:
+        verbose_name_plural = "Requerimientos"
+        verbose_name = "Requerimiento"
+    
+class Blogs(models.Model):
+    titulo=models.CharField(max_length=100,null=False,blank=False,verbose_name="Titulo")
+    slug=models.CharField(max_length=100,null=False,blank=False,verbose_name="Slug",unique=True)
+    descripcion=models.TextField(null=False,blank=False,verbose_name="Descripcion")
+    imagen=models.ImageField(upload_to=f'{MEDIA_URL}blogs/%Y/%m/' if 'WEBSITE_HOSTNAME' in os.environ else 'blogs/%Y/%m/',null=False,blank=False,verbose_name="Imagen")
+
+    def __str__(self):
+        return self.titulo
+    
+    class Meta:
+        verbose_name_plural = "Blogs"
+        verbose_name = "Blog"

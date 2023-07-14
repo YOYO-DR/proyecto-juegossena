@@ -2,12 +2,24 @@ from time import sleep
 from typing import Any, Dict
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,DetailView
 from apps.usuarios.models import Usuario
-from apps.blogs.models import Requerimientos
+from apps.blogs.models import Blogs, Requerimientos
 
 class BlogsInicioView(TemplateView):
   template_name="blogs/inicio.html"
+
+  def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      context["blogs"] = Blogs.objects.all()
+      return context
+
+class BlogDetailView(DetailView):
+  template_name="blogs/blog_detail.html"
+
+  def get_queryset(self):
+      return Blogs.objects.filter(slug=self.kwargs.get("slug"))
+  
 
 class RequerimientosView(TemplateView):
   template_name="blogs/requerimientos.html"

@@ -2,5 +2,15 @@
 
 {% block contenido %}
 <h1>Blogs</h1>
-<h3>Proximamente</h3>
+<div>
+{% for blog in blogs %}
+<div class="card" style="width: 18rem;">
+  <img src="{{blog.imagen.url}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{blog.titulo}}</h5>
+    <a href="{% url 'blogs:blog_detail' blog.slug %}" class="btn btn-primary w-50">Ir</a>
+  </div>
+</div>
+{% endfor %}
+</div>
 {% endblock contenido %}
