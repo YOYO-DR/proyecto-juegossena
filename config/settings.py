@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-from config.db import MYSQL_AZURE, MYSQL_LOCAL
+from config.db import MYSQL_AZURE, MYSQL_LOCAL, SQLITE
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = MYSQL_LOCAL # MYSQL_AZURE
+DATABASES = SQLITE #MYSQL_AZURE # MYSQL_AZURE
 
 
 # Password validation
