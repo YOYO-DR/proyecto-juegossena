@@ -18,15 +18,24 @@ class InicioSesionApi(View):
         try:
           username = request.POST.get('username')
           password = request.POST.get('password')
-          if Usuario.objects.filter(username=username).exists():
-            user=authenticate(request, username=username, password=password)
-            if user is not None:
-              login(request, user)
-              data['sessionid']=request.session.session_key
+          if username and password:
+            data['usuario']=username
+            return JsonResponse(data)
+            if Usuario.objects.filter(username=username).exists():
+              user=authenticate(request, username=username, password=password)
+              if user is not None:
+                login(request, user)
+                data['sessionid']=request.session.session_key
+              else:
+                data['error']=["Contraseña incorrecta"]
             else:
-              data['error']="Contraseña incorrecta"
+              data['error']=["El usuario no existe"]
           else:
-            data['error']="El usuario no existe"
+            data['error']=[]
+            if not username:
+              data['error'].append("No se envio un nombre de usuario")
+            if not password:
+               data['error'].append("No se envio un nombre de usuario")
         except Exception as e:
            data['error']="Hubo un error: "+str(e)
         return JsonResponse(data)
