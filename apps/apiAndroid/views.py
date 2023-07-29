@@ -19,7 +19,8 @@ class InicioSesionApi(View):
           username = request.POST.get('username')
           password = request.POST.get('password')
           if username and password:
-            data['usuario']=username
+            user=Usuario.objects.filter(username=username)
+            data['usuario']=user.email
             return JsonResponse(data)
             if Usuario.objects.filter(username=username).exists():
               user=authenticate(request, username=username, password=password)
