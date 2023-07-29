@@ -28,7 +28,9 @@ urlpatterns = [
     path('juegos/',include('apps.juegos.urls')),
     path('usuarios/',include('apps.usuarios.urls')),
     path('dispositivos/',include('apps.dispositivos.urls')),
-    path('blogs/',include('apps.blogs.urls'))
+    path('blogs/',include('apps.blogs.urls')),
+    path('api/',include('apps.apiAndroid.urls')),
+
 ]
 if not 'WEBSITE_HOSTNAME' in os.environ:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

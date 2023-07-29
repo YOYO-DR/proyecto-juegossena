@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.dispositivos',
     'apps.juegos',
     'apps.usuarios',
+    'apps.apiAndroid'
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = SQLITE #MYSQL_AZURE # MYSQL_AZURE
+DATABASES = MYSQL_AZURE #SQLITE # MYSQL_AZURE
 
 
 # Password validation

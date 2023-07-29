@@ -39,7 +39,7 @@ conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.s
 #AZURE_MYSQL_CONNECTIONSTRING = dbname=nombreBD host=elHost port=3306 sslmode=require user=usuario password=pass
 
 #los ponemos en la config de la base de datos
-DATABASES = SQLITE
+DATABASES =  MYSQL_AZURE #SQLITE
 
 # {
 #     'default': {
