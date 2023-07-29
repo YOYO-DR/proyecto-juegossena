@@ -33,9 +33,9 @@ class InicioSesionApi(View):
             if not username:
               data['error'].append("No se envio un nombre de usuario")
             if not password:
-               data['error'].append("No se envio un nombre de usuario")
+               data['error'].append("No se envio la contraseña")
         except Exception as e:
-           data['error']="Hubo un error: "+str(e)
+           data['error']=["Hubo un error: "+str(e)]
         return JsonResponse(data)
 
 #prueba
