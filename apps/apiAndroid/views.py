@@ -15,27 +15,35 @@ class InicioSesionApi(View):
     
     def post(self, request,*args, **kwargs):
         data={}
-        try:
-          username = request.POST.get('username')
-          password = request.POST.get('password')
-          if username and password:
-            if Usuario.objects.filter(username=username).exists():
-              user=authenticate(request, username=username, password=password)
-              if user is not None:
-                login(request, user)
-                data['sessionid']=request.session.session_key
+        action = request.POST.get('action')
+        if action=="iniciarsesion":
+          try:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            if username and password:
+              if Usuario.objects.filter(username=username).exists():
+                user=authenticate(request, username=username, password=password)
+                if user is not None:
+                  login(request, user)
+                  data['sessionid']=request.session.session_key
+                else:
+                  data['error']=["Contraseña incorrecta"]
               else:
-                data['error']=["Contraseña incorrecta"]
+                data['error']=["El usuario no existe"]
             else:
-              data['error']=["El usuario no existe"]
+              data['error']=[]
+              if not username:
+                data['error'].append("No se envio un nombre de usuario")
+              if not password:
+                 data['error'].append("No se envio la contraseña")
+          except Exception as e:
+             data['error']=["Hubo un error: "+str(e)]
+        elif action=="verificariniciarsesion":
+          id_usuario=verificar_sesion(request.POST.get("session_id"))
+          if id_usuario is not None:
+             data['validacion']="true"
           else:
-            data['error']=[]
-            if not username:
-              data['error'].append("No se envio un nombre de usuario")
-            if not password:
-               data['error'].append("No se envio la contraseña")
-        except Exception as e:
-           data['error']=["Hubo un error: "+str(e)]
+             data['validacion']="false"
         return JsonResponse(data)
 
 #prueba
