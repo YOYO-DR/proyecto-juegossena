@@ -61,8 +61,7 @@ class CerrarSesionView(View):
         if id_usuario is not None:
           # Borra e inhavilito el session_id
           Session.objects.get(session_key=request.POST.get('session_id')).delete()
-          # logout(request)
           data['respuesta']=["true"]
         else:
-           data['respuesta']=["Session_id invalida"]
+          data['respuesta']=["sesion invalida"]
       return JsonResponse(data)
