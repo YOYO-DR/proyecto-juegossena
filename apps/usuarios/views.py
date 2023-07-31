@@ -1,26 +1,27 @@
 import json
 import os
-from django.contrib.auth import authenticate, login
-# from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import login
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
+# from django.contrib.auth.forms import AuthenticationForm
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.views.generic import FormView, TemplateView
+
 from apps.usuarios.models import Usuario
-from .forms import crearUsuarioForm
-from .forms import IniciarSesionForm, crearUsuarioForm
 #correo
 from config.settings import EMAIL_HOST_USER
-from .funciones import validar_patron_correo,validar_contra
-from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
-from django.core.mail import EmailMessage
+from funciones.funciones import (enviarEmailActivacion, validar_contra,
+                                 validar_patron_correo)
+
+from .forms import IniciarSesionForm, crearUsuarioForm
+
 
 class RegitroView(FormView):
   form_class = crearUsuarioForm
@@ -38,26 +39,10 @@ class RegitroView(FormView):
     form.save()
     username=form.cleaned_data['username']
     usuario = Usuario.objects.get(username=username)
-    #envio el correo de activacion
-    email=usuario.email
-    dominio = get_current_site(self.request)
-    if 'WEBSITE_HOSTNAME' in os.environ:
-        dominio = 'https://'+str(dominio)
-    else:
-        dominio = 'http://'+str(dominio)
-    asunto = 'Activar cuenta'
-    cuerpoMensaje = render_to_string('usuarios/emails/email_activarCuenta.html',{
-        'usuario':usuario,
-        'dominio':dominio,
-        'uid':urlsafe_base64_encode(force_bytes(usuario.pk)),
-        'token':default_token_generator.make_token(usuario)
-    })
-    toEmail = email
-    envioEmail = EmailMultiAlternatives(asunto, '', to=[toEmail],from_email=f"Juegos Sena <{EMAIL_HOST_USER}>")
-    #luego con esa funcion le paso el html y le digo que va a ser un html
-    envioEmail.attach_alternative(cuerpoMensaje, "text/html")
-    envioEmail.send()
 
+    #envio el correo de activacion
+    dominio = get_current_site(self.request)
+    enviarEmailActivacion(dominio,usuario)
     return JsonResponse(datos)
 
 
