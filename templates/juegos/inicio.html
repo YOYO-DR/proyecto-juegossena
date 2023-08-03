@@ -1,7 +1,13 @@
 {% extends 'base.html' %} 
 {% load static %} 
-{% block contenido %} 
-{% if user.is_authenticated %}
+{% block contenido %}
+
+<div class="d-flex flex-column flex-md-row">
+  <div class="border">
+    {% include 'plantillas/busqueda.html' %}
+  </div>
+  <div>
+    {% if user.is_authenticated %}
 <h2 class="mt-2 text-center">Hola {{user.username|title}}, {{dato}}</h2>
 <form id="envioTxt" class="d-flex flex-column border p-2 col-12 col-sm-10 col-md-8 col-lg-6 col-xxl-4">
   <div class="mb-3">
@@ -16,6 +22,9 @@
 <div class="mt-4">
   <div class="accordion col-12 col-sm-11 col-md-9 col-lg-7 col-xxl-5" id="carateristicas"></div>
 </div>
+  </div>
+</div>
+
 {% endblock contenido %} 
 {% block js %}
 <script src="{% static 'js/enviarpost.js' %}"></script>
