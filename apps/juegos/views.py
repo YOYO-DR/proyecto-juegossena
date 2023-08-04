@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from apps.dispositivos.models import Juegos
 
 class InicioView(TemplateView): 
   template_name = 'juegos/inicio.html'

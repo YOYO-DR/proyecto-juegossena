@@ -1,4 +1,4 @@
-from .models import UrlJuegos,Telefonos,Favoritos,Favoritos_UrlJuegos,Historiales,RamsVelocidades,TipoRam,Rams,Procesadores,SistemasOperativos,GraficasGb,GraficasVelocidades,Graficas,Dispositivos
+from .models import Telefonos,Favoritos,Favoritos_UrlJuegos,Historiales,RamsVelocidades,TipoRam,Rams,Procesadores,SistemasOperativos,GraficasGb,GraficasVelocidades,Graficas,Dispositivos
 
 # constantes
 ramMaximaVelocidad=8400
