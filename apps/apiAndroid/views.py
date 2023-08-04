@@ -1,8 +1,7 @@
 import os
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.views.generic import View
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from funciones.funciones import enviarEmailActivacion, validar_contra, validar_patron_correo, verificar_sesion
