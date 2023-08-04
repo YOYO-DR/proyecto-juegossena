@@ -3,10 +3,10 @@
 {% block contenido %}
 
 <div class="d-flex flex-column flex-md-row">
-  <div class="border">
+  <div class="border col-12 col-md-4">
     {% include 'plantillas/busqueda.html' %}
   </div>
-  <div>
+  <div class="col-12 col-md-8">
     {% if user.is_authenticated %}
 <h2 class="mt-2 text-center">Hola {{user.username|title}}, {{dato}}</h2>
 <form id="envioTxt" class="d-flex flex-column border p-2 col-12 col-sm-10 col-md-8 col-lg-6 col-xxl-4">
