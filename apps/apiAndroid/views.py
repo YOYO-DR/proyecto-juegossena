@@ -45,6 +45,8 @@ class InicioSesionApi(View):
              data['validacion']="true"
           else:
              data['validacion']="false"
+        else:
+           data['error']=['No se envio una acción']
         return JsonResponse(data)
 
 class CerrarSesionView(View):
