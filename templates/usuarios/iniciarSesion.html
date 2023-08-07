@@ -34,6 +34,16 @@
 {% block js %}
 <script src="{% static 'js/enviarpost.js' %}"></script>
 <script>
+  //funcion para saber si la url tiene un paramtro next
+ 
+// Crear una función para obtener el valor de un parámetro de la cadena de consulta
+function getParameterValue(parameterName) {
+  // Obtener la cadena de consulta de la URL actual
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(parameterName);
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   const form = document.getElementById('form')
   const mensaje=document.getElementById('mensaje')
@@ -45,7 +55,14 @@ document.addEventListener('DOMContentLoaded', function(){
     }else{
       mensaje.className ="";
       mensaje.innerHTML="";
-      window.location.href=data.urlRedirect
+      // Comprobar si el parámetro '?next' existe en la URL
+      const nextParameterValue = getParameterValue('next');
+      if (nextParameterValue) {
+        window.location.href=nextParameterValue
+      } else {
+        window.location.href=data.urlRedirect
+      }       
+      
     }
   }
   enviarPost(

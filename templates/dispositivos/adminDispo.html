@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h1>Dispositivos {{object_list.count}}</h1>
+
+<div class="row p-2">
+  {% for dispo in object_list %}
+  <div class="col-sm-6 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{dispo.nombre}}</h5>
+        <button class="btn btn-primary modalDispo{{dispo.id}}">Ver dispositivo</button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock contenido %}
+{% block js %}
+<!-- Modal a mostrar de los dispositivos -->
+<!-- Modal -->
+<div class="modal fade" id="modalDispoForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal -->
+<script>
+  document.addEventListener("DOMContentLoaded",function(e) {
+    const botonesModalDispo= document.querySelectorAll('button[class*="modalDispo"]');
+    const modalDispo=document.getElementById("modalDispoForm")
+    botonesModalDispo.forEach((boton)=>{
+      boton.addEventListener("click",function(e){
+        //evento de cada boton para mostrar los dispositivos
+        e.preventDefault();
+        let idDispo=0
+        let clasesBoton=boton.className.split(" ")
+        clasesBoton.forEach(element => {
+          if (element.includes("modalDispo")){
+            idDispo=element.replace("modalDispo","")
+          }
+        });
+
+        //con el id del dispositivo mando una petición con fetch para obtener la información del boton
+        // Crea una nueva instancia del modal
+        let modal=new bootstrap.Modal(modalDispo)
+        //lo muestro
+        modal.show()
+      })
+    })
+  })
+</script>
+{% endblock js %}

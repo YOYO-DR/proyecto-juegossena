@@ -34,6 +34,12 @@
     </li>
     {% if user.is_authenticated %}
     <li class="nav-item">
+      <a href="{% url 'dispositivos:inicio' %}" class="nav-link px-0 align-middle">
+        <i class="fs-4 bi-laptop"></i>
+        <span class="ms-1">Dispositivos</span></a
+      >
+    </li>
+    <li class="nav-item">
       <a href="{% url 'usuarios:cerrar' %}" class="nav-link px-0 align-middle">
         <i class="fs-4 bi-escape"></i>
         <span class="ms-1">Cerrar sesión</span></a
