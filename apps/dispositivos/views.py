@@ -3,6 +3,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import View,ListView
+from apps.dispositivos.form import DispositivosForm
 
 from apps.dispositivos.functions import guardarCara, obtenerCara
 from apps.dispositivos.models import Dispositivos
@@ -33,7 +34,7 @@ class ProcesarDatos(View):
 class DispositivosView(ListView):
     model = Dispositivos
     template_name = "dispositivos/adminDispo.html"
-    
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -41,3 +42,10 @@ class DispositivosView(ListView):
     def get_queryset(self):
         query=Dispositivos.objects.filter(usuario_id=self.request.user.id)
         return query
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Dispositivos"
+        context['form']=DispositivosForm()
+        return context
+    

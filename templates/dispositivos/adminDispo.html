@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% block contenido %}
 <h1>Dispositivos {{object_list.count}}</h1>
 
@@ -26,7 +27,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <form id="formModalDispo">
+        {% for field in form.visible_fields %}
+        <div class="form-group">
+          <label for="{{field.id_for_label}}">{{field.label}}</label>
+          {{field|add_class:'form-control'}}
+        </div>
+        {% endfor %}
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Guardar cambios</button>
@@ -39,6 +47,7 @@
   document.addEventListener("DOMContentLoaded",function(e) {
     const botonesModalDispo= document.querySelectorAll('button[class*="modalDispo"]');
     const modalDispo=document.getElementById("modalDispoForm")
+    const formModal=document.getElementById("formModalDispo")
     botonesModalDispo.forEach((boton)=>{
       boton.addEventListener("click",function(e){
         //evento de cada boton para mostrar los dispositivos
