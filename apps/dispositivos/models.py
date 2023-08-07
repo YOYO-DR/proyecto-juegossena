@@ -136,13 +136,15 @@ class Juegos(models.Model):
         return self.nombre
 
 class Dispositivos(models.Model):
-    espacioGb = models.IntegerField(null=False,blank=False,verbose_name="Espacio gb")
-    nombre = models.CharField(max_length=200,null=True,blank=True,verbose_name="Nombre")
+    espacioGb = models.IntegerField(null=True,blank=True,verbose_name="Espacio gb")
+    nombre = models.CharField(max_length=200,null=True,blank=True,unique=True,verbose_name="Nombre")
     usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Usuario")
-    procesador=models.ForeignKey(Procesadores,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Procesador")
-    ram=models.ForeignKey(Rams,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Ram")
-    grafica=models.ForeignKey(Graficas,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Grafica")
-    sistemaOperativo=models.ForeignKey(SistemasOperativos,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Sistema operativo")
+    procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Procesador")
+    # porque puede tener varias rams
+    ram=models.ManyToManyField(Rams,verbose_name="Ram")
+    # porque puede tener varias graficas
+    grafica=models.ManyToManyField(Graficas,verbose_name="Grafica")
+    sistemaOperativo=models.ForeignKey(SistemasOperativos,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Sistema operativo") 
     promedioPotencia=models.IntegerField(null=True,blank=True,verbose_name="Promedio potencia")
 
     class Meta:
@@ -150,7 +152,12 @@ class Dispositivos(models.Model):
         verbose_name_plural = 'Dispositivos'
     
     def __str__(self):
-        return self.usuario.username
+        try:
+          valor=self.usuario.username + " - " + self.nombre
+          return valor
+        except Exception as e:
+          pass
+        return str(self.id)
 
 class Favoritos_UrlJuegos(models.Model):
     favorito = models.ForeignKey(Favoritos,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Favorito")

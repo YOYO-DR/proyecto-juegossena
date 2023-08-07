@@ -1,3 +1,4 @@
+from apps.usuarios.models import Usuario
 from .models import Telefonos,Favoritos,Favoritos_UrlJuegos,Historiales,RamsVelocidades,TipoRam,Rams,Procesadores,SistemasOperativos,GraficasGb,GraficasVelocidades,Graficas,Dispositivos
 
 # constantes
@@ -164,7 +165,12 @@ def obtenerCara(ar:list):
 
   return {'graficas':graficas,'rams':rams,'procesador':cpu,'sisOpe':sisOp,'discos':storage}
 
-def guardarCara(carate:dict):
+def guardarCara(carate:dict,idUsuario,nombreArchivo):
+  # creo el dispositivo del usuario cuando lo suba
+  dispositivo=Dispositivos()
+  dispositivo.usuario=Usuario.objects.get(id=idUsuario)
+  dispositivo.save()
+  dispositivo.nombre=nombreArchivo+"_"+str(dispositivo.id)
   #guardar grafica(s)
   graficas=carate['graficas']
 
@@ -210,7 +216,9 @@ def guardarCara(carate:dict):
       nucleos=int(grafica.get('cantidadNucleos'))
       if nucleos != 0:
         g.nucleos=nucleos
-  g.save()
+    g.save()
+    #lo agrego al dispositivo
+    dispositivo.grafica.add(g)
   #recorro las rams y empiezo a guardar los valores
   rams=carate['rams']
   for ram in rams:
@@ -232,19 +240,20 @@ def guardarCara(carate:dict):
     if ram.get('tamano'):
       tamano=int(ram.get('tamano').replace('GB','').strip())
       r.gb=tamano
-      verificarExistencia=Rams.objects.filter(gb=r.gb,tipo=r.tipo,velocidad=r.velocidad).exists()
-      if not verificarExistencia:
+      r,rCreado=Rams.objects.get_or_create(gb=r.gb,tipo=r.tipo,velocidad=r.velocidad)
+      if not rCreado:
         r.save()
+      dispositivo.ram.add(r)
 
   procesador=carate['procesador']
   for pro in procesador:
     p=Procesadores()
-    e=0
     if pro.get('modelo'):
-      if Procesadores.objects.filter(nombre__iexact=pro.get('modelo')).exists():
-        e=1
-      if e==1:
+      p,pCreado=Procesadores.objects.get_or_create(nombre=pro.get('modelo'))
+      if not pCreado:
+        dispositivo.procesador=p
         break
+      
       p.nombre=pro.get('modelo')
     if pro.get('hilos'):
       hilos=int(pro.get('hilos').strip())
@@ -260,14 +269,28 @@ def guardarCara(carate:dict):
       velM=int(float(pro.get('velocidadMaxima').replace('MHz','').strip()))
       p.mhz=velM
     p.save()
+    dispositivo.procesador=p
 
   sistema=carate['sisOpe']
   for sis in sistema:
     s=SistemasOperativos()
     if sis.get('nombre'):
       sistemaOpe=sis.get('nombre')
-      if not SistemasOperativos.objects.filter(nombre__iexact=sistemaOpe).exists():
+      s,sisCreado=SistemasOperativos.objects.get_or_create(nombre=sistemaOpe)
+      if not sisCreado:
         s.nombre=sistemaOpe
         s.save()
-
-  discos=carate['discos']
+      dispositivo.sistemaOperativo=s
+  #valor de disco disponible mayor
+  disponibleMayor=0
+  #recorro los discos, y guardo el valor de espacio que mayor tenga en sus discos o particiones
+  for disco in carate['discos']:
+    for clave,valor in disco.items():
+      if "disponible" in clave:
+        valor=float(valor[0:-2:1].strip())
+        print(valor)
+        if valor>disponibleMayor or valor==disponibleMayor:
+          disponibleMayor=valor
+  # guardo el mayor valor en el dispositivo
+  dispositivo.espacioGb=disponibleMayor
+  dispositivo.save()

@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views import View
 
 from apps.dispositivos.functions import guardarCara, obtenerCara
+from apps.usuarios.models import Usuario
 
 
 class ProcesarDatos(View):
@@ -20,5 +21,6 @@ class ProcesarDatos(View):
            linea_decodificada=linea.decode('utf-8',errors='ignore')
            data.append(linea_decodificada)
         cara=obtenerCara(data)
-        guardarCara(cara)
+        nombreArchivo=archivo.name.rstrip(".txt")
+        guardarCara(cara,request.user.id,nombreArchivo)
         return JsonResponse(cara)
