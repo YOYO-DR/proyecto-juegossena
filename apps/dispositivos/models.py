@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import model_to_dict
 from apps.usuarios.models import Usuario
 
 class Telefonos(models.Model):
@@ -158,6 +159,9 @@ class Dispositivos(models.Model):
         except Exception as e:
           pass
         return str(self.id)
+    
+    def toJSON(self):
+        return model_to_dict(self,exclude=['usuario'])
 
 class Favoritos_UrlJuegos(models.Model):
     favorito = models.ForeignKey(Favoritos,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Favorito")

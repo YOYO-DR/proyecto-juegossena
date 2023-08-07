@@ -21,25 +21,21 @@
 <!-- Modal -->
 <div class="modal fade" id="modalDispoForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
+
+
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="formModalDispo">
-        {% for field in form.visible_fields %}
-        <div class="form-group">
-          <label for="{{field.id_for_label}}">{{field.label}}</label>
-          {{field|add_class:'form-control'}}
-        </div>
-        {% endfor %}
-        </form>
+        ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Guardar cambios</button>
+        <button type="submit" class="btn btn-primary">Botón</button>
       </div>
     </div>
+
   </div>
 </div>
 <!-- Fin modal -->
@@ -47,7 +43,6 @@
   document.addEventListener("DOMContentLoaded",function(e) {
     const botonesModalDispo= document.querySelectorAll('button[class*="modalDispo"]');
     const modalDispo=document.getElementById("modalDispoForm")
-    const formModal=document.getElementById("formModalDispo")
     botonesModalDispo.forEach((boton)=>{
       boton.addEventListener("click",function(e){
         //evento de cada boton para mostrar los dispositivos
@@ -63,6 +58,9 @@
         //con el id del dispositivo mando una petición con fetch para obtener la información del boton
         // Crea una nueva instancia del modal
         let modal=new bootstrap.Modal(modalDispo)
+        //Aqui pongo los valores del dispositivo en el formulario
+
+
         //lo muestro
         modal.show()
       })

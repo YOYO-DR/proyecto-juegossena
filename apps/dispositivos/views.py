@@ -1,13 +1,9 @@
-from typing import Any
-from django.db.models.query import QuerySet
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import View,ListView
-from apps.dispositivos.form import DispositivosForm
 
 from apps.dispositivos.functions import guardarCara, obtenerCara
 from apps.dispositivos.models import Dispositivos
-from apps.usuarios.models import Usuario
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
@@ -46,6 +42,5 @@ class DispositivosView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["titulo"] = "Dispositivos"
-        context['form']=DispositivosForm()
         return context
     
