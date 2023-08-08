@@ -170,7 +170,7 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
   dispositivo=Dispositivos()
   dispositivo.usuario=Usuario.objects.get(id=idUsuario)
   dispositivo.save()
-  dispositivo.nombre=nombreArchivo+"_"+str(dispositivo.id)
+  dispositivo.nombre=nombreArchivo+"_"+str(dispositivo.usuario.id)
   #guardar grafica(s)
   graficas=carate['graficas']
 

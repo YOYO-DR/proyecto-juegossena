@@ -67,6 +67,12 @@ class Rams(models.Model):
     
     def __str__(self):
         return f'{str(self.gb)} GB - {self.tipo.nombre} - {str(self.velocidad.velocidadMhz)} Mhz'
+    
+    def toJSON(self):
+        item=model_to_dict(self,exclude=['tipo','velocidad'])
+        item["tipo"]=self.tipo.nombre if self.tipo else None
+        item["velocidad"]=self.velocidad.velocidadMhz if self.velocidad else None
+        return item
 
 class Procesadores(models.Model):
     nombre = models.CharField(max_length=100,null=False, blank=False,verbose_name="Nombre")
@@ -123,6 +129,12 @@ class Graficas(models.Model):
     
     def __str__(self):
         return self.nombre
+    
+    def toJSON(self):
+        item = model_to_dict(self,exclude=['gb','velocidad'])
+        item['gb']=float(self.gb.gb) if self.gb else None
+        item['velocidad']=self.velocidad.velocidadMhz if self.velocidad else None
+        return item
 
 class Juegos(models.Model):
     nombre=models.CharField(max_length=200,unique=True,verbose_name="Nombre")
@@ -161,7 +173,22 @@ class Dispositivos(models.Model):
         return str(self.id)
     
     def toJSON(self):
-        return model_to_dict(self,exclude=['usuario'])
+        item=model_to_dict(self,exclude=['usuario',"ram","grafica"])
+        if self.ram:
+          ram=[]
+          for i in self.ram.all():
+            ram.append(i.toJSON())
+          item['ram']=ram
+        if self.grafica:
+            grafica=[]
+            for i in self.grafica.all():
+                grafica.append(i.toJSON())
+            item['grafica']=grafica
+        item['procesador']=self.procesador.nombre
+        item['sistemaOperativo']=self.sistemaOperativo.nombre
+
+
+        return item
 
 class Favoritos_UrlJuegos(models.Model):
     favorito = models.ForeignKey(Favoritos,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Favorito")

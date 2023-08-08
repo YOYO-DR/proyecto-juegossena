@@ -6,6 +6,8 @@ from apps.dispositivos.functions import guardarCara, obtenerCara
 from apps.dispositivos.models import Dispositivos
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 class ProcesarDatos(View):
     def dispatch(self, request, *args, **kwargs):
@@ -34,6 +36,25 @@ class DispositivosView(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data={}
+        dataValores=json.loads(request.body)
+        try:
+          action=dataValores.get("action")
+          if action=="datosDispo":
+              d=Dispositivos.objects.get(id=dataValores.get("id"))
+              data['dispositivo']=d.toJSON()
+          elif action=="eliminar":
+              d=Dispositivos.objects.get(id=dataValores.get("id"))
+              d.delete()
+              data['eliminacion']=True
+          else:
+              data['error']="No se envio una acción"
+        except Exception as e:
+            data={}
+            data["error"]=str(e)
+        return JsonResponse(data)
 
     def get_queryset(self):
         query=Dispositivos.objects.filter(usuario_id=self.request.user.id)

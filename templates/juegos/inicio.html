@@ -9,7 +9,7 @@
   <div class="col-12 col-md-8">
     {% if user.is_authenticated %}
 <h2 class="mt-2 text-center">Hola {{user.username|title}}, {{dato}}</h2>
-<form id="envioTxt" class="d-flex flex-column border p-2 col-12 col-sm-10 col-md-8 col-lg-6 col-xxl-4">
+<form id="envioTxt" class="d-flex flex-column border p-2 mx-3">
   <div class="mb-3">
   <label for="formFile" class="form-label">Caracteristicas de cpu-z</label>
   <input class="form-control" name="archivo" type="file" id="formFile" accept=".txt" required>
