@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function(){
   const mensaje=document.getElementById('mensaje')
 
   let callback=(data)=>{
-    if ('error'in data){
+    if ('error' in data){
       mensaje.className="mensaje-error"
       mensaje.innerHTML=data.error
     }else{

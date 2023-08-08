@@ -91,6 +91,9 @@ class IniciarSesionView(FormView):
           errors.append(error)
     if len(errors)>1:
       mensaje='\n'.join(errors)
+    # miro si el usuario existe
+    elif not Usuario.objects.filter(username=form.cleaned_data.get('username')).exists():
+      mensaje="El usuario no existe"
     else:
       mensaje=errors[0]
     datos={'error':mensaje}
