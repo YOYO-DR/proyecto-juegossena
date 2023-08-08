@@ -1,5 +1,6 @@
 function enviarPost(idForm, csrftoken, url, funcion,resetForm=true) {
   const form = document.getElementById(idForm);
+  const inputs=form.querySelectorAll("input")
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -16,6 +17,10 @@ function enviarPost(idForm, csrftoken, url, funcion,resetForm=true) {
     //deshabilito el boton
     btnSubmit.disabled=true
     const formData = new FormData(form);
+    //inhabilito los inputs despues de obtener sus valores
+    inputs.forEach(input => {
+      input.disabled=true
+    })
 
     try {
       const response = await fetch(url, {
@@ -28,10 +33,14 @@ function enviarPost(idForm, csrftoken, url, funcion,resetForm=true) {
       const data = await response.json();
       if (response.ok) {
         if (!("error" in data)) {
-          if (resetForm==true) {
+          if (resetForm == true) {
             form.reset();
           }
         }
+        //habilito los inputs
+        inputs.forEach((input) => {
+          input.disabled = false;
+        });
         funcion(data); //ejecutar funcion si la respuesta es correcta
       }
     } catch (error) {
