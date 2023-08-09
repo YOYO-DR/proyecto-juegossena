@@ -142,5 +142,5 @@ class DatosUsuarioApi(View):
        return JsonResponse(data)
     else:
        usuario=Usuario.objects.get(id=id_usuario)
-       data['usuario']={'username':usuario.username,"imagen":usuario.get_imagen()}
+       data['usuario']={'username':usuario.username,"imagen":usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
     return JsonResponse(data)
