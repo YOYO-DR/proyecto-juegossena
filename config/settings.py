@@ -173,3 +173,6 @@ EMAIL_HOST_USER = config_email_tienda_valores['email']
 # la contraseña
 EMAIL_HOST_PASSWORD = config_email_tienda_valores['password']
 EMAIL_USE_TLS = True
+
+# url local
+URL_LOCAL="http://192.168.110.39:8000"

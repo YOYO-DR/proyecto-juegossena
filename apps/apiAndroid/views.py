@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from funciones.funciones import enviarEmailActivacion, validar_contra, validar_patron_correo, verificar_sesion
 from apps.usuarios.models import Usuario
 from django.contrib.sessions.models import Session
-
+from config.settings import URL_LOCAL
 class InicioSesionApi(View):
     #quitar seguridad del token
     @method_decorator(csrf_exempt)
@@ -141,6 +141,11 @@ class DatosUsuarioApi(View):
        data['error']="Sesión invalida"
        return JsonResponse(data)
     else:
-       usuario=Usuario.objects.get(id=id_usuario)
-       data['usuario']={'username':usuario.username,"imagen":usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
+      usuario=Usuario.objects.get(id=id_usuario)
+      if 'WEBSITE_HOSTNAME' in os.environ:
+        data['usuario']={'username':usuario.username,"imagen":usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
+      else:
+        data['usuario']={'username':usuario.username,"imagen":URL_LOCAL+usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
+         
     return JsonResponse(data)
+
