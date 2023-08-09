@@ -86,6 +86,9 @@ class Procesadores(models.Model):
     
     def __str__(self):
         return self.nombre
+    
+    def toJSON(self):
+        return model_to_dict(self)
 
 class SistemasOperativos(models.Model):
     nombre = models.CharField(max_length=100,null=False, blank=False,unique=True,verbose_name="Nombre")
@@ -184,7 +187,7 @@ class Dispositivos(models.Model):
             for i in self.grafica.all():
                 grafica.append(i.toJSON())
             item['grafica']=grafica
-        item['procesador']=self.procesador.nombre
+        item['procesador']=self.procesador.toJSON()
         item['sistemaOperativo']=self.sistemaOperativo.nombre
 
 

@@ -4,6 +4,7 @@ from django.views.generic import View
 from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from apps.dispositivos.models import Dispositivos
 from funciones.funciones import enviarEmailActivacion, validar_contra, validar_patron_correo, verificar_sesion
 from apps.usuarios.models import Usuario
 from django.contrib.sessions.models import Session
@@ -140,12 +141,31 @@ class DatosUsuarioApi(View):
     if id_usuario is None:
        data['error']="Sesión invalida"
        return JsonResponse(data)
+    
+    usuario=Usuario.objects.get(id=id_usuario)
+    if 'WEBSITE_HOSTNAME' in os.environ:
+      data['usuario']={'username':usuario.username,"imagen":usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
     else:
-      usuario=Usuario.objects.get(id=id_usuario)
-      if 'WEBSITE_HOSTNAME' in os.environ:
-        data['usuario']={'username':usuario.username,"imagen":usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
-      else:
-        data['usuario']={'username':usuario.username,"imagen":URL_LOCAL+usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
-         
+      data['usuario']={'username':usuario.username,"imagen":URL_LOCAL+usuario.get_imagen(),"tiene_imagen":"true" if usuario.imagen else "false"}
+       
     return JsonResponse(data)
 
+class DatosDispositivosApi(View):
+   #quitar seguridad del token
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+      return super().dispatch(request, *args, **kwargs)
+  
+  def post(self, request,*args, **kwargs):
+    data={}
+    #Verifico la sesion
+    id_usuario=verificar_sesion(request.POST.get('session_id'))
+    if id_usuario is None:
+       data['error']="Sesión invalida"
+       return JsonResponse(data)
+    usuario=Usuario.objects.get(id=id_usuario)
+    data['dispo']=[]
+    for dispo in Dispositivos.objects.filter(usuario=usuario):
+       data['dispo'].append(dispo.toJSON())
+
+    return JsonResponse(data)
