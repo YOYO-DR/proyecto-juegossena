@@ -126,3 +126,21 @@ class RegistrarUsuarioApi(View):
            data['error']=[str(e)]
 
     return JsonResponse(data)
+
+class DatosUsuarioApi(View):
+  #quitar seguridad del token
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+      return super().dispatch(request, *args, **kwargs)
+  
+  def post(self, request, *args, **kwargs):
+    data={}
+    #Verifico la sesion
+    id_usuario=verificar_sesion(request.POST.get('session_id'))
+    if id_usuario is None:
+       data['error']="Sesión invalida"
+       return JsonResponse(data)
+    else:
+       usuario=Usuario.objects.get(id=id_usuario)
+       data['usuario']={'username':usuario.username,"imagen":usuario.get_imagen()}
+    return JsonResponse(data)
