@@ -1,7 +1,4 @@
-from time import sleep
-from typing import Any, Dict
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.views.generic import TemplateView,DetailView
 from apps.usuarios.models import Usuario
 from apps.blogs.models import Blogs, Requerimientos
