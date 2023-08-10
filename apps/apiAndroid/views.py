@@ -139,7 +139,7 @@ class DatosUsuarioApi(View):
     #Verifico la sesion
     id_usuario=verificar_sesion(request.POST.get('session_id'))
     if id_usuario is None:
-       data['error']="Sesión invalida"
+       data['error']="sesion invalida"
        return JsonResponse(data)
     
     usuario=Usuario.objects.get(id=id_usuario)
@@ -161,7 +161,7 @@ class DatosDispositivosApi(View):
     #Verifico la sesion
     id_usuario=verificar_sesion(request.POST.get('session_id'))
     if id_usuario is None:
-       data['error']="Sesión invalida"
+       data['error']="sesion invalida"
        return JsonResponse(data)
     usuario=Usuario.objects.get(id=id_usuario)
     data['dispo']=[]
