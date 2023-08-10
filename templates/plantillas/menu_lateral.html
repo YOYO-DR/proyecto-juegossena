@@ -26,25 +26,30 @@
         <span class="ms-1">Inicio</span>
       </a>
     </li>
+    {% if request.path_info != '/blogs/' %}
     <li class="nav-item">
       <a href="{% url 'blogs:inicio' %}" class="nav-link align-middle px-0">
         <i class="fs-4 bi-info-circle"></i>
         <span class="ms-1">Blog</span>
       </a>
     </li>
+    {% endif %}
     {% if user.is_authenticated %}
+    {% if request.path_info != '/dispositivos/' %}
     <li class="nav-item">
       <a href="{% url 'dispositivos:inicio' %}" class="nav-link px-0 align-middle">
         <i class="fs-4 bi-laptop"></i>
         <span class="ms-1">Dispositivos</span></a
       >
     </li>
+    {% endif %}
     <li class="nav-item">
       <a href="{% url 'usuarios:cerrar' %}" class="nav-link px-0 align-middle">
         <i class="fs-4 bi-escape"></i>
         <span class="ms-1">Cerrar sesión</span></a
       >
     </li>
+    
     {% else %} {% if request.path_info != "/iniciarsesion/" %}
     <li>
       <a

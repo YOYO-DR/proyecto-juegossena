@@ -98,7 +98,7 @@ function dispoModal(
               graficas += `</p>`;
             }
             //procesador
-            let procesador = `<p><b>Procesador:</b> ${dispo.procesador}</p>`;
+            let procesador = `<p><b>Procesador:</b> ${dispo.procesador.nombre}</p>`;
             //ram
             let rams = ``;
             if (dispo.ram.length > 1) {
