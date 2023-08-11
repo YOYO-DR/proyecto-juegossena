@@ -33,8 +33,8 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        
+      <div class="modal-body w-100">
+        <div class="accordion w-100 col-12 col-sm-11 col-md-9 col-lg-7 col-xxl-5" id="carateristicas"></div>
       </div>
     </div>
 
@@ -49,7 +49,6 @@
     const modalTitulo=modalDispo.querySelector(".modal-title")
     const modalBody=modalDispo.querySelector(".modal-body")
     dispoModal(botonesModalDispo,botonesEliminarDispo,modalDispo,modalTitulo,modalBody,'{{csrf_token}}')
-    
   })
 </script>
 {% endblock js %}

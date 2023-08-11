@@ -26,9 +26,11 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
+    <!--Sweetalert css-->
+    <link rel="stylesheet" href="{% static 'libs/sweetalert2/sweetalert2.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    {% block header %} {% endblock header %}
+    {% block head %} {% endblock head %}
   </head>
   <body>
     {% include 'plantillas/navbar.html' %}
@@ -52,6 +54,8 @@
       </div>
     </div>
     <script src="{% static 'libs/bootstrap-5.3/js/bootstrap.min.js' %}"></script>
+    <!--Sweetalert js-->
+    <script src="{% static 'libs/sweetalert2/sweetalert2.all.min.js' %}"></script>
     <script>
       //Funciones del menu
       document.addEventListener("DOMContentLoaded", function () {

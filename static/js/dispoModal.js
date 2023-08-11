@@ -1,3 +1,47 @@
+//acordeon
+function acordeon (nombre, valores) {
+  //funcion para crear cada acordeon, recibe nombre de la caracteristica y su arreglo de valores
+  let ul = `<ul style="list-style-type: none;padding-left: 0;">`; //creo la ul para poner en el div seleccionado
+  for (const diccionario of valores) {
+    //recorro cada valor del diccionario con el for of (el for in me devolveria el indice)
+    // utiliso el for of para el arreglo
+    ul += `<hr>`; // pongo un hr en cada caracteristica
+    for (const key in diccionario) {
+      // recorro cada diccionario del arreglo
+      // for in para cada diccionario
+      if (diccionario.hasOwnProperty(key)) {
+        const value = diccionario[key];
+        ul += `<li><b>${key}</b>: ${value}</li>`; // agrego los valores
+      }
+    }
+  }
+  //plantilla para los acordeones
+  let acor = `<div class="accordion-item"> 
+          <h2 class="accordion-header">
+          <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapse${nombre}"
+          aria-expanded="false"
+          aria-controls="collapseOne"
+          >
+           ${nombre}
+          </button>
+          </h2>
+          <div
+          id="collapse${nombre}"
+          class="accordion-collapse collapse"
+          data-bs-parent="#carateristicas"
+          >
+          <div class="accordion-body">
+          ${ul}
+          </div>
+          </div>
+          </div>`;
+  return acor; // retorno el acordeon creado
+};
+
 //activar - desactivar botones
 function disabledBotones(botones) {
   botones.forEach((boton) => {
@@ -45,6 +89,7 @@ function dispoModal(
     boton.disabled = false;
     boton.addEventListener("click", function (e) {
       e.preventDefault();
+      const divAcordeones = modalBody.querySelector("#carateristicas");
 
       //obtengo el valor inicial del boton
       let valorBoton = boton.innerHTML;
@@ -76,62 +121,17 @@ function dispoModal(
           //console.log(data);
           if (data.dispositivo) {
             let dispo = data.dispositivo;
-            modalTitulo.innerHTML = dispo.nombre;
-            //acomodo lista de graficas
-            let graficas = ``;
-            if (dispo.grafica.length > 1) {
-              graficas = `<p><b>Graficas:</b></p>`;
-              graficas += `<ul>`;
-              for (let i = 0; i < dispo.grafica.length; i++) {
-                graficas += `<li><b>${i + 1}:</b> ${dispo.grafica[i].nombre}`;
-                if (dispo.grafica[i].gb != null && dispo.grafica[i].gb > 0) {
-                  graficas += ` - ${dispo.grafica[i].gb} GB`;
-                }
-                graficas += `</li>`;
-              }
-              graficas += `</ul>`;
-            } else {
-              graficas = `<p><b>Grafica:</b> ${dispo.grafica[0].nombre}`;
-              if (dispo.grafica[0].gb != null && dispo.grafica[0].gb > 0) {
-                graficas += ` - ${dispo.grafica[0].gb} GB`;
-              }
-              graficas += `</p>`;
-            }
-            //procesador
-            let procesador = `<p><b>Procesador:</b> ${dispo.procesador.nombre}</p>`;
-            //ram
-            let rams = ``;
-            if (dispo.ram.length > 1) {
-              rams = `<p><b>Rams:</b></p>`;
-              for (let i = 0; i < dispo.ram.length; i++) {
-                rams += `<li><b>${i + 1}:</b> ${dispo.ram[i].gb}GB ${
-                  dispo.ram[i].tipo
-                } `;
-                if (dispo.ram[i].velocidad) {
-                  rams += `${dispo.ram[i].velocidad} Mhz`;
-                }
-                rams += `</li>`;
-              }
-              rams += `</ul>`;
-            } else {
-              rams = `<p><b>Ram:</b> ${dispo.ram[0].gb}GB ${dispo.ram[0].tipo}`;
-              if (dispo.ram[0].velocidad) {
-                rams += ` ${dispo.ram[0].velocidad} Mhz`;
-              }
-              rams += `</p>`;
-            }
+            modalTitulo.innerHTML = data.nombre;
 
-            //genero el modal
-            let divModal = `<div>
-            <p><b>Sistema operativo:</b> ${dispo.sistemaOperativo}</p>
-            ${procesador}
-            <p><b>Espacio:</b> ${dispo.espacioGb} GB</p>
-            ${graficas}
-            ${rams}
-
-          </div>`;
-            //lo muestro
-            modalBody.innerHTML = divModal;
+            let acordeones = ``; //donde voy a crear el acordeon
+            for (const key in dispo) {
+              // recorro los datos pasados por la peticion, con el for in para extraer el key, o clave
+              if (dispo.hasOwnProperty(key)) {
+                const value = dispo[key]; // obtengo el valor de esa clave
+                acordeones += acordeon(key, value); //le paso la clave y el valor a la funcion para crear el acordeon y luego sumarlo a los acordeones
+              }
+            }
+            divAcordeones.innerHTML = acordeones;
             modal.show();
           } else {
             alert(data.error);
@@ -143,7 +143,6 @@ function dispoModal(
           boton.innerHTML = valorBoton;
         }
       );
-
     });
   });
   botonesEliminarDispo.forEach((boton) => {
@@ -167,22 +166,25 @@ function dispoModal(
         }
       });
 
-      peticionPost(window.location.pathname,
+      peticionPost(
+        window.location.pathname,
         csrf_token,
-        {id:idDispo,action:"eliminar"},
+        { id: idDispo, action: "eliminar" },
         (data) => {
           if (data.eliminacion) {
             const contenedor = document.querySelector(".contenedorDispo");
             const divDispo = contenedor.querySelector(`.dispoCont${idDispo}`);
-            contenedor.removeChild(divDispo)
-            let divDispoCount = contenedor.querySelectorAll('[class*="dispoCont"]').length;
+            contenedor.removeChild(divDispo);
+            let divDispoCount = contenedor.querySelectorAll(
+              '[class*="dispoCont"]'
+            ).length;
             console.log(divDispoCount);
             if (divDispoCount == 0) {
               let h2 = document.createElement("h2");
-              h2.innerHTML="Sin dispositivos"
-              contenedor.appendChild(h2)
+              h2.innerHTML = "Sin dispositivos";
+              contenedor.appendChild(h2);
               const tituloH1 = document.getElementById("tituloH1");
-              tituloH1.innerHTML="Dispositivos"
+              tituloH1.innerHTML = "Dispositivos";
             } else {
               const tituloH1 = document.getElementById("tituloH1");
               tituloH1.innerHTML = `Dispositivos ${divDispoCount}`;
@@ -191,9 +193,9 @@ function dispoModal(
         },
         () => {
           disabledBotones(botonesEliminarDispo);
-          boton.innerHTML = valorBoton
-        });
-      
+          boton.innerHTML = valorBoton;
+        }
+      );
     });
   });
 }

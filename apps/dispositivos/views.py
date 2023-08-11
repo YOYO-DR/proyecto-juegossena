@@ -25,6 +25,7 @@ class ProcesarDatos(View):
            data.append(linea_decodificada)
         cara=obtenerCara(data)
         nombreArchivo=archivo.name.rstrip(".txt")
+        # preguntar si el dispositivo ya existe segun el nombre archivo + _ + id usuario, y si ya existe, decirle al usuario que ya existe el usuario y si lo quiere eliminar para subir el dispositivo nuevo
         guardarCara(cara,request.user.id,nombreArchivo)
         return JsonResponse(cara)
 
@@ -44,7 +45,9 @@ class DispositivosView(ListView):
           action=dataValores.get("action")
           if action=="datosDispo":
               d=Dispositivos.objects.get(id=dataValores.get("id"))
-              data['dispositivo']=d.toJSON()
+              # le envio el json con los datos del dispositivo
+              data['dispositivo']=d.json
+              data['nombre']=d.nombre
           elif action=="eliminar":
               d=Dispositivos.objects.get(id=dataValores.get("id"))
               d.delete()

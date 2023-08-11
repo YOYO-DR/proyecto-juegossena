@@ -153,7 +153,7 @@ class Juegos(models.Model):
 
 class Dispositivos(models.Model):
     espacioGb = models.IntegerField(null=True,blank=True,verbose_name="Espacio gb")
-    nombre = models.CharField(max_length=200,null=True,blank=True,unique=True,verbose_name="Nombre")
+    nombre = models.CharField(max_length=200,null=True,blank=True,verbose_name="Nombre")
     usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Usuario")
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Procesador")
     # porque puede tener varias rams
@@ -162,6 +162,7 @@ class Dispositivos(models.Model):
     grafica=models.ManyToManyField(Graficas,verbose_name="Grafica")
     sistemaOperativo=models.ForeignKey(SistemasOperativos,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Sistema operativo") 
     promedioPotencia=models.IntegerField(null=True,blank=True,verbose_name="Promedio potencia")
+    json=models.JSONField(null=True,blank=True,verbose_name="Json presentación")
 
     class Meta:
         verbose_name = 'Dispositivo'

@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% load static %} 
+
 {% block contenido %}
 
 <div class="d-flex flex-column flex-md-row">
@@ -27,67 +28,19 @@
 
 {% endblock contenido %} 
 {% block js %}
+
 <script src="{% static 'js/enviarpost.js' %}"></script>
 <script>
-  let acordeon = (nombre, valores) => { //funcion para crear cada acordeon, recibe nombre de la caracteristica y su arreglo de valores
-        let ul = `<ul>`; //creo la ul para poner en el div seleccionado
-        for (const diccionario of valores) { //recorro cada valor del diccionario con el for of (el for in me devolveria el indice)
-          // utiliso el for of para el arreglo
-          ul += `<hr>`; // pongo un hr en cada caracteristica
-          for (const key in diccionario) { // recorro cada diccionario del arreglo
-            // for in para cada diccionario
-            if (diccionario.hasOwnProperty(key)) {
-              const value = diccionario[key];
-              ul += `<li><b>${key}</b>: ${value}</li>`; // agrego los valores
-            }
-          }
-        }
-        //plantilla para los acordeones
-        let acor = `<div class="accordion-item"> 
-          <h2 class="accordion-header">
-          <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapse${nombre}"
-          aria-expanded="false"
-          aria-controls="collapseOne"
-          >
-           ${nombre}
-          </button>
-          </h2>
-          <div
-          id="collapse${nombre}"
-          class="accordion-collapse collapse"
-          data-bs-parent="#carateristicas"
-          >
-          <div class="accordion-body">
-          ${ul}
-          </div>
-          </div>
-          </div>`;
-        return acor; // retorno el acordeon creado
-      };
-
 document.addEventListener("DOMContentLoaded", function () { //Ejecuto cuando el dom se cargue por completo
 
     let callback = (data) => { //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
-      const form = document.getElementById("envioTxt")
-      const divAcordeones = document.getElementById("carateristicas"); //selecciono donde voy a poner los datos devueltos
-      let acordeones = ``; //donde voy a crear el acordeon
-
-      for (const key in data) { // recorro los datos pasados por la peticion, con el for in para extraer el key, o clave
-        if (data.hasOwnProperty(key)) {
-          const value = data[key]; // obtengo el valor de esa clave
-          acordeones += acordeon(key, value); //le paso la clave y el valor a la funcion para crear el acordeon y luego sumarlo a los acordeones
-        }
-      }
-      divAcordeones.innerHTML = acordeones; // lo meto al div 
+      console.log(data)
     };
     {% comment %} Si el usuario esta autenticado, ejecuto la funcion para agregar la funcion y el evento al formulario {% endcomment %}
   {% if user.is_authenticated %}
     const btnSubmit = document.getElementById("btn-form-juegos")
     btnSubmit.disabled = false
+    
     enviarPost( // le paso los valores requeridos
       "envioTxt", // id formulario
       "{{csrf_token}}", // token de seguridad

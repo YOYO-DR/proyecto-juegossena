@@ -293,4 +293,5 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
           disponibleMayor=valor
   # guardo el mayor valor en el dispositivo
   dispositivo.espacioGb=disponibleMayor
+  dispositivo.json=carate
   dispositivo.save()
