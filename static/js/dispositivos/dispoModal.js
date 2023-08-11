@@ -163,7 +163,7 @@ function dispoModal(
               tituloH1.innerHTML = `Dispositivos ${divDispoCount}`;
             }
           }
-        },
+        },false,
         () => {
           disabledBotones(botonesEliminarDispo);
           boton.innerHTML = valorBoton;
