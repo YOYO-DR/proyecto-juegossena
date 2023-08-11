@@ -32,7 +32,6 @@
 </div>
 {% endblock contenido %}
 {% block js %}
-<script src="{% static 'js/enviarpost.js' %}"></script>
 <script>
   //funcion para saber si la url tiene un paramtro next
  
@@ -65,12 +64,11 @@ document.addEventListener('DOMContentLoaded', function(){
       
     }
   }
-  enviarPost(
+  peticionFormPost(
     "form", // id formulario
-    "{{csrf_token}}",
-    ".",
-    callback,
-    false
+    ".",//url
+    callback,//funcion
+    false // resetear o no el formulario
   )
 })
 </script>

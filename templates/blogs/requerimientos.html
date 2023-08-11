@@ -81,7 +81,6 @@
   {% endif %} {% comment %} mockups {% endcomment %}
 </div>
 {% endblock contenido %} {% block js %}
-<script src="{% static 'js/enviarPost.js' %}"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("form");
@@ -101,7 +100,7 @@
         }, 4000);
       }
     };
-    enviarPost(
+    peticionFormPost(
       "form", // id formulario
       "{{csrf_token}}",
       ".",

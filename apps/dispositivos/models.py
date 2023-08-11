@@ -176,6 +176,11 @@ class Dispositivos(models.Model):
           pass
         return str(self.id)
     
+    def limpiar(self):
+        self.ram.clear()
+        self.grafica.clear()
+
+    
     def toJSON(self):
         item=model_to_dict(self,exclude=['usuario',"ram","grafica"])
         if self.ram:
@@ -190,8 +195,6 @@ class Dispositivos(models.Model):
             item['grafica']=grafica
         item['procesador']=self.procesador.toJSON()
         item['sistemaOperativo']=self.sistemaOperativo.nombre
-
-
         return item
 
 class Favoritos_UrlJuegos(models.Model):

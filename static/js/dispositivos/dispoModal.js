@@ -49,33 +49,6 @@ function disabledBotones(botones) {
   })
 }
 
-//enviar peticion
-function peticionPost(url,csrf_token,data,funcion,final) {
-  fetch(window.location.pathname, {
-    method: "POST",
-    headers: {
-      "X-CSRFToken": csrf_token,
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      funcion(data);
-    })
-    .catch((error) => {
-      // Maneja cualquier error ocurrido durante la petición
-      console.error("Fetch error:", error);
-    }).finally(() => { 
-      final()
-    });
-}
-
-
 function dispoModal(
   botonesModalDispo,
   botonesEliminarDispo,
@@ -111,10 +84,9 @@ function dispoModal(
       // Crea una nueva instancia del modal
       let modal = new bootstrap.Modal(modalDispo);
       //Aqui pongo los valores del dispositivo en el formulario
-      //hago una peticion post a la vista
+      //funcion de js/funciones.js
       peticionPost(
         window.location.pathname,
-        csrf_token,
         { id: idDispo, action: "datosDispo" },
         (data) => {
           // Trabaja con los datos obtenidos de la respuesta
@@ -137,6 +109,8 @@ function dispoModal(
             alert(data.error);
           }
         },
+        //formdata
+        false,
         () => {
           //quito el spinner del boton
           disabledBotones(botonesModalDispo);
@@ -165,10 +139,9 @@ function dispoModal(
           idDispo = element.replace("eliminarDispo", "");
         }
       });
-
+      //funcion de js/funciones.js
       peticionPost(
         window.location.pathname,
-        csrf_token,
         { id: idDispo, action: "eliminar" },
         (data) => {
           if (data.eliminacion) {

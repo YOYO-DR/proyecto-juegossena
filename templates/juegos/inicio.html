@@ -1,6 +1,5 @@
 {% extends 'base.html' %} 
 {% load static %} 
-
 {% block contenido %}
 
 <div class="d-flex flex-column flex-md-row">
@@ -9,46 +8,133 @@
   </div>
   <div class="col-12 col-md-8">
     {% if user.is_authenticated %}
-<h2 class="mt-2 text-center">Hola {{user.username|title}}, {{dato}}</h2>
-<form id="envioTxt" class="d-flex flex-column border p-2 mx-3">
-  <div class="mb-3">
-  <label for="formFile" class="form-label">Caracteristicas de cpu-z</label>
-  <input class="form-control" name="archivo" type="file" id="formFile" accept=".txt" required>
-</div>
-  <button disabled id="btn-form-juegos" class="btn btn-success w-50 mt-2 d-flex justify-content-center align-items-center" type="submit">Subir</button>
-</form>
-{% else %}
-<h2 class="mt-2 text-center">{{dato}}</h2>
-{% endif %}
-<div class="mt-4">
-  <div class="accordion col-12 col-sm-11 col-md-9 col-lg-7 col-xxl-5" id="carateristicas"></div>
-</div>
+    <h2 class="mt-2 text-center">Hola {{user.username|title}}, {{dato}}</h2>
+    <form
+      id="envioTxt"
+      class="d-flex flex-column border p-2 mx-3"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="formFile" class="form-label"
+          >Caracteristicas de cpu-z</label
+        >
+        <input
+          class="form-control"
+          name="archivo"
+          type="file"
+          id="formFile"
+          accept=".txt"
+          required
+        />
+      </div>
+      <button
+        disabled
+        id="btn-form-juegos"
+        class="btn btn-success w-50 mt-2 d-flex justify-content-center align-items-center"
+        type="submit"
+      >
+        Subir
+      </button>
+    </form>
+    {% else %}
+    <h2 class="mt-2 text-center">{{dato}}</h2>
+    {% endif %}
+    <div class="mt-4">
+      <div
+        class="accordion col-12 col-sm-11 col-md-9 col-lg-7 col-xxl-5"
+        id="carateristicas"
+      ></div>
+    </div>
   </div>
 </div>
 
-{% endblock contenido %} 
-{% block js %}
+{% endblock contenido %} {% block js %}
 
-<script src="{% static 'js/enviarpost.js' %}"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () { //Ejecuto cuando el dom se cargue por completo
+  document.addEventListener("DOMContentLoaded", function () { //Ejecuto cuando el dom se cargue por completo
+      {% comment %} Si el usuario esta autenticado, ejecuto la funcion para agregar la funcion y el evento al formulario {% endcomment %}
+    {% if user.is_authenticated %}
+      const btnSubmit = document.getElementById("btn-form-juegos")
+      btnSubmit.disabled = false
+      let callback = (data) => { //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
+        if (!("error" in data)){
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
 
-    let callback = (data) => { //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
-      console.log(data)
-    };
-    {% comment %} Si el usuario esta autenticado, ejecuto la funcion para agregar la funcion y el evento al formulario {% endcomment %}
-  {% if user.is_authenticated %}
-    const btnSubmit = document.getElementById("btn-form-juegos")
-    btnSubmit.disabled = false
-    
-    enviarPost( // le paso los valores requeridos
-      "envioTxt", // id formulario
-      "{{csrf_token}}", // token de seguridad
-      "{% url 'dispositivos:procesar' %}", //url hacia donde va a mandar la petición
-      callback // la funcion a realizar
-    );
-    {% endif %}
-  });
+          Toast.fire({
+            icon: 'success',
+            title: 'Dispositivo guardado'
+          })
+        }else{
+          if (data.error[0] == "dipositivo ya existe"){
+            Swal.fire({
+            title: 'El dispositivo ya existe, ¿Desea reemplazarlo?',
+            showDenyButton: true,
+            confirmButtonText: 'Si',
+            denyButtonText: `No`,
+          }).then((result) => {
+          if (result.isConfirmed) {
+            console.log(result)
+            //obtengo el formulario para enviar el archivo de nuevo
+            const formArchivo=document.getElementById("envioTxt");
+            
+            const formdata=new FormData(formArchivo)
+            formdata.append("reemplazar","true")
+            peticionPost(
+  "{% url 'dispositivos:procesar' %}",
+  formdata,
+  (data)=>{
+              console.log(data)
+            if (!("error" in data)){
+              formArchivo.reset()
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Dispositivo modificado'
+          })
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.error,
+          })
+        }
+             },
+  true
+)
+          } 
+  })
+          }
+        }
+      };
+      //esta funcion agrega el evento asi que solo la ejecuto, y no dentro del evento submit
+      peticionFormPost( // le paso los valores requeridos
+        "envioTxt", // id formulario
+        "{% url 'dispositivos:procesar' %}", //url hacia donde va a mandar la petición
+        callback // la funcion a realizar
+      );
+      {% endif %}
+    });
 </script>
 
 {% endblock js %}

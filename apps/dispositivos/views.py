@@ -17,17 +17,32 @@ class ProcesarDatos(View):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        archivo=request.FILES['archivo']
-        lineas=archivo.readlines()
-        data = []
+        data={}
+        archivo=request.FILES.get('archivo',"")
+        if archivo=="":
+            data['error']="No se envio un archivo"
+            return JsonResponse(data)
+        nombreArchivo=archivo.name.rstrip(".txt")
+        # pregunto si viene el valor "reemplazar"
+        if "reemplazar" not in request.POST:
+          nombreDispo=nombreArchivo+"_"+str(request.user.id)
+          dispositivosUsuario=Dispositivos.objects.filter(nombre=nombreDispo,usuario=request.user)
+          if dispositivosUsuario.exists():
+              data['error']=["dipositivo ya existe",archivo.name]
+              return JsonResponse(data)
+        try:
+          lineas=archivo.readlines()
+        except Exception as e:
+            data['error']=str(e)
+            return JsonResponse(data)
+        dataArchivo = []
         for linea in lineas:
            linea_decodificada=linea.decode('utf-8',errors='ignore')
-           data.append(linea_decodificada)
-        cara=obtenerCara(data)
-        nombreArchivo=archivo.name.rstrip(".txt")
-        # preguntar si el dispositivo ya existe segun el nombre archivo + _ + id usuario, y si ya existe, decirle al usuario que ya existe el usuario y si lo quiere eliminar para subir el dispositivo nuevo
-        guardarCara(cara,request.user.id,nombreArchivo)
-        return JsonResponse(cara)
+           dataArchivo.append(linea_decodificada)
+        data=obtenerCara(dataArchivo)
+        
+        guardarCara(data,request.user.id,nombreArchivo)
+        return JsonResponse(data)
 
 
 class DispositivosView(ListView):
@@ -44,7 +59,7 @@ class DispositivosView(ListView):
         try:
           action=dataValores.get("action")
           if action=="datosDispo":
-              d=Dispositivos.objects.get(id=dataValores.get("id"))
+              d=Dispositivos.objects.get(id=dataValores.get("id"),usuario=request.user)
               # le envio el json con los datos del dispositivo
               data['dispositivo']=d.json
               data['nombre']=d.nombre
@@ -54,6 +69,9 @@ class DispositivosView(ListView):
               data['eliminacion']=True
           else:
               data['error']="No se envio una acción"
+        except Dispositivos.DoesNotExist as e:
+            data={}
+            data['error']="El dispositivo no existe"
         except Exception as e:
             data={}
             data["error"]=str(e)

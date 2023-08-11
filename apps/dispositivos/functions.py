@@ -167,10 +167,10 @@ def obtenerCara(ar:list):
 
 def guardarCara(carate:dict,idUsuario,nombreArchivo):
   # creo el dispositivo del usuario cuando lo suba
-  dispositivo=Dispositivos()
-  dispositivo.usuario=Usuario.objects.get(id=idUsuario)
-  dispositivo.save()
-  dispositivo.nombre=nombreArchivo+"_"+str(dispositivo.usuario.id)
+  usuario=Usuario.objects.get(id=idUsuario)
+  dispositivo,creado=Dispositivos.objects.get_or_create(nombre=nombreArchivo+"_"+str(usuario.id),usuario=usuario)
+  dispositivo.limpiar()
+
   #guardar grafica(s)
   graficas=carate['graficas']
 

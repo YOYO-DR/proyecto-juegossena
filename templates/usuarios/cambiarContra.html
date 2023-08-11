@@ -29,7 +29,6 @@
 </div>
 {% endblock contenido %}
 {% block js %}
-<script src="{% static 'js/enviarpost.js' %}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const form = document.getElementById('form')
@@ -46,9 +45,8 @@ document.addEventListener('DOMContentLoaded', function(){
       form.remove()
     }
   }
-  enviarPost(
+  peticionFormPost(
     "form", // id formulario
-    "{{csrf_token}}",
     ".",
     callback
   )
