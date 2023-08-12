@@ -107,7 +107,7 @@
           if (!("error" in data)){
             //agregar el dispositivo
             mostrarDispo(data.id,data.nombre,contenedorDispo)
-            dispoModal('button[class*="modalDispo"]','button[class*="eliminarDispo"]',"modalDispoForm",".modal-title",".modal-body")
+            dispoModal('button[class*="modalDispo"]','button[class*="eliminarDispo"]',"modalDispoForm",".modal-title",".modal-body","btn-form-juegos","formFile")
             // mensaje de guardado
             const Toast = Swal.mixin({
               toast: true,

@@ -1,5 +1,20 @@
+//objeto con los valores que se obtienen del servidor pero ya para mostrar
+const valoresTextos = {
+  tipo: "Tipo",
+  tamano: "Tamaño",
+  velocidad: "Velocidad",
+  capacidad: "Capacidad",
+  nombre: "Nombre",
+  cantidadNucleos: "Cantidad de núcleos",
+  velocidadNucleo: "Velocidad de núcleo",
+  velocidadMemoria: "Velocidad de memoria",
+  hilos: "Hilos",
+  modelo: "Modelo",
+  nucleos: "Núcleos",
+  velocidadMaxima: "Velocidad de maxima",
+};
 //acordeon
-function acordeon (nombre, valores) {
+function acordeon(nombre, valores) {
   //funcion para crear cada acordeon, recibe nombre de la caracteristica y su arreglo de valores
   let ul = `<ul style="list-style-type: none;padding-left: 0;">`; //creo la ul para poner en el div seleccionado
   for (const diccionario of valores) {
@@ -11,7 +26,13 @@ function acordeon (nombre, valores) {
       // for in para cada diccionario
       if (diccionario.hasOwnProperty(key)) {
         const value = diccionario[key];
-        ul += `<li><b>${key}</b>: ${value}</li>`; // agrego los valores
+        if (key.includes("disponible_")) {
+          let valor="Disponible en patición "+key.split("_")[1].toUpperCase()
+          ul += `<li><b>${valor}</b>: ${value}</li>`; // agrego los valores
+        } else {
+          ul += `<li><b>${valoresTextos[key]}</b>: ${value}</li>`; // agrego los valores
+        }
+       
       }
     }
   }
@@ -22,7 +43,7 @@ function acordeon (nombre, valores) {
           class="accordion-button collapsed"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#collapse${nombre}"
+          data-bs-target="#collapse${nombre.replace(/\s+/g, "")}"
           aria-expanded="false"
           aria-controls="collapseOne"
           >
@@ -30,7 +51,7 @@ function acordeon (nombre, valores) {
           </button>
           </h2>
           <div
-          id="collapse${nombre}"
+          id="collapse${nombre.replace(/\s+/g, "")}"
           class="accordion-collapse collapse"
           data-bs-parent="#carateristicas"
           >
@@ -40,13 +61,13 @@ function acordeon (nombre, valores) {
           </div>
           </div>`;
   return acor; // retorno el acordeon creado
-};
+}
 
 //activar - desactivar botones
 function disabledBotones(botones) {
   botones.forEach((boton) => {
-    boton.disabled = !boton.disabled
-  })
+    boton.disabled = !boton.disabled;
+  });
 }
 
 function dispoModal(
@@ -105,13 +126,21 @@ function dispoModal(
             modalTitulo.innerHTML = data.nombre;
 
             let acordeones = ``; //donde voy a crear el acordeon
+            let keys = {
+              rams: "Ram",
+              discos: "Discos",
+              sisOpe: "Sistema operativo",
+              graficas: "Graficas",
+              procesador: "Procesador",
+            };
             for (const key in dispo) {
               // recorro los datos pasados por la peticion, con el for in para extraer el key, o clave
               if (dispo.hasOwnProperty(key)) {
                 const value = dispo[key]; // obtengo el valor de esa clave
-                acordeones += acordeon(key, value); //le paso la clave y el valor a la funcion para crear el acordeon y luego sumarlo a los acordeones
+                acordeones += acordeon(keys[key], value); //le paso la clave y el valor a la funcion para crear el acordeon y luego sumarlo a los acordeones
               }
             }
+
             divAcordeones.innerHTML = acordeones;
             modal.show();
           } else {
@@ -204,5 +233,5 @@ function mostrarDispo(id, nombre, contenedor) {
     </div>
   </div>
   `;
-  contenedor.innerHTML+=plantilla
+  contenedor.innerHTML += plantilla;
 }
