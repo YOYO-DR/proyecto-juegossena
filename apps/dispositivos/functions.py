@@ -295,3 +295,4 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
   dispositivo.espacioGb=disponibleMayor
   dispositivo.json=carate
   dispositivo.save()
+  return dispositivo

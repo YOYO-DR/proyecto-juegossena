@@ -50,13 +50,24 @@ function disabledBotones(botones) {
 }
 
 function dispoModal(
-  botonesModalDispo,
-  botonesEliminarDispo,
-  modalDispo,
-  modalTitulo,
-  modalBody,
-  csrf_token
+  botonesModalDispoQu,
+  botonesEliminarDispoQu,
+  modalDispoQu,
+  modalTituloQu,
+  modalBodyQu,
+  btnSubmitQu,
+  inputFormQu
 ) {
+  const botonesModalDispo = document.querySelectorAll(botonesModalDispoQu);
+  const botonesEliminarDispo = document.querySelectorAll(
+    botonesEliminarDispoQu
+  );
+  const modalDispo = document.getElementById(modalDispoQu);
+  const modalTitulo = modalDispo.querySelector(modalTituloQu);
+  const modalBody = modalDispo.querySelector(modalBodyQu);
+  const btnSubmit = document.getElementById(btnSubmitQu);
+  const inputForm = document.getElementById(inputFormQu);
+
   botonesModalDispo.forEach((boton) => {
     //activar los botones
     boton.disabled = false;
@@ -89,8 +100,6 @@ function dispoModal(
         window.location.pathname,
         { id: idDispo, action: "datosDispo" },
         (data) => {
-          // Trabaja con los datos obtenidos de la respuesta
-          //console.log(data);
           if (data.dispositivo) {
             let dispo = data.dispositivo;
             modalTitulo.innerHTML = data.nombre;
@@ -124,6 +133,10 @@ function dispoModal(
     boton.disabled = false;
     boton.addEventListener("click", function (e) {
       e.preventDefault();
+      //deshabilitar el boton deL formulario e input
+      btnSubmit.disabled = true;
+      inputForm.disabled = true;
+
       //obtengo el valor inicial del boton
       let valorBoton = boton.innerHTML;
       //creo el spiner de bootstrap
@@ -151,24 +164,45 @@ function dispoModal(
             let divDispoCount = contenedor.querySelectorAll(
               '[class*="dispoCont"]'
             ).length;
-            console.log(divDispoCount);
             if (divDispoCount == 0) {
               let h2 = document.createElement("h2");
               h2.innerHTML = "Sin dispositivos";
               contenedor.appendChild(h2);
               const tituloH1 = document.getElementById("tituloH1");
               tituloH1.innerHTML = "Dispositivos";
-            } else {
-              const tituloH1 = document.getElementById("tituloH1");
-              tituloH1.innerHTML = `Dispositivos ${divDispoCount}`;
             }
           }
-        },false,
+        },
+        false,
         () => {
           disabledBotones(botonesEliminarDispo);
           boton.innerHTML = valorBoton;
+          //activar formulario
+          btnSubmit.disabled = false;
+          inputForm.disabled = false;
         }
       );
     });
   });
+}
+
+function mostrarDispo(id, nombre, contenedor) {
+  let plantilla = `
+  <div class="col col-sm-6 col-md-4 mb-3 dispoCont${id}">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">${nombre}</h5>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary modalDispo${id}">
+          Ver
+        </button>
+        <button class="btn btn-danger eliminarDispo${id}">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+  `;
+  contenedor.innerHTML+=plantilla
 }

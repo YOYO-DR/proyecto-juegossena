@@ -39,9 +39,11 @@ class ProcesarDatos(View):
         for linea in lineas:
            linea_decodificada=linea.decode('utf-8',errors='ignore')
            dataArchivo.append(linea_decodificada)
-        data=obtenerCara(dataArchivo)
+        cara=obtenerCara(dataArchivo)
         
-        guardarCara(data,request.user.id,nombreArchivo)
+        dispositivo=guardarCara(cara,request.user.id,nombreArchivo)
+        data['nombre']=dispositivo.nombre
+        data['id']=dispositivo.id
         return JsonResponse(data)
 
 

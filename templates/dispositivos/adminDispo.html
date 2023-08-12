@@ -1,8 +1,34 @@
-{% extends 'base.html' %}
-{% load widget_tweaks %}
-{% load static %}
+{% extends 'base.html' %} 
+{% load widget_tweaks %} 
+{% load static %} 
 {% block contenido %}
-<h1 id="tituloH1">Dispositivos {% if object_list.count != 0 %}{{object_list.count}}{% endif %} </h1>
+<h1 id="tituloH1">Dispositivos</h1>
+<!--Subir dispositivo-->
+<form
+  id="envioTxt"
+  class="d-flex flex-column border p-2 mx-3 col col-md-6"
+  enctype="multipart/form-data"
+>
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Subir datos del dispositivo</label>
+    <input
+      class="form-control"
+      name="archivo"
+      type="file"
+      id="formFile"
+      accept=".txt"
+      required
+    />
+  </div>
+  <button
+    disabled
+    id="btn-form-juegos"
+    class="btn btn-success w-50 mt-2 d-flex justify-content-center align-items-center"
+    type="submit"
+  >
+    Subir
+  </button>
+</form>
 
 <div class="row p-2 contenedorDispo">
   {% for dispo in object_list %}
@@ -12,8 +38,12 @@
         <h5 class="card-title">{{dispo.nombre}}</h5>
       </div>
       <div class="card-footer">
-        <button class="btn btn-primary modalDispo{{dispo.id}}" disabled>Ver</button>
-        <button class="btn btn-danger eliminarDispo{{dispo.id}}" disabled>Eliminar</button>
+        <button class="btn btn-primary modalDispo{{dispo.id}}" disabled>
+          Ver
+        </button>
+        <button class="btn btn-danger eliminarDispo{{dispo.id}}" disabled>
+          Eliminar
+        </button>
       </div>
     </div>
   </div>
@@ -21,34 +51,138 @@
   <h2>Sin dispositivos</h2>
   {% endfor %}
 </div>
-{% endblock contenido %}
+{% endblock contenido %} 
 {% block js %}
 <script src="{% static 'js/dispositivos/dispoModal.js' %}"></script>
 <!-- Modal a mostrar de los dispositivos -->
 <!-- Modal -->
-<div class="modal fade" id="modalDispoForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="modalDispoForm"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body w-100">
-        <div class="accordion w-100 col-12 col-sm-11 col-md-9 col-lg-7 col-xxl-5" id="carateristicas"></div>
+        <div
+          class="accordion w-100 col-12 col-sm-11 col-md-9 col-lg-7 col-xxl-5"
+          id="carateristicas"
+        ></div>
       </div>
     </div>
-
   </div>
 </div>
 <!-- Fin modal -->
 <script>
   document.addEventListener("DOMContentLoaded",function(e) {
-    const botonesModalDispo= document.querySelectorAll('button[class*="modalDispo"]');
-    const botonesEliminarDispo= document.querySelectorAll('button[class*="eliminarDispo"]');
-    const modalDispo=document.getElementById("modalDispoForm")
-    const modalTitulo=modalDispo.querySelector(".modal-title")
-    const modalBody=modalDispo.querySelector(".modal-body")
-    dispoModal(botonesModalDispo,botonesEliminarDispo,modalDispo,modalTitulo,modalBody,'{{csrf_token}}')
+    const btnSubmit = document.getElementById("btn-form-juegos")
+    btnSubmit.disabled = false
+    const contenedorDispo=document.querySelector(".contenedorDispo")
+    //const botonesModalDispo= document.querySelectorAll('button[class*="modalDispo"]');
+    //const botonesEliminarDispo= document.querySelectorAll('button[class*="eliminarDispo"]');
+    //const modalDispo=document.getElementById("modalDispoForm")
+    //const modalTitulo=modalDispo.querySelector(".modal-title")
+    //const modalBody=modalDispo.querySelector(".modal-body")
+    
+    // modal
+    dispoModal('button[class*="modalDispo"]','button[class*="eliminarDispo"]',"modalDispoForm",".modal-title",".modal-body","btn-form-juegos","formFile")
+    //formulario de subida
+      //esta funcion agrega el evento asi que solo la ejecuto, y no dentro del evento submit
+    peticionFormPost( // le paso los valores requeridos
+      "envioTxt", // id formulario
+      "{% url 'dispositivos:procesar' %}", //url hacia donde va a mandar la petición
+       // la funcion a realizar
+        (data) => { //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
+          if (!("error" in data)){
+            //agregar el dispositivo
+            mostrarDispo(data.id,data.nombre,contenedorDispo)
+            dispoModal('button[class*="modalDispo"]','button[class*="eliminarDispo"]',"modalDispoForm",".modal-title",".modal-body")
+            // mensaje de guardado
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'bottom-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            Toast.fire({
+              icon: 'success',
+              title: `Dispositivo <i>${data.nombre}</i> guardado`
+            })
+          }else{
+            if (data.error[0] == "dipositivo ya existe"){
+              Swal.fire({
+                title: 'El dispositivo ya existe, ¿Desea reemplazarlo?',
+                showDenyButton: true,
+                confirmButtonText: 'Si',
+                denyButtonText: `No`,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  //obtengo el formulario para enviar el archivo de nuevo
+                  const formArchivo=document.getElementById("envioTxt");
+                  const formdata=new FormData(formArchivo)
+                  formdata.append("reemplazar","true")
+                  peticionPost(
+                    "{% url 'dispositivos:procesar' %}",
+                    formdata,
+                    (data)=>{
+                      if (!("error" in data)){
+                        formArchivo.reset()
+                        const Toast = Swal.mixin({
+                          toast: true,
+                          position: 'bottom-end',
+                          showConfirmButton: false,
+                          timer: 3000,
+                          timerProgressBar: true,
+                          didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                          }
+                        })
+                        Toast.fire({
+                          icon: 'success',
+                          title: `Dispositivo <i>${data.nombre}</i> modificado`
+                        })
+                      }else{
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: data.error,
+                        })
+                      }
+                    },
+                    true
+                  )
+                }else if (result.isDenied){
+                  const formArchivo=document.getElementById("envioTxt");
+                  formArchivo.reset()
+                }
+              })
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: data.error,
+              })
+            }
+          }
+        }
+    );
   })
 </script>
 {% endblock js %}
