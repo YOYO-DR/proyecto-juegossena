@@ -194,11 +194,7 @@ function dispoModal(
               '[class*="dispoCont"]'
             ).length;
             if (divDispoCount == 0) {
-              let h2 = document.createElement("h2");
-              h2.innerHTML = "Sin dispositivos";
-              contenedor.appendChild(h2);
-              const tituloH1 = document.getElementById("tituloH1");
-              tituloH1.innerHTML = "Dispositivos";
+              contenedor.innerHTML="<h2>Sin dispositivos</h2>";
             }
           }
         },
@@ -233,5 +229,13 @@ function mostrarDispo(id, nombre, contenedor) {
     </div>
   </div>
   `;
-  contenedor.innerHTML += plantilla;
+  //preguntar cuantos dispositivos hay, si hay 0, limpio y agrego
+  const dispositivos = contenedor.querySelectorAll('[class*="dispoCont"]')
+
+  if (dispositivos.length == 0) {
+    contenedor.innerHTML = plantilla;
+  } else {
+    contenedor.innerHTML += plantilla;
+  }
+
 }
