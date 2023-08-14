@@ -2,6 +2,7 @@
 {% load widget_tweaks %} 
 {% load static %} 
 {% block contenido %}
+<div class="d-flex flex-column w-100 border">
 <h1 id="tituloH1">Dispositivos</h1>
 <!--Subir dispositivo-->
 <form
@@ -50,6 +51,7 @@
   {% empty %}
   <h2>Sin dispositivos</h2>
   {% endfor %}
+</div>
 </div>
 {% endblock contenido %} 
 {% block js %}

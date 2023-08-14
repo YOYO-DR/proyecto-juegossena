@@ -45,3 +45,11 @@ width: 20px;
 .menu.es_activo{
   transform: translateX(0%);
 }
+
+.logo-navbar {
+  width: 40px;
+}
+
+.min-h-85{
+  min-height: 85vh !important;
+}

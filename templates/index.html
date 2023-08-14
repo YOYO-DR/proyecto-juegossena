@@ -1,11 +1,16 @@
 {% extends 'base.html' %} {% load static %} {% block contenido %}
 
-<div class="d-flex flex-column flex-md-row">
+<div class="d-flex flex-column flex-md-row min-h-85">
 
-  <div class="col-12 col-md-3 border">
-    <div class="mx-3">
-      <h2 class="text-center">Busqueda y logo/noticias</h2>
-    </div>
+  <div class="col-12 col-md-3 border d-flex flex-column">
+      <h2 class="text-center my-2">Busqueda y logo/noticias</h2>
+      <form class="d-flex flex-nowrap border my-2">
+        <input name="busqueda" id="inputBusqueda" class="form-control " type="text" placeholder="Buscar juego">
+        <button type="submit" class="btn"><i class="bi bi-search"></i></button>
+      </form>
+      <div class="my-2 p-3 border mt-auto">
+        <img class="img-fluid" src="{% static 'media/img/logo.png' %}" alt="">
+      </div>
   </div>
 
   <div class="col-12 col-md-6 border text-center">
