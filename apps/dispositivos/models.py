@@ -146,7 +146,7 @@ class Juegos(models.Model):
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,verbose_name="Procesador")
     grafica=models.ForeignKey(Graficas,on_delete=models.SET_NULL,null=True,verbose_name="Grafica")
     espacio=models.IntegerField(verbose_name="Espacio necesario")
-    promedioPotencia=models.IntegerField(verbose_name="Promedio potencia",null=True,blank=True)
+
 
     def __str__(self):
         return self.nombre
@@ -161,7 +161,6 @@ class Dispositivos(models.Model):
     # porque puede tener varias graficas
     grafica=models.ManyToManyField(Graficas,verbose_name="Grafica")
     sistemaOperativo=models.ForeignKey(SistemasOperativos,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Sistema operativo") 
-    promedioPotencia=models.IntegerField(null=True,blank=True,verbose_name="Promedio potencia")
     json=models.JSONField(null=True,blank=True,verbose_name="Json presentación")
 
     class Meta:
@@ -180,7 +179,6 @@ class Dispositivos(models.Model):
         self.ram.clear()
         self.grafica.clear()
 
-    
     def toJSON(self):
         item=model_to_dict(self,exclude=['usuario',"ram","grafica"])
         if self.ram:
@@ -196,6 +194,7 @@ class Dispositivos(models.Model):
         item['procesador']=self.procesador.toJSON()
         item['sistemaOperativo']=self.sistemaOperativo.nombre
         return item
+        
 
 class Favoritos_UrlJuegos(models.Model):
     favorito = models.ForeignKey(Favoritos,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Favorito")

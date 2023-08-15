@@ -1,5 +1,5 @@
 from apps.usuarios.models import Usuario
-from .models import Telefonos,Favoritos,Favoritos_UrlJuegos,Historiales,RamsVelocidades,TipoRam,Rams,Procesadores,SistemasOperativos,GraficasGb,GraficasVelocidades,Graficas,Dispositivos
+from .models import Juegos, Telefonos,Favoritos,Favoritos_UrlJuegos,Historiales,RamsVelocidades,TipoRam,Rams,Procesadores,SistemasOperativos,GraficasGb,GraficasVelocidades,Graficas,Dispositivos
 
 # constantes
 ramMaximaVelocidad=8400
@@ -296,3 +296,31 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
   dispositivo.json=carate
   dispositivo.save()
   return dispositivo
+
+def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos):
+  data={"procesador":False,"ram":False,"grafica":False,"disco":False}
+  # comprar procesador
+  if dispositivo.procesador.mhz and dispositivo.procesador.hilos:
+    if dispositivo.procesador.mhz>juego.procesador.mhz and dispositivo.procesador.hilos>juego.procesador.hilos:
+      # si la potencia y los hilos del procesador son mayores, entonces es compatible
+      data['procesador']=True
+    elif dispositivo.procesador.hilos<juego.procesador.hilos:
+      # si los hilos son menores, le digo que no tiene esa cantidad de hilos
+      data['procesador']=0
+  else:
+    data['procesador']=False
+  
+  # ram
+  gbRamPro=0
+  gbRamJue=0
+  if dispositivo.ram:
+    for i in dispositivo.ram.all():
+      gbRamPro+=i.gb
+    for i in juego.ram.all():
+      gbRamJue+=i.gb
+    
+    data['ram']=False if gbRamPro<gbRamJue else True
+  else:
+    data['ram']=False
+    
+  return data
