@@ -299,17 +299,11 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
 
 def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos):
   data={"procesador":False,"ram":False,"grafica":False,"disco":False}
-  # comprar procesador
-  if dispositivo.procesador.mhz and dispositivo.procesador.hilos:
-    if dispositivo.procesador.mhz>juego.procesador.mhz and dispositivo.procesador.hilos>juego.procesador.hilos:
-      # si la potencia y los hilos del procesador son mayores, entonces es compatible
-      data['procesador']=True
-    elif dispositivo.procesador.hilos<juego.procesador.hilos:
-      # si los hilos son menores, le digo que no tiene esa cantidad de hilos
-      data['procesador']=0
-  else:
-    data['procesador']=False
-  
+  # procesador
+  dispoPro=dispositivo.procesador
+  juegoPro=juego.procesador
+  if ((float(dispoPro.mhz)/1000) + float(dispoPro.hilos)) > ((float(juegoPro.mhz)/1000) + float(juegoPro.hilos)):
+    data["procesador"]=True
   # ram
   gbRamPro=0
   gbRamJue=0
@@ -320,7 +314,8 @@ def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos):
       gbRamJue+=i.gb
     
     data['ram']=False if gbRamPro<gbRamJue else True
-  else:
-    data['ram']=False
-    
+  
+  # grafica
+
+
   return data
