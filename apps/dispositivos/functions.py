@@ -1,5 +1,5 @@
 from apps.usuarios.models import Usuario
-from .models import Juegos, Telefonos,Favoritos,Favoritos_UrlJuegos,Historiales,RamsVelocidades,TipoRam,Rams,Procesadores,SistemasOperativos,GraficasGb,GraficasVelocidades,Graficas,Dispositivos
+from .models import Juegos,RamsVelocidades,TipoRam,Rams,Procesadores,SistemasOperativos,GraficasGb,GraficasVelocidades,Graficas,Dispositivos
 
 # constantes
 ramMaximaVelocidad=8400
@@ -190,8 +190,6 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
       objTama,creado = GraficasGb.objects.get_or_create(gb=tamano)
         # lo relaciono con objeto creado
       g.gb=objTama
-      if creado:
-        print('tamaño de grafica agregado\n')
     
     if grafica.get('velocidadNucleo'):
       #extraigo la velocidad si existe, le quito el mhz y lo convierto en numero int
@@ -207,9 +205,6 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
         else:
           if objVel:
             g.velocidad=objVel
-
-      if creado:
-        print('velocidad de grafica agregada\n')
     
     if grafica.get('cantidadNucleos'):
       # obtengo la cantidad de nucleos y lo agrego al objeto creado
@@ -228,14 +223,10 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
       if vel<ramMaximaVelocidad:
         objRam,creado=RamsVelocidades.objects.get_or_create(velocidadMhz=vel)
         r.velocidad=objRam
-        if creado:
-          print('Velocidad de ram agregada')
     
     if ram.get('tipo'):
       objTipo,creado=TipoRam.objects.get_or_create(nombre=ram.get('tipo'))
       r.tipo=objTipo
-      if creado:
-        print('Tipo de ram agregado')
     
     if ram.get('tamano'):
       tamano=int(ram.get('tamano').replace('GB','').strip())
@@ -288,8 +279,7 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
     for clave,valor in disco.items():
       if "disponible" in clave:
         valor=float(valor[0:-2:1].strip())
-        print(valor)
-        if valor>disponibleMayor or valor==disponibleMayor:
+        if valor>=disponibleMayor:
           disponibleMayor=valor
   # guardo el mayor valor en el dispositivo
   dispositivo.espacioGb=disponibleMayor
@@ -302,8 +292,9 @@ def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos):
   # procesador
   dispoPro=dispositivo.procesador
   juegoPro=juego.procesador
-  if ((float(dispoPro.mhz)/1000) + float(dispoPro.hilos)) > ((float(juegoPro.mhz)/1000) + float(juegoPro.hilos)):
+  if ((float(dispoPro.mhz)/1000) + float(dispoPro.hilos)) >= ((float(juegoPro.mhz)/1000) + float(juegoPro.hilos)):
     data["procesador"]=True
+  
   # ram
   gbRamPro=0
   gbRamJue=0
@@ -316,6 +307,16 @@ def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos):
     data['ram']=False if gbRamPro<gbRamJue else True
   
   # grafica
-
-
+  dispoGraficas=dispositivo.grafica.all()
+  juegoGraficas=juego.grafica.all()
+  for i in dispoGraficas:
+    if float(i.gb.gb)>=float(juegoGraficas[0].gb.gb):
+      if (i.nucleos+i.velocidad.velocidadMhz)>=(juegoGraficas[0].nucleos+juegoGraficas.velocidad.velocidadMhz):
+        data['grafica']=True
+        break
+  
+  #disco
+  if dispositivo.espacioGb>=juego.espacio:
+    data['disco']=True
+  
   return data

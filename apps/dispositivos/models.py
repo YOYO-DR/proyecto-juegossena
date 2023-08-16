@@ -53,7 +53,7 @@ class TipoRam(models.Model):
         verbose_name = 'Tipo ram'
         verbose_name_plural = 'Tipos rams'
     
-    def __Str__(self):
+    def __str__(self):
         return self.nombre
 
 class Rams(models.Model):
@@ -145,7 +145,7 @@ class Juegos(models.Model):
     ram=models.ForeignKey(Rams,on_delete=models.SET_NULL,null=True,verbose_name="Ram")
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,verbose_name="Procesador")
     grafica=models.ForeignKey(Graficas,on_delete=models.SET_NULL,null=True,verbose_name="Grafica")
-    espacio=models.IntegerField(verbose_name="Espacio necesario")
+    espacio=models.IntegerField(verbose_name="Espacio necesario en gb")
 
 
     def __str__(self):
