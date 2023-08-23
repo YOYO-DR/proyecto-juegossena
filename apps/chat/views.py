@@ -12,7 +12,7 @@ class ChatView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["room_name"] = "social"
+        context["room_name"] = "social_juegossena"
         historial=[]
         historialDiasFechas=HistorialChat.diasRegistros()
         for i in historialDiasFechas[0]:
