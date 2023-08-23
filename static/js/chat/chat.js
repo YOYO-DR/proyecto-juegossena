@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function (e) {
+
   //obtener el script
   const scriptElement = document.currentScript;
 
@@ -116,4 +116,4 @@ document.addEventListener("DOMContentLoaded", function (e) {
       }
     }
   });
-})
+
