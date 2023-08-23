@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function (e) {
-  //obteer el script
+  //obtener el script
   const scriptElement = document.currentScript;
 
   //obtengo los valores de data
