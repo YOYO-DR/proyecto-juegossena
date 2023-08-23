@@ -56,8 +56,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
             </div>
           </div>`;
     } else {
+      let usernameMensaje=username;
+      try {
+        usernameMensaje = toTitle(user);
+      } catch (e) {
+        usernameMensaje = username;
+      }
       messageElement.innerHTML = `<div class="no-local" style="margin-right:auto;">
-            <strong style="display:block;">${toTitle(user)}</strong>
+            <strong style="display:block;">${usernameMensaje}</strong>
             <div class="d-flex flex-column">
               <span class="align-self-start t-wordwrap">${message}</span>
               <small>${timeFormat}</small>
