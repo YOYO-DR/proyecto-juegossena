@@ -35,7 +35,7 @@ redis==5.0.0
 service-identity==23.1.0
 Twisted==22.10.0
 # solo para windows
-# twisted-iocpsupport==1.0.4 
+twisted-iocpsupport==1.0.4 
 txaio==23.1.1
 requests==2.30.0
 six==1.16.0
@@ -47,6 +47,6 @@ whitenoise==6.4.0
 zope.interface==6.0
 # Required for deploying to Azure (uvicorn asgi)
 uvicorn==0.23.2
-uvloop==0.17.0
+# uvloop==0.17.0 solo para linux
 httptools==0.6.0
 websockets==11.0.3

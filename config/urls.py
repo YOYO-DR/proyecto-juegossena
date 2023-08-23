@@ -30,6 +30,7 @@ urlpatterns = [
     path('dispositivos/',include('apps.dispositivos.urls')),
     path('blogs/',include('apps.blogs.urls')),
     path('api/',include('apps.apiAndroid.urls')),
+    path('chat/',include('apps.chat.urls')),
 
 ]
 if not 'WEBSITE_HOSTNAME' in os.environ:

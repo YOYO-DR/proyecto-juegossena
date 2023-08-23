@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 from config.db import MYSQL_AZURE, MYSQL_LOCAL, SQLITE
+from config.dictChannels import CHANNELS_AZURE, CHANNELS_LOCAL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,11 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #libs
     'widget_tweaks',
+    "channels",
     #Mis apps
     'apps.blogs',
     'apps.dispositivos',
     'apps.juegos',
     'apps.usuarios',
+    'apps.chat',
     'apps.apiAndroid'
 ]
 
@@ -80,8 +83,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
+# configuracion channels
+ASGI_APPLICATION = 'config.asgi.application'
+CHANNEL_LAYERS = CHANNELS_AZURE
+#chat cantidad de mensajes (int)
+CHAT_CANT_MSJ=20
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -112,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-419'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 

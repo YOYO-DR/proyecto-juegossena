@@ -99,3 +99,8 @@ function peticionFormPost(idForm, url, funcion, resetForm = true) {
     btnSubmit.innerHTML = `${valorSubmit}`;
   });
 }
+
+// poner en mayuscula la primera letra de un string
+function toTitle(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

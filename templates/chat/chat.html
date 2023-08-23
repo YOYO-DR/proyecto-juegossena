@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %} 
+<!--Estilos del chat-->
+<link rel="stylesheet" href="{% static 'css/chat/styles.css' %}">
+{% endblock head %}
+
+{% block contenido %}
+<div class="d-flex justify-content-center w-100">
+<div class="chat-container mt-5 col-12 col-sm-10 col-md-9">
+    <div class="chat-header">
+        <h2>Chat</h2>
+    </div>
+    <div class="chat-messages">
+      {% for date in historial %}
+        <div class="time-message text-center"><i>{{date.dia|date}}</i></div>
+        {% for msj in date.registros %}
+          <div class="message">
+            {% if msj.user.username == request.user.username %}
+            <div class="local" style="margin-left:auto; text">
+              <div class="d-flex flex-column">
+              <span class="align-self-end t-wordwrap">
+                {{msj.message}}
+              </span>
+              <small class="align-self-end">
+              {{msj.datetime_format}}
+              </small>
+              </div>
+            </div>
+            {% else %}
+            <div class="no-local" style="margin-right:auto;">
+              <strong style="display:block;">
+                {{msj.user.username|title}}
+              </strong>
+              <div class="d-flex flex-column">
+              <span class="align-self-start t-wordwrap">
+                {{msj.message}}
+              </span>
+              <small>
+             {{msj.datetime_format}}
+              </small>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endfor %}
+      
+    </div>
+    <div class="chat-input">
+        <input  type="text" placeholder="Escribe un mensaje...">
+        <button type="button" >Enviar</button>
+    </div>
+</div>
+</div>
+{% endblock contenido %}
+
+{% block js %}
+
+    <!-- reconnecting websocket lib -->
+    <!-- Administra mejor las reconecciones del websocket -->
+    <script src="{% static 'libs/reconnecting-websocket/js/reconnecting-websocket.min.js' %}"></script>
+    <!-- funcion del chat -->
+    <script src="{% static 'js/chat/chat.js' %}" data-username="{{request.user.username}}" data-chat="{{room_name}}"></script>
+
+{% endblock js %}

@@ -43,6 +43,14 @@
       >
     </li>
     {% endif %}
+    {% if request.path_info != '/chat/' %}
+    <li class="nav-item">
+      <a href="{% url 'chat:chat' %}" class="nav-link px-0 align-middle">
+        <i class="fs-4 bi-chat-square-text"></i>
+        <span class="ms-1">Chat</span></a
+      >
+    </li>
+    {% endif %}
     <li class="nav-item">
       <a href="{% url 'usuarios:cerrar' %}" class="nav-link px-0 align-middle">
         <i class="fs-4 bi-escape"></i>
