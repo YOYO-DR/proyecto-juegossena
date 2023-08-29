@@ -1,26 +1,39 @@
-{% extends 'base.html' %} {% load static %} {% block contenido %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %} 
+<link rel="stylesheet" href="{% static 'css/index/style.css' %}">
+{% endblock head %}
+{% block contenido %}
 
-<div class="d-flex flex-column flex-md-row min-h-85">
+<div class="d-flex flex-column flex-md-row min-h-85 w-100">
 
-  <div class="col-12 col-md-4 border d-flex flex-column">
-      <h2 class="text-center my-2 fs-3">Busqueda y logo</h2>
+  <div class="col-12 col-md-5 col-lg-4  border d-flex flex-column">
+      <h2 class="text-center my-2 fs-3">Busqueda</h2>
       <form class="d-flex flex-nowrap my-2">
-        <input name="busqueda" id="inputBusqueda" class="form-control " type="text" placeholder="Buscar juego" autocomplete="off">
-        <button type="submit" class="btn"><i class="bi bi-search"></i></button>
+        <input name="busqueda" id="inputBusqueda" class="form-control mx-1" type="text" placeholder="Buscar juego" autocomplete="off">
       </form>
-      <div class="my-2 p-3 border mt-auto">
-        <img class="img-fluid" src="{% static 'media/img/logo.png' %}" alt="">
-      </div> 
+      <div class="my-2 p-3 mt-auto d-flex justify-content-center">
+        <img class="img-fluid img-logo mb-4" src="{% static 'media/img/logo.png' %}" alt="">
+      </div>
   </div>
 
-  <div class="col-12 col-md-8 border text-center">
-    <h1 class="fs-2">Juegos Sena (titulo/resultado busqueda)</h1>
+  <div class="col-12 col-md-7 col-lg-8 border text-center">
+    <h1 class="fs-2">Juegos Sena</h1>
+    <h2 class="fs-3">Resultados de la busqueda "warzone"</h2>
+    <div class="contenedor-juegos mx-4">
+      <div class="border item-juego">
+        <div class="item-juego-header d-flex justify-content-between mx-5">
+          <h2 class="fs-4">Call Of Duty Warzone</h2>
+          <button class="btn-heard"><i class="fs-4 bi-heart"></i></button>
+        </div>
+        
+      </div>
+    </div>
   </div>
-
-  
-
-
 
 </div>
 
 {% endblock contenido %} 
+{% block js %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock js %}

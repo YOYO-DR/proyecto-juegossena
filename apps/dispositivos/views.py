@@ -31,6 +31,7 @@ class ProcesarDatos(View):
               data['error']=["dipositivo ya existe",archivo.name]
               return JsonResponse(data)
         try:
+          # cuando le aplico el readlines(), python automaticamente cierra el archivo
           lineas=archivo.readlines()
         except Exception as e:
             data['error']=str(e)

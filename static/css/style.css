@@ -53,3 +53,7 @@ width: 20px;
 .min-h-85{
   min-height: 85vh !important;
 }
+
+.img-logo {
+  max-width: 200px ;
+}
