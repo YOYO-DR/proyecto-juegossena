@@ -13,17 +13,6 @@ class Telefonos(models.Model):
     def __str__(self):
         return self.usuario.username
 
-class Favoritos(models.Model):
-    usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Usuario")
-
-    class Meta:
-        verbose_name = 'Favorito'
-        verbose_name_plural = 'Favoritos'
-    
-    def __str__(self):
-        return self.usuario.username
-
-
 class Historiales(models.Model):
     busqueda = models.CharField(max_length=100,null=False,blank=False,verbose_name="Busqueda")
     fechaBusqueda=models.DateField(auto_now_add=True,verbose_name="Fecha de busqueda")
@@ -194,14 +183,14 @@ class Dispositivos(models.Model):
         item['procesador']=self.procesador.toJSON()
         item['sistemaOperativo']=self.sistemaOperativo.nombre
         return item
-        
 
-class Favoritos_UrlJuegos(models.Model):
-    favorito = models.ForeignKey(Favoritos,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Favorito")
-    juego = models.ForeignKey(Juegos,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Juego")
+class Favoritos(models.Model):
+    usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Usuario")
+    juego=models.ManyToManyField(Juegos)
 
     class Meta:
-        verbose_name = 'Favorito_juego'
-        verbose_name_plural = 'Favoritos_juegos'
+        verbose_name = 'Favorito'
+        verbose_name_plural = 'Favoritos'
+    
     def __str__(self):
-        return self.juego.nombre
+        return self.usuario.username
