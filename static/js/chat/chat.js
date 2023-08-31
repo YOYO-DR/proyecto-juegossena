@@ -98,8 +98,8 @@
   });
 
   // Agregar un evento de tecla presionada al campo de entrada del chat (Cuando le una enter)
-  chatInput.addEventListener("keypress", function (event) {
-    if (event.keyCode === 13 || event.which === 13) {
+  chatInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       // Obtener el mensaje del campo de entrada
       var message = chatInput.value.trim();
       if (message !== "") {

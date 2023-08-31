@@ -182,3 +182,6 @@ EMAIL_USE_TLS = True
 
 # url local
 URL_LOCAL="http://192.168.110.39:8000"
+
+# blob azure
+STATIC_URL_AZURE="https://djangoyoiner.blob.core.windows.net/juegossena/static/"

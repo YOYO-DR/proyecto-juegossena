@@ -1,26 +1,32 @@
-{% extends 'base.html' %} 
-{% load static %} 
-{% block head %}
+{% extends 'base.html' %} {% load static %} {% block head %}
 <link rel="stylesheet" href="{% static 'css/index/style.css' %}" />
-{% endblock head %} 
-{% block contenido %}
+{% endblock head %} {% block contenido %}
 
 <div class="d-flex flex-column flex-md-row min-h-85 w-100">
   <div class="col-12 col-md-5 col-lg-4 border d-flex flex-column">
-    <h2 class="text-center my-2 fs-3">Busqueda</h2>
-    <form class="d-flex flex-nowrap my-2">
-      <input
-        name="busqueda"
-        id="inputBusqueda"
-        class="form-control mx-1"
-        type="text"
-        placeholder="Buscar juego"
-        autocomplete="off"
-      />
-    </form>
+    <h2 class="text-center my-2 fs-3">Búsqueda</h2>
+    <div class="d-flex flex-nowrap my-2 px-2">
+      <div class="input-group">
+        <input
+          name="busqueda"
+          id="inputBusqueda"
+          class="form-control"
+          type="text"
+          placeholder="Buscar juego"
+          autocomplete="off"
+        />
+        <button class="input-group-text espacio-button btn-disabled">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="juegos-mas-buscados border">
+      <h4 class="text-center">Juegos más buscados</h2>
+      <hr class="mx-3">
+    </div>
     <div class="my-2 p-3 mt-auto d-flex justify-content-center">
       <img
-        class="img-fluid img-logo mb-4"
+        class="img-fluid img-logo"
         src="{% static 'media/img/logo.png' %}"
         alt=""
       />
@@ -29,7 +35,7 @@
 
   <div class="col-12 col-md-7 col-lg-8 border text-center">
     <h1 class="fs-2">Juegos Sena</h1>
-    <h2 class="fs-3 mb-3">Resultados de la busqueda "warzone"</h2>
+    <h2 class="fs-3 mb-3 h2-busqueda hidden"></h2>
     <div class="contenedor-juegos mx-4 border">
       <div class="card w-100 mb-2">
         <img
@@ -44,7 +50,7 @@
             elemento data-toggle="tooltip" data-placement="top" title="Mensaje
             de ayuda" {% endcomment %}
             <button
-              class="btn-heart"
+              class="btn-trans"
               data-toggle="tooltip"
               data-placement="top"
               title="Agregar a favoritos"
@@ -62,6 +68,29 @@
           <a href="#" class="btn btn-primary">Ver</a>
         </div>
       </div>
+      <div class="card w-100 mb-2" aria-hidden="true">
+        <img
+          src="{% static 'media/img/empty-card.jpg' %}"
+          class="card-img-top card-img-top img-juego mx-auto m-1"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+          <a
+            class="btn btn-primary disabled placeholder col-6"
+            aria-disabled="true"
+          ></a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -75,5 +104,5 @@
     <h2 class="fs-4">Call Of Duty Warzone</h2>
     <button class="btn-heard"><i class="fs-4 bi-heart"></i></button>
   </div>
-  <hr>
+  <hr />
 </div>

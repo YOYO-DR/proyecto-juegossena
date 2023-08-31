@@ -1,8 +1,8 @@
 import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from config.settings import MEDIA_URL,STATIC_URL
-STATIC_URL_AZURE="https://djangoyoiner.blob.core.windows.net/juegossena/static/"
+from config.settings import MEDIA_URL,STATIC_URL, STATIC_URL_AZURE
+
 
 class Usuario(AbstractUser):
     email = models.EmailField(null=False, blank=False,unique=True,verbose_name='Correo electrónico')

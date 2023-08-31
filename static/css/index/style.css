@@ -1,14 +1,7 @@
-.btn-heart {
-background-color: transparent;
-border: none;
-padding: 0;
-margin: 0;
-}
 .bi-heart:hover {
   color:red;
   cursor: pointer;
 }
-
 .img-juego {
   max-width: 200px;
 }
@@ -17,4 +10,11 @@ margin: 0;
   overflow-y: auto;
   border-left: none !important;
   border-right: none !important;
+}
+
+.espacio-button:hover{
+background-color: #e5e5e5;
+}
+.espacio-button:active {
+  background-color: #c3c2c2;
 }

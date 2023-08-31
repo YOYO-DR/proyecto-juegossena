@@ -57,3 +57,22 @@ width: 20px;
 .img-logo {
   max-width: 200px ;
 }
+.hidden {
+  display: none !important;
+}
+
+.juegos-mas-buscados {
+  height: 100%;
+  margin: 0 .5rem;
+}
+
+.btn-trans{
+background-color: transparent;
+border: none;
+padding: 0;
+margin: 0;
+}
+
+.btn-disabled{
+  
+}
