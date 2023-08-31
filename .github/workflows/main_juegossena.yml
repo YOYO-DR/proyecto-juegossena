@@ -30,14 +30,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       
-      - name: Install dependencies
-        run: python manage.py migrate
-      
-      - name: Install dependencies
-        run: python manage.py collectstatic --no-input
-        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
+      - name: Hacer migrate
+        run: python manage.py migrate
+      
+      - name: Subir static
+        run: python manage.py collectstatic --no-input
+        
+
+
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
