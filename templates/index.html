@@ -15,7 +15,7 @@
           placeholder="Buscar juego"
           autocomplete="off"
         />
-        <button class="input-group-text espacio-button btn-disabled">
+        <button class="input-group-text espacio-button">
           <i class="bi bi-search"></i>
         </button>
       </div>
@@ -96,13 +96,5 @@
 </div>
 
 {% endblock contenido %} {% block js %}
-<script src="{% static 'js/index.js' %}"></script>
+<script data-urlbuscarjuegos="{% url 'juegos:buscar' %}" src="{% static 'js/index.js' %}"></script>
 {% endblock js %}
-
-<div class="border item-juego px-5">
-  <div class="item-juego-header d-flex justify-content-between">
-    <h2 class="fs-4">Call Of Duty Warzone</h2>
-    <button class="btn-heard"><i class="fs-4 bi-heart"></i></button>
-  </div>
-  <hr />
-</div>

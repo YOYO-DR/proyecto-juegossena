@@ -15,8 +15,8 @@ function peticionPost(
   url,
   datos,
   funcion,
-  formdata = false,
-  funcionFinal = null
+  funcionFinal = null,
+  formdata = false
 ) {
   csrftoken = obtenerCsrfToken();
   datos = (formdata == true) ? datos : JSON.stringify(datos);

@@ -1,3 +1,9 @@
+//obtener el script
+const scriptElement = document.currentScript;
+
+//obtengo los valores de data
+const urlBuscarJuegos = scriptElement.getAttribute("data-urlbuscarjuegos");
+
 //constantes
 const h2busqueda = document.querySelector(".h2-busqueda");
 const inputBusqueda = document.getElementById("inputBusqueda");
@@ -10,9 +16,20 @@ function realizarBusqueda() {
   espaciobutton.innerHTML = `<div class="spinner-border spinner-border-sm" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>`;
-  setTimeout(function () {
+  espaciobutton.disabled = true;
+  //hacer peticion
+  //funcion cuando se realice la petición
+  function petiReali(datos) {
+    console.log(datos)
+  }
+  //funcion final (error o sin error)
+  function final() {
     espaciobutton.innerHTML = `<i class="bi bi-search"></i>`;
-  }, 1000);
+    espaciobutton.disabled = false;
+  }
+  peticionPost(urlBuscarJuegos, { busqueda: inputBusqueda.value.trim() }, petiReali, (funcionFinal = final));
+  
+  //prueba para que se vea el boton cargando
 }
 function cancelarBusqueda() {
   h2busqueda.classList.add("hidden");
@@ -37,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
   //cancelar busqueda si el input queda vacio
   inputBusqueda.addEventListener("input", function (e) {
     if (inputBusqueda.value === "") {
-      cancelarBusqueda()
+      cancelarBusqueda();
     }
   });
 });

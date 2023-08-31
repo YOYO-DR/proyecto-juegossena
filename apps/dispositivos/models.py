@@ -132,6 +132,7 @@ class Graficas(models.Model):
 
 class Juegos(models.Model):
     nombre=models.CharField(max_length=200,unique=True,verbose_name="Nombre")
+    descripcion=models.CharField(max_length=300,verbose_name="Descripción",null=False,blank=False)
     urlPagina=models.URLField(verbose_name="Url pagina")
     ram=models.ForeignKey(Rams,on_delete=models.SET_NULL,null=True,verbose_name="Ram")
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,verbose_name="Procesador")
@@ -147,6 +148,16 @@ class Juegos(models.Model):
         if self.imagen:
             return self.imagen.url
         return f'{STATIC_URL_AZURE}media/img/empty.png' if 'WEBSITE_HOSTNAME' in os.environ else f'{STATIC_URL}media/img/empty.png'
+    
+    def toJSON(self):
+        item=model_to_dict(self)
+        item['imagen']=self.get_imagen()
+        item['procesador']=self.procesador.toJSON()
+        item['grafica']=self.grafica.toJSON()
+        item['ram']=self.ram.toJSON()
+        return item
+
+
     
     class Meta:
         verbose_name="Juego"
