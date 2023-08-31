@@ -1,39 +1,79 @@
 {% extends 'base.html' %} 
 {% load static %} 
-{% block head %} 
-<link rel="stylesheet" href="{% static 'css/index/style.css' %}">
-{% endblock head %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/index/style.css' %}" />
+{% endblock head %} 
 {% block contenido %}
 
 <div class="d-flex flex-column flex-md-row min-h-85 w-100">
-
-  <div class="col-12 col-md-5 col-lg-4  border d-flex flex-column">
-      <h2 class="text-center my-2 fs-3">Busqueda</h2>
-      <form class="d-flex flex-nowrap my-2">
-        <input name="busqueda" id="inputBusqueda" class="form-control mx-1" type="text" placeholder="Buscar juego" autocomplete="off">
-      </form>
-      <div class="my-2 p-3 mt-auto d-flex justify-content-center">
-        <img class="img-fluid img-logo mb-4" src="{% static 'media/img/logo.png' %}" alt="">
-      </div>
+  <div class="col-12 col-md-5 col-lg-4 border d-flex flex-column">
+    <h2 class="text-center my-2 fs-3">Busqueda</h2>
+    <form class="d-flex flex-nowrap my-2">
+      <input
+        name="busqueda"
+        id="inputBusqueda"
+        class="form-control mx-1"
+        type="text"
+        placeholder="Buscar juego"
+        autocomplete="off"
+      />
+    </form>
+    <div class="my-2 p-3 mt-auto d-flex justify-content-center">
+      <img
+        class="img-fluid img-logo mb-4"
+        src="{% static 'media/img/logo.png' %}"
+        alt=""
+      />
+    </div>
   </div>
 
   <div class="col-12 col-md-7 col-lg-8 border text-center">
     <h1 class="fs-2">Juegos Sena</h1>
-    <h2 class="fs-3">Resultados de la busqueda "warzone"</h2>
-    <div class="contenedor-juegos mx-4">
-      <div class="border item-juego">
-        <div class="item-juego-header d-flex justify-content-between mx-5">
-          <h2 class="fs-4">Call Of Duty Warzone</h2>
-          <button class="btn-heard"><i class="fs-4 bi-heart"></i></button>
+    <h2 class="fs-3 mb-3">Resultados de la busqueda "warzone"</h2>
+    <div class="contenedor-juegos mx-4 border">
+      <div class="card w-100 mb-2">
+        <img
+          src="{% static 'media/img/call-of-duty-warzone.jpg' %}"
+          class="card-img-top img-juego mx-auto m-1"
+          alt="..."
+        />
+        <div class="card-body">
+          <div class="d-flex justify-content-center align-item-center">
+            <h5 class="card-title me-3 fs-4">Call Of Duty Warzone</h5>
+            {% comment %} estos datos son para poner un mensaje flotante en el
+            elemento data-toggle="tooltip" data-placement="top" title="Mensaje
+            de ayuda" {% endcomment %}
+            <button
+              class="btn-heart"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Agregar a favoritos"
+            >
+              <i class="fs-4 bi-heart"></i>
+            </button>
+          </div>
+          <p class="card-text">
+            Call of Duty: Warzone es la versión gratuita y battle royale del
+            videojuego de acción en primera persona de Activision. Nos invita a
+            combatir en un escenario gigantesco, que recopila algunos de los
+            mejores mapas, invitándonos a ser el mejor jugador de un combate que
+            contiene partidas de 150 jugadores.
+          </p>
+          <a href="#" class="btn btn-primary">Ver</a>
         </div>
-        
       </div>
     </div>
   </div>
-
 </div>
 
-{% endblock contenido %} 
-{% block js %}
+{% endblock contenido %} {% block js %}
 <script src="{% static 'js/index.js' %}"></script>
 {% endblock js %}
+
+<div class="border item-juego px-5">
+  <div class="item-juego-header d-flex justify-content-between">
+    <h2 class="fs-4">Call Of Duty Warzone</h2>
+    <button class="btn-heard"><i class="fs-4 bi-heart"></i></button>
+  </div>
+  <hr>
+</div>

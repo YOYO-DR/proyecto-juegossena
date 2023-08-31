@@ -1,10 +1,20 @@
-.btn-heard {
+.btn-heart {
 background-color: transparent;
 border: none;
 padding: 0;
 margin: 0;
 }
-.item-juego-header button i:hover {
+.bi-heart:hover {
   color:red;
   cursor: pointer;
+}
+
+.img-juego {
+  max-width: 200px;
+}
+.contenedor-juegos {
+  max-height: 70vh !important;
+  overflow-y: auto;
+  border-left: none !important;
+  border-right: none !important;
 }

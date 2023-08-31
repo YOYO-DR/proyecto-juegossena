@@ -135,10 +135,14 @@ class Juegos(models.Model):
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,verbose_name="Procesador")
     grafica=models.ForeignKey(Graficas,on_delete=models.SET_NULL,null=True,verbose_name="Grafica")
     espacio=models.IntegerField(verbose_name="Espacio necesario en gb")
-
+    cantidadVisitas=models.IntegerField(verbose_name="Cantidad visitas")
 
     def __str__(self):
         return self.nombre
+    
+    class Meta:
+        verbose_name="Juego"
+        verbose_name_plural="Juegos"
 
 class Dispositivos(models.Model):
     espacioGb = models.IntegerField(null=True,blank=True,verbose_name="Espacio gb")
