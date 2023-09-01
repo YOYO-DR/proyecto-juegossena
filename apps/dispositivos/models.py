@@ -134,7 +134,7 @@ class Graficas(models.Model):
 class Juegos(models.Model):
     nombre=models.CharField(max_length=200,unique=True,verbose_name="Nombre")
     descripcion=models.CharField(max_length=500,verbose_name="Descripción",null=False,blank=False)
-    slug=models.CharField(max_length=200,unique=True,verbose_name="Slug")
+    slug=models.CharField(max_length=200,unique=True,verbose_name="Slug",default="juego")
     urlPagina=models.URLField(verbose_name="Url pagina")
     ram=models.ForeignKey(Rams,on_delete=models.SET_NULL,null=True,verbose_name="Ram")
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,verbose_name="Procesador")
