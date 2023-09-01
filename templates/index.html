@@ -22,10 +22,11 @@
     </div>
     <div class="juegos-mas-buscados border">
       <h4 class="text-center">Juegos más buscados</h4>
-      <hr class="mx-3" />
+      <hr class="mx-3" >
       {% comment %} Para que aparezca la informacion en un modal y con el boton para ir a la vista completa del juego {% endcomment %}
+      <div class="border">
       {% for juego in juegos_mas %}
-      <button class="btn-hidden">
+      <button class="btn-hidden w-100">
         <div class="d-flex p-1 border rounded m-1 align-items-center">
         <div class="m-2 w-25">
           <img
@@ -34,10 +35,11 @@
             alt=""
           />
         </div>
-          <h4 class="w-100">{{juego.nombre}}</h4>
+          <h5 class="w-100">{{juego.nombre}}</h5>
         </div>
       </button>
       {% endfor %}
+      </div>
     </div>
     <div class="my-2 p-3 mt-auto d-flex justify-content-center">
       <img

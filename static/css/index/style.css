@@ -6,10 +6,8 @@
   max-width: 300px;
 }
 .contenedor-juegos {
-  max-height: 70vh !important;
+  max-height: 80vh !important;
   overflow-y: auto;
-  border-left: none !important;
-  border-right: none !important;
 }
 
 .espacio-button:hover{
@@ -22,7 +20,14 @@ background-color: #e5e5e5;
 .img-mas-b {
   width: 20%;
 }
-
 .juegos-mas-buscados button div:hover {
   background-color: rgb(215, 215, 215) !important;
+}
+
+
+.juegos-mas-buscados div {
+  max-height: 40vh !important;
+  overflow-y: auto;
+  border-left: none;
+  border-right: none;
 }
