@@ -140,7 +140,7 @@ class Juegos(models.Model):
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,verbose_name="Procesador")
     grafica=models.ForeignKey(Graficas,on_delete=models.SET_NULL,null=True,verbose_name="Grafica")
     espacio=models.IntegerField(verbose_name="Espacio necesario en gb")
-    cantidadVisitas=models.IntegerField(verbose_name="Cantidad visitas")
+    cantidadVisitas=models.IntegerField(verbose_name="Cantidad visitas",default=0)
     imagen=models.ImageField(upload_to=f'{MEDIA_URL}users/%Y/%m/' if 'WEBSITE_HOSTNAME' in os.environ else 'users/%Y/%m/',null=True,blank=True, verbose_name='Imagen juego')
 
     def __str__(self):
