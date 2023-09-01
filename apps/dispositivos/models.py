@@ -1,4 +1,5 @@
 import os
+from typing import Iterable, Optional
 from django.db import models
 from django.forms import model_to_dict
 from apps.usuarios.models import Usuario
@@ -132,7 +133,8 @@ class Graficas(models.Model):
 
 class Juegos(models.Model):
     nombre=models.CharField(max_length=200,unique=True,verbose_name="Nombre")
-    descripcion=models.CharField(max_length=300,verbose_name="Descripción",null=False,blank=False)
+    descripcion=models.CharField(max_length=500,verbose_name="Descripción",null=False,blank=False)
+    slug=models.CharField(max_length=200,unique=True,verbose_name="Slug")
     urlPagina=models.URLField(verbose_name="Url pagina")
     ram=models.ForeignKey(Rams,on_delete=models.SET_NULL,null=True,verbose_name="Ram")
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,verbose_name="Procesador")
@@ -156,9 +158,10 @@ class Juegos(models.Model):
         item['grafica']=self.grafica.toJSON()
         item['ram']=self.ram.toJSON()
         return item
-
-
-    
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+      # para que cuando se guarde, se genere el slug para su vista
+      self.slug=(self.nombre.replace(" ","-")).lower()
+      return super(Juegos,self).save()
     class Meta:
         verbose_name="Juego"
         verbose_name_plural="Juegos"

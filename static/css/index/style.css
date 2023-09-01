@@ -3,7 +3,7 @@
   cursor: pointer;
 }
 .img-juego {
-  max-width: 200px;
+  max-width: 300px;
 }
 .contenedor-juegos {
   max-height: 70vh !important;
@@ -17,4 +17,12 @@ background-color: #e5e5e5;
 }
 .espacio-button:active {
   background-color: #c3c2c2;
+}
+
+.img-mas-b {
+  width: 20%;
+}
+
+.juegos-mas-buscados button div:hover {
+  background-color: rgb(215, 215, 215) !important;
 }

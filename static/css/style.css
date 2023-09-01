@@ -66,7 +66,7 @@ width: 20px;
   margin: 0 .5rem;
 }
 
-.btn-trans{
+.btn-hidden{
 background-color: transparent;
 border: none;
 padding: 0;
