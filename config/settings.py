@@ -91,7 +91,7 @@ CHAT_CANT_MSJ=20
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = MYSQL_AZURE #SQLITE # MYSQL_AZURE 
+DATABASES = MYSQL_LOCAL #SQLITE # MYSQL_AZURE 
 
 
 # Password validation
