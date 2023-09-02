@@ -23,6 +23,7 @@ background-color: #e5e5e5;
 
 .juegos-mas-buscados button div:hover {
   background-color: rgb(215, 215, 215) !important;
+  scale: 1.1;
 }
 /*
 En este código, .juegos-mas-buscados es el <div> principal y .juegos-mas-buscados > div es el <div> hijo que contiene el bucle for. display: flex y flex-direction: column hacen que los hijos del <div> principal se apilen verticalmente. flex-grow: 1 hace que el <div> hijo crezca para llenar el espacio disponible en el <div> principal. overflow-y: auto genera una barra de desplazamiento vertical en el <div> hijo cuando es necesario
@@ -36,6 +37,7 @@ En este código, .juegos-mas-buscados es el <div> principal y .juegos-mas-buscad
 .juegos-mas-buscados > div {
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   border-left: none !important;
-  border-right: none !important;
+  border-right: none !important; 
 }
