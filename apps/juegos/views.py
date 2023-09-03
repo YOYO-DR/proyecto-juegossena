@@ -50,4 +50,5 @@ class DetalleJuegoView(DetailView):
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
       context["titulo"] = self.get_object().nombre
+      context["img_juego"] = [i.get_imagen() for i in self.get_object().imagenesjuego_set.all()]
       return context

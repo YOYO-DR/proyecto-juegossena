@@ -141,7 +141,7 @@ class Juegos(models.Model):
     grafica=models.ForeignKey(Graficas,on_delete=models.SET_NULL,null=True,verbose_name="Grafica")
     espacio=models.IntegerField(verbose_name="Espacio necesario en gb")
     cantidadVisitas=models.IntegerField(verbose_name="Cantidad visitas",default=0)
-    imagen=models.ImageField(upload_to=f'{MEDIA_URL}users/%Y/%m/' if 'WEBSITE_HOSTNAME' in os.environ else 'users/%Y/%m/',null=True,blank=True, verbose_name='Imagen juego')
+    imagen=models.ImageField(upload_to=f'{MEDIA_URL}imagen/%Y/%m/' if 'WEBSITE_HOSTNAME' in os.environ else 'imagen/%Y/%m/',null=True,blank=True, verbose_name='Imagen juego')
 
     def __str__(self):
         return self.nombre
@@ -220,3 +220,20 @@ class Favoritos(models.Model):
     
     def __str__(self):
         return self.usuario.username
+
+class ImagenesJuego(models.Model):
+  juego=models.ForeignKey(Juegos,on_delete=models.CASCADE,null=False, blank=False)
+  imagen=models.ImageField(upload_to=f'{MEDIA_URL}imagenes_juegos/%Y/%m/' if 'WEBSITE_HOSTNAME' in os.environ else 'imagenes_juegos/%Y/%m/',null=True,blank=True, verbose_name='Imagen')
+
+  def __str__(self):
+      return self.juego.nombre
+  
+  def get_imagen(self):
+      if self.imagen:
+        return self.imagen.url
+      return f'{STATIC_URL_AZURE}media/img/empty.png' if 'WEBSITE_HOSTNAME' in os.environ else f'{STATIC_URL}media/img/empty.png'
+  
+  def toJSON(self):
+      item=model_to_dict(self)
+      item['imagen']=self.get_imagen()
+      return item
