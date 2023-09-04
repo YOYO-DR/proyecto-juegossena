@@ -9,11 +9,26 @@
 {% block contenido %}
 {% comment %} Div principal {% endcomment %}
 <div class="min-h-85 w-100 d-flex flex-column">
-  <h1>{{object.nombre}}</h1>
+  <div class="d-flex">
+    <h1 class="me-2">{{object.nombre}}</h1>
+    {% comment %} estos datos son para poner un mensaje flotante en el
+            elemento data-toggle="tooltip" data-placement="top" title="Mensaje
+            de ayuda" {% endcomment %}
+            <button
+              class="btn-hidden"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Agregar a favoritos"
+            >
+              <i class="fs-2 bi-heart"></i>
+            </button>
+  </div>
+  
   {% comment %} Div contenedor {% endcomment %}
   <div class="d-flex flex-column flex-md-row">
     <div class="col-12 col-md-6">
       <p>{{object.descripcion}}</p>
+      <a href="{{object.urlPagina}}" class="link" target="_blank">Página oficial</a>
     </div>
     <div class="container-carousel col-12 col-md-6">
     {% comment %} Contenedor de imagenes {% endcomment %}

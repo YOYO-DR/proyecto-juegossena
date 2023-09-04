@@ -31,9 +31,9 @@
   </button>
 </form>
 
-<div class="row p-2 contenedorDispo">
+<div class="d-flex flex-column flex-md-row flex-wrap p-2 contenedorDispo ">
   {% for dispo in object_list %}
-  <div class="col col-sm-6 col-md-4 mb-3 dispoCont{{dispo.id}}">
+  <div class="w-auto mx-2 mb-3 dispoCont{{dispo.id}}">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{dispo.nombre}}</h5>
@@ -161,6 +161,8 @@
                         })
                       
                     },
+                    null
+                    ,
                     true
                   )
                 }else if (result.isDenied){

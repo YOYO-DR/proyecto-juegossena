@@ -121,35 +121,35 @@ function dispoModal(
         window.location.pathname,
         { id: idDispo, action: "datosDispo" },
         (data) => {
-            let dispo = data.dispositivo;
-            modalTitulo.innerHTML = data.nombre;
+          let dispo = data.dispositivo;
+          modalTitulo.innerHTML = data.nombre;
 
-            let acordeones = ``; //donde voy a crear el acordeon
-            let keys = {
-              rams: "Ram",
-              discos: "Discos",
-              sisOpe: "Sistema operativo",
-              graficas: "Graficas",
-              procesador: "Procesador",
-            };
-            for (const key in dispo) {
-              // recorro los datos pasados por la peticion, con el for in para extraer el key, o clave
-              if (dispo.hasOwnProperty(key)) {
-                const value = dispo[key]; // obtengo el valor de esa clave
-                acordeones += acordeon(keys[key], value); //le paso la clave y el valor a la funcion para crear el acordeon y luego sumarlo a los acordeones
-              }
+          let acordeones = ``; //donde voy a crear el acordeon
+          let keys = {
+            rams: "Ram",
+            discos: "Discos",
+            sisOpe: "Sistema operativo",
+            graficas: "Graficas",
+            procesador: "Procesador",
+          };
+          for (const key in dispo) {
+            // recorro los datos pasados por la peticion, con el for in para extraer el key, o clave
+            if (dispo.hasOwnProperty(key)) {
+              const value = dispo[key]; // obtengo el valor de esa clave
+              acordeones += acordeon(keys[key], value); //le paso la clave y el valor a la funcion para crear el acordeon y luego sumarlo a los acordeones
             }
+          }
 
-            divAcordeones.innerHTML = acordeones;
-            modal.show();
+          divAcordeones.innerHTML = acordeones;
+          modal.show();
         },
-        //formdata
-        false,
         () => {
           //quito el spinner del boton
           disabledBotones(botonesModalDispo);
           boton.innerHTML = valorBoton;
-        }
+        },
+        //formdata
+        false
       );
     });
   });
@@ -190,18 +190,19 @@ function dispoModal(
               '[class*="dispoCont"]'
             ).length;
             if (divDispoCount == 0) {
-              contenedor.innerHTML="<h2>Sin dispositivos</h2>";
+              contenedor.innerHTML = "<h2>Sin dispositivos</h2>";
             }
           }
         },
-        false,
         () => {
           disabledBotones(botonesEliminarDispo);
           boton.innerHTML = valorBoton;
           //activar formulario
           btnSubmit.disabled = false;
           inputForm.disabled = false;
-        }
+        },
+        //form data
+        false
       );
     });
   });
@@ -209,7 +210,7 @@ function dispoModal(
 
 function mostrarDispo(id, nombre, contenedor) {
   let plantilla = `
-  <div class="col col-sm-6 col-md-4 mb-3 dispoCont${id}">
+  <div class="w-auto mx-2 mb-3 dispoCont${id}">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">${nombre}</h5>

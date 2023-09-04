@@ -61,17 +61,6 @@
         <div class="card-body">
           <div class="d-flex justify-content-center align-item-center">
             <h5 class="card-title me-3 fs-4">{{juego.nombre}}</h5>
-            {% comment %} estos datos son para poner un mensaje flotante en el
-            elemento data-toggle="tooltip" data-placement="top" title="Mensaje
-            de ayuda" {% endcomment %}
-            <button
-              class="btn-hidden"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Agregar a favoritos"
-            >
-              <i class="fs-4 bi-heart"></i>
-            </button>
           </div>
           <p class="card-text">{{juego.descripcion}}</p>
           <div class="d-flex flex-column align-items-center">

@@ -1,3 +1,4 @@
+/* carrousel */
 .container-carousel {
   width: 100%;
   height: 400px;
@@ -13,7 +14,6 @@
     width: 50%;
   }
 }
-
 
 .carruseles {
   /* 300% porque son 3 imagenes, si fueran 5, seria 500% y asi sucesivamente, igual lo estoy cambiando en el js */
@@ -62,4 +62,10 @@
 
 .btn-right {
   right: 10px;
+}
+
+/* btn favoritos */
+.bi-heart:hover {
+  color:red;
+  cursor: pointer;
 }

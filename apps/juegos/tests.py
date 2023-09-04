@@ -1,6 +1,12 @@
 from django.test import TestCase
+import requests,os,json
 
-# Create your tests here
-# py manage.py test apps.juegos
-# 300
-print(len("Call of Duty Warzone es la versión gratuita y battle royale del videojuego de acción en primera persona de Activision. Nos invita a combatir en un escenario gigantesco, que recopila algunos de los mejores mapas, invitándonos a ser el mejor jugador de un combate que contiene partidas de 150 jugadores"))
+
+CLIENT_ID=os.environ.get('IDCLIENTE')
+SECRETO=os.environ.get('CLIENT_SECRET')
+
+# https://id.twitch.tv/oauth2/token?client_id=abcdefg12345&client_secret=hijklmn67890&grant_type=client_credentials
+
+r=requests.post("https://id.twitch.tv/oauth2/token",data={"client_id":CLIENT_ID,"client_secret":SECRETO,"grant_type":"client_credentials"})
+res=json.loads(r.text)
+print(res)
