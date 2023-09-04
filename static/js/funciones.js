@@ -10,6 +10,26 @@ function obtenerCsrfToken() {
   return csrfCookie.split("=")[1];
 }
 
+//sweetalert para el mensaje de error en alguna peticion
+function errorMensaje(mensaje) {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  Toast.fire({
+    icon: "error",
+    title: mensaje,
+  });
+}
+
 //enviar peticion post pero fuera de un formulario
 function peticionPost(
   url,
@@ -31,10 +51,16 @@ function peticionPost(
     //si la respuesta es correcta, convierto a json/objeto
     .then((response) => response.json())
     //si se convierte correctamente, ejecuto la función y le paso la data
-    .then((data) => funcion(data))
+    .then((data) => {
+      if ("error" in data) { 
+        errorMensaje(data.error);
+      } else {
+        funcion(data);
+      }
+    })
     //si sale un error lo paso por consola
     .catch((error) => {
-      console.error("Error: " + error);
+      errorMensaje(error);
     })
     .finally(() => {
       if (funcionFinal != null) {

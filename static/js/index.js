@@ -99,7 +99,7 @@ function realizarBusqueda() {
   //hacer peticion
   //funcion cuando se realice la petición
   function petiReali(datos) {
-    if (!("error" in datos) && datos.juegos.length > 0) {
+    if (datos.juegos.length > 0) {
       
       h2busqueda.innerHTML = `Resultados de la busqueda "${inputBusqueda.value.trim()}"`;
       
@@ -111,8 +111,6 @@ function realizarBusqueda() {
     } else if (datos.juegos.length < 1) {
       contenedorjuegos.innerHTML = ``;
       h2busqueda.innerHTML="Sin resultados";
-    } else {
-      alert("Error: " + datos.error);
     }
   }
   //funcion final (error o sin error)
@@ -202,16 +200,13 @@ document.addEventListener("DOMContentLoaded", function (e) {
         },
         //funciona a realizar
         (data) => {
-          if (!("error" in data)) {
-            console.log(data);
+            // console.log(data);
             let juego=data.juego
             let modal = new bootstrap.Modal(modalInfoJuego);
             modalTitle.innerHTML = juego.nombre;
             modalBody.innerHTML = plantillaModalBody(juego);
             modal.show();
-          } else {
-            console.error("Error: "+ data.error)
-          }
+          
         },
         //funcion cuando se realice la peticion
         () => {

@@ -121,7 +121,6 @@ function dispoModal(
         window.location.pathname,
         { id: idDispo, action: "datosDispo" },
         (data) => {
-          if (data.dispositivo) {
             let dispo = data.dispositivo;
             modalTitulo.innerHTML = data.nombre;
 
@@ -143,9 +142,6 @@ function dispoModal(
 
             divAcordeones.innerHTML = acordeones;
             modal.show();
-          } else {
-            alert(data.error);
-          }
         },
         //formdata
         false,

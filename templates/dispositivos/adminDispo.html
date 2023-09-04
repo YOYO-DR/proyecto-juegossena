@@ -143,7 +143,6 @@
                     "{% url 'dispositivos:procesar' %}",
                     formdata,
                     (data)=>{
-                      if (!("error" in data)){
                         formArchivo.reset()
                         const Toast = Swal.mixin({
                           toast: true,
@@ -160,13 +159,7 @@
                           icon: 'success',
                           title: `Dispositivo <i>${data.nombre}</i> modificado`
                         })
-                      }else{
-                        Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: data.error,
-                        })
-                      }
+                      
                     },
                     true
                   )
