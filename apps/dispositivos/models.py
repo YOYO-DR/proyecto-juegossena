@@ -1,5 +1,4 @@
 import os
-from typing import Iterable, Optional
 from django.db import models
 from django.forms import model_to_dict
 from apps.funciones_gen import redondear
@@ -226,7 +225,7 @@ class Dispositivos(models.Model):
 
 class Favoritos(models.Model):
     usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Usuario")
-    juego=models.ManyToManyField(Juegos)
+    juegos=models.ManyToManyField(Juegos)
 
     class Meta:
         verbose_name = 'Favorito'
