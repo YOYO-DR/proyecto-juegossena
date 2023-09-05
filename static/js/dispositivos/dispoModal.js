@@ -1,18 +1,3 @@
-//objeto con los valores que se obtienen del servidor pero ya para mostrar
-const valoresTextos = {
-  tipo: "Tipo",
-  tamano: "Tamaño",
-  velocidad: "Velocidad",
-  capacidad: "Capacidad",
-  nombre: "Nombre",
-  cantidadNucleos: "Cantidad de núcleos",
-  velocidadNucleo: "Velocidad de núcleo",
-  velocidadMemoria: "Velocidad de memoria",
-  hilos: "Hilos",
-  modelo: "Modelo",
-  nucleos: "Núcleos",
-  velocidadMaxima: "Velocidad de maxima",
-};
 //acordeon
 function acordeon(nombre, valores) {
   //funcion para crear cada acordeon, recibe nombre de la caracteristica y su arreglo de valores

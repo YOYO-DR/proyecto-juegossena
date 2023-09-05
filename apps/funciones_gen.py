@@ -1,3 +1,10 @@
+# para retornar un entero si el flotante esta en 2.00 o sus decimales que se pasen
+def redondear(numero, decimales=2):
+    if int(numero) == numero:
+        return int(numero)
+    else:
+        return round(numero, decimales)
+    
 import pytz
 
 # para que se ejecute solo cuando django lo requiera, se lo paso como parametro

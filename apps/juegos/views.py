@@ -19,10 +19,10 @@ class BuscarJuegosView(View):
       if action=="busqueda":
         data['juegos']=[i.toJSON() for i in Juegos.objects.filter(nombre__icontains=busqueda)]
       # buscar juego en expecifico por su slug
-      elif action=="buscar_juego":
+      elif action=="buscar_juego" or action=="requisitos":
         try:
-
-          data['juego']=Juegos.objects.get(slug=datos['slug']).toJSON()
+          juego=Juegos.objects.get(slug=datos['slug'])
+          data['juego']=juego.toJSON() if action=="buscar_juego" else juego.requisitos()
         except Juegos.DoesNotExist as e:
            data['error']="El juego no existe."
         except Exception as e:

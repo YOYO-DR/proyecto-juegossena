@@ -2,6 +2,7 @@ import os
 from typing import Iterable, Optional
 from django.db import models
 from django.forms import model_to_dict
+from apps.funciones_gen import redondear
 from apps.usuarios.models import Usuario
 from config.settings import MEDIA_URL,STATIC_URL, STATIC_URL_AZURE
 
@@ -58,8 +59,10 @@ class Rams(models.Model):
         verbose_name_plural = 'Rams'
     
     def __str__(self):
-        return f'{str(self.gb)} GB - {self.tipo.nombre} - {str(self.velocidad.velocidadMhz)} Mhz'
-    
+        if self.velocidad:
+          return f'{str(self.gb)} GB - {self.tipo.nombre} - {str(self.velocidad.velocidadMhz)} Mhz'
+
+        return f'{str(self.gb)} GB - {self.tipo.nombre}'
     def toJSON(self):
         item=model_to_dict(self,exclude=['tipo','velocidad'])
         item["tipo"]=self.tipo.nombre if self.tipo else None
@@ -142,6 +145,7 @@ class Juegos(models.Model):
     espacio=models.IntegerField(verbose_name="Espacio necesario en gb")
     cantidadVisitas=models.IntegerField(verbose_name="Cantidad visitas",default=0)
     imagen=models.ImageField(upload_to=f'{MEDIA_URL}imagen/%Y/%m/' if 'WEBSITE_HOSTNAME' in os.environ else 'imagen/%Y/%m/',null=True,blank=True, verbose_name='Imagen juego')
+    sistemaOperativo=models.ForeignKey(SistemasOperativos,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Sistema operativo")
 
     def __str__(self):
         return self.nombre
@@ -158,6 +162,16 @@ class Juegos(models.Model):
         item['grafica']=self.grafica.toJSON()
         item['ram']=self.ram.toJSON()
         return item
+    
+    def requisitos(self):
+        return {
+            'ram':f"{self.ram.gb} GB",
+            'procesador':self.procesador.nombre,
+            'grafica':f'{self.grafica.nombre} {redondear(self.grafica.gb.gb,2)} GB',
+            'espaciore':f'{self.espacio} GB',
+            'so':self.sistemaOperativo.nombre
+        }
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
       # para que cuando se guarde, se genere el slug para su vista
       self.slug=(self.nombre.replace(" ","-")).lower()

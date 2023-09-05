@@ -1,8 +1,8 @@
 from django.db import models
+from apps.funciones_gen import timezone_now_cre
 from apps.usuarios.models import Usuario
 from django.forms import model_to_dict
 
-from .funciones import timezone_now_cre
 from config.settings import CHAT_CANT_MSJ, TIME_ZONE
 
 class HistorialChat(models.Model):

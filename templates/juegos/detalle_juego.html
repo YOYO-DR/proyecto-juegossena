@@ -1,55 +1,71 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
+{% extends 'base.html' %} 
+{% load static %} 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/juegos/style.css' %}" />
 {% endblock head %} 
-
-{% block contenido %}
-{% comment %} Div principal {% endcomment %}
+{% block contenido %} 
+{% comment %} 
+Div principal 
+{% endcomment %}
 <div class="min-h-85 w-100 d-flex flex-column">
+
+
   <div class="d-flex">
     <h1 class="me-2">{{object.nombre}}</h1>
-    {% comment %} estos datos son para poner un mensaje flotante en el
-            elemento data-toggle="tooltip" data-placement="top" title="Mensaje
-            de ayuda" {% endcomment %}
-            <button
-              class="btn-hidden"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Agregar a favoritos"
-            >
-              <i class="fs-2 bi-heart"></i>
-            </button>
+    {% comment %} 
+    estos datos son para poner un mensaje flotante en el elemento
+    data-toggle="tooltip" data-placement="top" title="Mensaje de ayuda" 
+    {% endcomment %}
+    <button
+      class="btn-hidden"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Agregar a favoritos"
+    >
+      <i class="fs-2 bi-heart"></i>
+    </button>
   </div>
-  
-  {% comment %} Div contenedor {% endcomment %}
+
+  {% comment %} 
+  Div contenedor 
+  {% endcomment %}
   <div class="d-flex flex-column flex-md-row">
     <div class="col-12 col-md-6">
       <p>{{object.descripcion}}</p>
-      <a href="{{object.urlPagina}}" class="link" target="_blank">Página oficial</a>
+      <a href="{{object.urlPagina}}" class="link" target="_blank"
+        >Página oficial</a
+      >
+      {% comment %} 
+        Requerimientos y comparación con los dispositivos 
+      {% endcomment %}
+      <div class="mt-3">
+        <h2 class="fs-5">Requisitos de PC para {{object.nombre}}</h2>
+        <ul class="lista-requi">
+        </ul>
+      </div>
     </div>
     <div class="container-carousel col-12 col-md-6">
-    {% comment %} Contenedor de imagenes {% endcomment %}
-    <div class="carruseles" id="slider">
-      {% for img in img_juego %}
-      <section class="slider-section">
-        <img src="{{img}}" alt="">
-      </section>
-      {% endfor %}
+      {% comment %} Contenedor de imagenes {% endcomment %}
+      <div class="carruseles" id="slider">
+        {% for img in img_juego %}
+        <section class="slider-section">
+          <img src="{{img}}" alt="" />
+        </section>
+        {% endfor %}
+      </div>
+      <div class="btn-left"><i class="bi bi-caret-left-fill"></i></div>
+      <div class="btn-right"><i class="bi bi-caret-right-fill"></i></div>
     </div>
-    <div class="btn-left"><i class="bi bi-caret-left-fill"></i></div>
-    <div class="btn-right"><i class="bi bi-caret-right-fill"></i></div>
-    </div>
+
   </div>
+
+
 </div>
-{% for img in img_juego %}
-
-{% endfor %}
-
 {% endblock contenido %} 
-
 {% block js %}
-<script src="{% static 'js/juegos/juegos.js' %}"></script>
+<script 
+data-urlbuscarjuegos="{% url 'juegos:buscar' %}"
+data-juegolug="{{object.slug}}"
+src="{% static 'js/juegos/juegos.js' %}"
+></script>
 {% endblock js %}

@@ -1,3 +1,25 @@
+//objeto con los valores que se obtienen del servidor pero ya para mostrar
+const valoresTextos = {
+  tipo: "Tipo",
+  tamano: "Tamaño",
+  velocidad: "Velocidad",
+  capacidad: "Capacidad",
+  nombre: "Nombre",
+  cantidadNucleos: "Cantidad de núcleos",
+  velocidadNucleo: "Velocidad de núcleo",
+  velocidadMemoria: "Velocidad de memoria",
+  hilos: "Hilos",
+  modelo: "Modelo",
+  nucleos: "Núcleos",
+  velocidadMaxima: "Velocidad de máxima",
+  so: "Sistema operativo",
+  ram: "Ram",
+  procesador: "Procesador",
+  grafica: "Tarjeta gráfica",
+  espaciore: "Espacio requerido",
+  espacio: "Espacio",
+};
+
 //para que pueda obtener el token, debe estar el {% csrf_token %} en el formulario para que este en las cookies tambien
 function obtenerCsrfToken() {
   const csrfCookie = document.cookie
@@ -39,7 +61,7 @@ function peticionPost(
   formdata = false
 ) {
   csrftoken = obtenerCsrfToken();
-  datos = (formdata == true) ? datos : JSON.stringify(datos);
+  datos = formdata == true ? datos : JSON.stringify(datos);
   fetch(url, {
     method: "POST",
     headers: {
@@ -52,7 +74,7 @@ function peticionPost(
     .then((response) => response.json())
     //si se convierte correctamente, ejecuto la función y le paso la data
     .then((data) => {
-      if ("error" in data) { 
+      if ("error" in data) {
         errorMensaje(data.error);
       } else {
         funcion(data);
