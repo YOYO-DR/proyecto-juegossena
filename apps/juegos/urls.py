@@ -5,5 +5,5 @@ app_name='juegos'
 
 urlpatterns = [
     path("buscar/",BuscarJuegosView.as_view(),name="buscar"),
-    path("detalle/<slug>",DetalleJuegoView.as_view(),name="detalle_juego"),
+    path("<slug>/",DetalleJuegoView.as_view(),name="detalle_juego"),
 ]

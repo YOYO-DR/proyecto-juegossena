@@ -6,7 +6,7 @@ const urlBuscarJuegos = scriptElement.getAttribute("data-urlbuscarjuegos");
 const urlEmptyCard = scriptElement.getAttribute("data-empty-card");
 const urlDetalleJuego = scriptElement
   .getAttribute("data-url-detalle")
-  .replace("_slug_", "");
+  .replace("_slug_/", "");
 
 
 //constantes
