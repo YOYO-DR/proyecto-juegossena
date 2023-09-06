@@ -75,6 +75,9 @@ function peticionPost(
     //si se convierte correctamente, ejecuto la función y le paso la data
     .then((data) => {
       if ("error" in data) {
+        if (data.error == "no-auth") {
+          window.location.href = `/usuarios/iniciarsesion/?next=${window.location.pathname}`;
+        }
         mensajeSweet(data.error,"error");
       } else {
         funcion(data);

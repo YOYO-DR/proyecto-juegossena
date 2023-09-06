@@ -58,13 +58,16 @@ class DetalleJuegoView(DetailView):
     if action=="requisitos":
       data['juego']=self.get_object().requisitos()
     elif action=="agrefav":
-      favoritos,creado=Favoritos.objects.get_or_create(usuario_id=request.user.id)
-      if favoritos.juegos.filter(nombre=self.get_object().nombre).exists():
-        favoritos.juegos.remove(self.get_object())
-        data['fav']="quitado"
+      if not request.user.is_authenticated:
+        data['error']="no-auth"
       else:
-        favoritos.juegos.add(self.get_object())
-        data['fav']="agregado"
+        # no utilizo el favoritos_set porque eso es para el ForeignKeyField, en este caso utilizo el OneToOneField entonces en el usuario puedo acceder a el con "favoritos" y directo a su atributo juegos porque es el unico que tiene el usuario
+        if request.user.favoritos.juegos.filter(nombre=self.get_object().nombre).exists():
+          request.user.favoritos.juegos.remove(self.get_object())
+          data['fav']="quitado"
+        else:
+          request.user.favoritos.juegos.add(self.get_object())
+          data['fav']="agregado"
     else:
        data['error']="No se envio una acción (action)"
     
@@ -75,6 +78,7 @@ class DetalleJuegoView(DetailView):
       context = super().get_context_data(**kwargs)
       context["titulo"] = self.get_object().nombre
       context["img_juego"] = [i.get_imagen() for i in self.get_object().imagenesjuego_set.all()]
-      # accedo a los favoritos del usuario, selecciono el primero y unico '[0]', y accedo a los juegos y aplico un filter buscando el juego y pregunto si existe el juego en esa lista (o bueno, queryset) 
-      context['en_fav']=self.request.user.favoritos_set.all()[0].juegos.filter(nombre=self.get_object().nombre).exists()
+      # accedo a los favoritos del usuario, selecciono el primero y unico '[0]', y accedo a los juegos y aplico un filter buscando el juego y pregunto si existe el juego en esa lista (o bueno, queryset)
+      if self.request.user.is_authenticated:
+        context['en_fav']=self.request.user.favoritos.juegos.filter(nombre=self.get_object().nombre).exists()
       return context

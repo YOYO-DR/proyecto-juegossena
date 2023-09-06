@@ -4,6 +4,8 @@ from django.forms import model_to_dict
 from apps.funciones_gen import redondear
 from apps.usuarios.models import Usuario
 from config.settings import MEDIA_URL,STATIC_URL, STATIC_URL_AZURE
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Telefonos(models.Model):
     numeroTelefono=models.CharField(max_length=20,null=False, blank=False,verbose_name="Numero de telefono")
@@ -224,8 +226,8 @@ class Dispositivos(models.Model):
         return item
 
 class Favoritos(models.Model):
-    usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Usuario")
-    juegos=models.ManyToManyField(Juegos)
+    usuario=models.OneToOneField(Usuario,on_delete=models.CASCADE,null=False,blank=False,verbose_name="Usuario")
+    juegos=models.ManyToManyField(Juegos,blank=True)
 
     class Meta:
         verbose_name = 'Favorito'
@@ -233,6 +235,15 @@ class Favoritos(models.Model):
     
     def __str__(self):
         return self.usuario.username
+
+# señal para la creacion del objeto favorito de cada usuario cuando se cree
+@receiver(post_save, sender=Usuario)
+def crear_fav(sender, instance, created, **kwargs):
+  if created:
+    Favoritos.objects.create(usuario=instance)
+
+# Conecta la señal al modelo User
+post_save.connect(crear_fav, sender=Usuario)
 
 class ImagenesJuego(models.Model):
   juego=models.ForeignKey(Juegos,on_delete=models.CASCADE,null=False, blank=False)
