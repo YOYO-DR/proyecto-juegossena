@@ -20,20 +20,8 @@ const valoresTextos = {
   espacio: "Espacio",
 };
 
-//para que pueda obtener el token, debe estar el {% csrf_token %} en el formulario para que este en las cookies tambien
-function obtenerCsrfToken() {
-  const csrfCookie = document.cookie
-    .split(";")
-    .find((cookie) => cookie.trim().startsWith("csrftoken="));
-  if (!csrfCookie) {
-    console.error("CSRF token not found in cookies.");
-    return null;
-  }
-  return csrfCookie.split("=")[1];
-}
-
-//sweetalert para el mensaje de error en alguna peticion
-function errorMensaje(mensaje) {
+//notificacion o modal de notificacion para los mensajes
+function mensajeSweet(mensaje, icono) {
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -47,9 +35,21 @@ function errorMensaje(mensaje) {
   });
 
   Toast.fire({
-    icon: "error",
+    icon: icono,
     title: mensaje,
   });
+}
+
+//para que pueda obtener el token, debe estar el {% csrf_token %} en el formulario para que este en las cookies tambien
+function obtenerCsrfToken() {
+  const csrfCookie = document.cookie
+    .split(";")
+    .find((cookie) => cookie.trim().startsWith("csrftoken="));
+  if (!csrfCookie) {
+    console.error("CSRF token not found in cookies.");
+    return null;
+  }
+  return csrfCookie.split("=")[1];
 }
 
 //enviar peticion post pero fuera de un formulario
@@ -75,14 +75,14 @@ function peticionPost(
     //si se convierte correctamente, ejecuto la función y le paso la data
     .then((data) => {
       if ("error" in data) {
-        errorMensaje(data.error);
+        mensajeSweet(data.error,"error");
       } else {
         funcion(data);
       }
     })
     //si sale un error lo paso por consola
     .catch((error) => {
-      errorMensaje(error);
+      mensajeSweet(error,"error");
     })
     .finally(() => {
       if (funcionFinal != null) {

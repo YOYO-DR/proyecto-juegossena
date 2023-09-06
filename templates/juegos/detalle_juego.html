@@ -17,12 +17,17 @@ Div principal
     data-toggle="tooltip" data-placement="top" title="Mensaje de ayuda" 
     {% endcomment %}
     <button
-      class="btn-hidden"
+      id="agre-favo"
+      class="btn-hidden d-flex align-items-center"
       data-toggle="tooltip"
       data-placement="top"
       title="Agregar a favoritos"
     >
-      <i class="fs-2 bi-heart"></i>
+      {% if not en_fav %}
+        <i class="fs-2 bi-heart"></i>
+        {% else %}
+        <i class="fs-2 bi-heart-fill text-danger"></i>
+      {% endif %}
     </button>
   </div>
 
