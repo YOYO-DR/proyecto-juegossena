@@ -7,7 +7,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 # from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
@@ -17,8 +17,7 @@ from django.views.generic import FormView, TemplateView
 from apps.usuarios.models import Usuario
 #correo
 from config.settings import EMAIL_HOST_USER
-from funciones.funciones import (enviarEmailActivacion, validar_contra,
-                                 validar_patron_correo)
+from funciones.funciones import enviarEmailActivacion, validar_contra, validar_patron_correo
 
 from .forms import IniciarSesionForm, crearUsuarioForm
 

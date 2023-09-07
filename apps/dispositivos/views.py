@@ -6,7 +6,6 @@ from apps.dispositivos.functions import guardarCara, obtenerCara
 from apps.dispositivos.models import Dispositivos
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 import json
 
 class ProcesarDatos(View):

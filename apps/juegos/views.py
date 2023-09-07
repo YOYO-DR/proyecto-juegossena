@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
-from apps.dispositivos.models import Favoritos, Juegos
+from apps.dispositivos.models import Juegos
 
 #vista peticiones de busqueda
 
