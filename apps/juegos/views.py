@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
-from apps.dispositivos.models import Juegos
+from apps.dispositivos.models import Favoritos, Juegos
 
 #vista peticiones de busqueda
 
@@ -82,3 +82,13 @@ class DetalleJuegoView(DetailView):
       if self.request.user.is_authenticated:
         context['en_fav']=self.request.user.favoritos.juegos.filter(nombre=self.get_object().nombre).exists()
       return context
+
+class JuegosFavoritosView(TemplateView):
+  template_name="juegos/favoritos.html"
+
+  def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      context["titulo"] = "Favoritos"
+      context['juegos']=Favoritos.objects.get(usuario_id=self.request.user.id).juegos.all()
+      return context
+  

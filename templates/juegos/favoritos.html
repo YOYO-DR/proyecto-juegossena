@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="min-h-85 w-100 d-flex flex-column">
+<h1>Juegos favoritos</h1>
+<div>
+{% for juego in juegos %}
+<p><strong>{{juego.nombre}}</strong></p>
+{% empty %}
+<h3>Sin juegos favoritos</h3>
+{% endfor %}
+</div>
+</div>
+{% endblock contenido %}

@@ -26,11 +26,11 @@
         <span class="ms-1">Inicio</span>
       </a>
     </li>
-    {% if request.path_info != '/blogs/' %}
+    {% if user.is_authenticated %}
     <li class="nav-item">
-      <a href="{% url 'blogs:inicio' %}" class="nav-link align-middle px-0">
-        <i class="fs-4 bi-info-circle"></i>
-        <span class="ms-1">Blog</span>
+      <a href="{% url 'juegos:juegos_favoritos' %}" class="nav-link align-middle px-0">
+        <i class="fs-4 bi-heart"></i>
+        <span class="ms-1">Favoritos</span>
       </a>
     </li>
     {% endif %}
@@ -49,6 +49,14 @@
         <i class="fs-4 bi-chat-square-text"></i>
         <span class="ms-1">Chat</span></a
       >
+    </li>
+    {% endif %}
+    {% if request.path_info != '/blogs/' %}
+    <li class="nav-item">
+      <a href="{% url 'blogs:inicio' %}" class="nav-link align-middle px-0">
+        <i class="fs-4 bi-info-circle"></i>
+        <span class="ms-1">Blog</span>
+      </a>
     </li>
     {% endif %}
     <li class="nav-item">
