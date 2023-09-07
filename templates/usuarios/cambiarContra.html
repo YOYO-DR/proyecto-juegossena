@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block contenido %}
-<div class="inicio mt-2">
-  <div>
+<div class="min-h-85 w-100 d-flex flex-column">
+
     {% if not token_expirado %}
     <h1>Cambiar contraseña</h1>
     <p id="mensaje"></p>
@@ -20,12 +20,12 @@
           Confirmar contraseña:</label>
         <input required type="password" name="contra_confirm" id="contra_confir" class="form-control">
       </div>
-      <button class="btn btn-success w-50" type="submit">Cambiar contraseña</button>
+        <button class="btn btn-success w-auto d-flex justify-content-center align-items-center" type="submit">Cambiar contraseña</button>
+     
     </form>
     {% else %}
     <h1>El link ya expiró</h1>
     {% endif %}
-  </div>
 </div>
 {% endblock contenido %}
 {% block js %}
