@@ -25,7 +25,7 @@ background-color: #e5e5e5;
 En este código, .juegos-mas-buscados es el <div> principal y .juegos-mas-buscados > div es el <div> hijo que contiene el bucle for. display: flex y flex-direction: column hacen que los hijos del <div> principal se apilen verticalmente. flex-grow: 1 hace que el <div> hijo crezca para llenar el espacio disponible en el <div> principal. overflow-y: auto genera una barra de desplazamiento vertical en el <div> hijo cuando es necesario
 */
 .juegos-mas-buscados {
-  max-height: 50vh;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
 }

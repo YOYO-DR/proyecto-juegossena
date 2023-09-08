@@ -4,24 +4,8 @@
 
 <div class="d-flex flex-column flex-md-row min-h-85 w-100">
   <div class="col-12 col-md-5 col-lg-4 border d-flex flex-column">
-    <h2 class="text-center my-2 fs-3">Búsqueda</h2>
-    <div class="d-flex flex-nowrap my-2 px-2">
-      <div class="input-group">
-        <input
-          name="busqueda"
-          id="inputBusqueda"
-          class="form-control"
-          type="text"
-          placeholder="Buscar juego"
-          autocomplete="off"
-        />
-        <button class="input-group-text espacio-button">
-          <i class="bi bi-search"></i>
-        </button>
-      </div>
-    </div>
-    <div class="juegos-mas-buscados border">
-      <h4 class="text-center">Juegos más buscados</h4>
+    <div class="juegos-mas-buscados">
+      <h3 class="text-center mt-2">Juegos más buscados</h3>
       <hr class="mx-3" />
       {% comment %} Para que aparezca la informacion en un modal y con el boton
       para ir a la vista completa del juego {% endcomment %}
@@ -38,6 +22,7 @@
         {% endfor %}
       </div>
     </div>
+      
     <div class="my-2 p-3 mt-auto d-flex justify-content-center">
       <img
         class="img-fluid img-logo"
@@ -49,6 +34,21 @@
 
   <div class="col-12 col-md-7 col-lg-8 border text-center">
     <h1 class="fs-2">Juegos Sena</h1>
+    <div class="d-flex flex-nowrap my-2 px-2 mx-3">
+      <div class="input-group">
+        <input
+          name="busqueda"
+          id="inputBusqueda"
+          class="form-control"
+          type="text"
+          placeholder="Buscar juego"
+          autocomplete="off"
+        />
+        <button class="input-group-text espacio-button">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
     <h2 class="fs-3 mb-3 h2-busqueda hidden"></h2>
     <div class="contenedor-juegos mx-4 border">
       {% for juego in juegos %}
