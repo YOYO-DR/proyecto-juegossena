@@ -1,3 +1,11 @@
+//obtener el script
+const scriptElement = document.currentScript;
+
+//obtengo los valores de data
+const urlBuscarJuegosDispo = scriptElement.getAttribute(
+  "data-url-buscar-juegos-dispo"
+);
+
 //acordeon
 function acordeon(nombre, valores) {
   //funcion para crear cada acordeon, recibe nombre de la caracteristica y su arreglo de valores
@@ -12,12 +20,12 @@ function acordeon(nombre, valores) {
       if (diccionario.hasOwnProperty(key)) {
         const value = diccionario[key];
         if (key.includes("disponible_")) {
-          let valor="Disponible en patición "+key.split("_")[1].toUpperCase()
+          let valor =
+            "Disponible en patición " + key.split("_")[1].toUpperCase();
           ul += `<li><b>${valor}</b>: ${value}</li>`; // agrego los valores
         } else {
           ul += `<li><b>${valoresTextos[key]}</b>: ${value}</li>`; // agrego los valores
         }
-       
       }
     }
   }
@@ -207,17 +215,19 @@ function mostrarDispo(id, nombre, contenedor) {
         <button class="btn btn-danger eliminarDispo${id}">
           Eliminar
         </button>
+        <a href="${urlBuscarJuegosDispo}#?id=${id}" class="btn btn-secondary">
+          Buscar <i class="bi bi-controller"></i>
+        </a>
       </div>
     </div>
   </div>
   `;
   //preguntar cuantos dispositivos hay, si hay 0, limpio y agrego
-  const dispositivos = contenedor.querySelectorAll('[class*="dispoCont"]')
+  const dispositivos = contenedor.querySelectorAll('[class*="dispoCont"]');
 
   if (dispositivos.length == 0) {
     contenedor.innerHTML = plantilla;
   } else {
     contenedor.innerHTML += plantilla;
   }
-
 }

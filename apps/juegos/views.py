@@ -91,4 +91,6 @@ class JuegosFavoritosView(TemplateView):
       context["titulo"] = "Favoritos"
       context['juegos']=Favoritos.objects.get(usuario_id=self.request.user.id).juegos.all()
       return context
-  
+
+class BuscarJuegosDispoView(TemplateView):
+  template_name="juegos/buscar_juegos.html"
