@@ -62,11 +62,6 @@ width: 20px;
   display: none !important;
 }
 
-.juegos-mas-buscados {
-  height: 100%;
-  margin: 0 .5rem;
-}
-
 .btn-hidden{
 background-color: transparent;
 border: none;
