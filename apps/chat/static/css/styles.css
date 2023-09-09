@@ -56,21 +56,6 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
-.chat-input button {
-    width: 25%;
-    border: none;
-    color: #fff;
-    background: #007bff;
-    border-radius: 10px;
-    padding: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.chat-input button:hover {
-    background: #0056b3;
-}
-
 .time-message{
   margin: 10px 0;
 }
