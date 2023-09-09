@@ -46,10 +46,9 @@ class ProcesarDatos(View):
         data['id']=dispositivo.id
         return JsonResponse(data)
 
-
 class DispositivosView(ListView):
     model = Dispositivos
-    template_name = "dispositivos/adminDispo.html"
+    template_name = "adminDispo.html"
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -87,4 +86,3 @@ class DispositivosView(ListView):
         context = super().get_context_data(**kwargs)
         context["titulo"] = "Dispositivos"
         return context
-    

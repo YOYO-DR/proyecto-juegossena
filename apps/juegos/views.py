@@ -43,7 +43,7 @@ class InicioView(TemplateView):
       return context
 
 class DetalleJuegoView(DetailView):
-  template_name="juegos/detalle_juego.html"
+  template_name="detalle_juego.html"
   model=Juegos
 
   def post(self, request, *args, **kwargs):
@@ -84,7 +84,7 @@ class DetalleJuegoView(DetailView):
       return context
 
 class JuegosFavoritosView(TemplateView):
-  template_name="juegos/favoritos.html"
+  template_name="favoritos.html"
 
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
@@ -93,4 +93,4 @@ class JuegosFavoritosView(TemplateView):
       return context
 
 class BuscarJuegosDispoView(TemplateView):
-  template_name="juegos/buscar_juegos.html"
+  template_name="buscar_juegos.html"

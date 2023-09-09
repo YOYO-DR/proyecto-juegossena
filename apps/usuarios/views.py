@@ -24,7 +24,7 @@ from .forms import IniciarSesionForm, crearUsuarioForm
 
 class RegitroView(FormView):
   form_class = crearUsuarioForm
-  template_name = 'usuarios/registro.html'
+  template_name = 'registro.html'
   success_url = reverse_lazy('inicio')
 
   def dispatch(self, request, *args, **kwargs):
@@ -66,7 +66,7 @@ class RegitroView(FormView):
 
 class IniciarSesionView(FormView):
   form_class = IniciarSesionForm
-  template_name = 'usuarios/iniciarSesion.html'
+  template_name = 'iniciarSesion.html'
   success_url = reverse_lazy('inicio')
 
   def dispatch(self, request, *args, **kwargs):
@@ -104,7 +104,7 @@ class IniciarSesionView(FormView):
       return context
 
 class OlvidoContraEmailView(TemplateView):
-  template_name="usuarios/olvidoContra.html"
+  template_name="olvidoContra.html"
 
   def post(self, request, *args, **kwargs):
     datos={}
@@ -129,7 +129,7 @@ class OlvidoContraEmailView(TemplateView):
           else:
               dominio = 'http://'+str(dominio)
           asunto = 'Cambiar contraseña'
-          cuerpoMensaje = render_to_string('usuarios/emails/email_olvidoContra.html',{
+          cuerpoMensaje = render_to_string('emails/email_olvidoContra.html',{
               'usuario':usuario,
               'dominio':dominio,
               'uid':urlsafe_base64_encode(force_bytes(usuario.pk)),
@@ -146,7 +146,7 @@ class OlvidoContraEmailView(TemplateView):
     return JsonResponse(datos)
 
 class CambioContraView(TemplateView):
-  template_name = "usuarios/cambiarContra.html"
+  template_name = "cambiarContra.html"
 
   def dispatch(self, request, *args, **kwargs):
       if request.method == 'GET':
@@ -200,7 +200,7 @@ class CambioContraView(TemplateView):
     return JsonResponse(datos)
 
 class ActivarCuentaView(TemplateView):
-  template_name="usuarios/activarCuenta.html"
+  template_name="activarCuenta.html"
 
   def dispatch(self, request, *args, **kwargs):
     uidb64 = kwargs.get('uidb64')

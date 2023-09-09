@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import HistorialChat
 
 class ChatView(TemplateView):
-    template_name="chat/chat.html"
+    template_name="chat.html"
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

@@ -55,7 +55,7 @@ def enviarEmailActivacion(dominio,usuario):
   else:
       dominio = 'http://'+str(dominio)
   asunto = 'Activar cuenta'
-  cuerpoMensaje = render_to_string('usuarios/emails/email_activarCuenta.html',{
+  cuerpoMensaje = render_to_string('emails/email_activarCuenta.html',{
       'usuario':usuario,
       'dominio':dominio,
       'uid':urlsafe_base64_encode(force_bytes(usuario.pk)),

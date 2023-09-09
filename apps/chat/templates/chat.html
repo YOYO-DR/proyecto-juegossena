@@ -3,7 +3,7 @@
 
 {% block head %} 
 <!--Estilos del chat-->
-<link rel="stylesheet" href="{% static 'css/chat/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock head %}
 
 {% block contenido %}
@@ -62,6 +62,6 @@
     <!-- Administra mejor las reconecciones del websocket -->
     <script src="{% static 'libs/reconnecting-websocket/js/reconnecting-websocket.min.js' %}"></script>
     <!-- funcion del chat -->
-    <script src="{% static 'js/chat/chat.js' %}" data-username="{{request.user.username}}" data-chat="{{room_name}}"></script>
+    <script src="{% static 'js/chat.js' %}" data-username="{{request.user.username}}" data-chat="{{room_name}}"></script>
 
 {% endblock js %}

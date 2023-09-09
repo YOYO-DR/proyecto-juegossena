@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %} {% block contenido %}
-<div class="d-flex flex-column">
+<div class="min-h-85 w-100 d-flex flex-column">
 <h1>Requerimientos</h1>
 <div class="d-flex flex-column flex-md-row">
   {% if requi %} {% if es_admin %}
@@ -105,11 +105,9 @@
     };
     peticionFormPost(
       "form", // id formulario
-      "{{csrf_token}}",
-      ".",
-      callback,
-      false
-    );
+       ".", 
+       callback, 
+       resetForm = true)
     {% endif %}
   });
 </script>
