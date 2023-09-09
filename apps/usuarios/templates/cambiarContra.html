@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block contenido %}
-<div class="min-h-85 w-100 d-flex flex-column">
+
 
     {% if not token_expirado %}
     <h1>Cambiar contraseña</h1>
@@ -26,7 +26,7 @@
     {% else %}
     <h1>El link ya expiró</h1>
     {% endif %}
-</div>
+
 {% endblock contenido %}
 {% block js %}
 <script>

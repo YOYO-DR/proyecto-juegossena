@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{% static 'css/index.css' %}" />
 {% endblock head %} {% block contenido %}
 
-<div class="d-flex flex-column flex-md-row min-h-85 w-100">
+<div class="d-flex flex-column flex-md-row">
   <div class="div-izquierdo col-12 col-md-5 col-lg-4 border d-flex flex-column">
     <div class="juegos-mas-buscados">
       <h3 class="text-center mt-2">Juegos más buscados</h3>
@@ -80,7 +80,8 @@
   </div>
 </div>
 
-{% endblock contenido %} {% block js %}
+{% endblock contenido %} 
+{% block js %}
 <!-- Modal -->
 <div
   class="modal fade"

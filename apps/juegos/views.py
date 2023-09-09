@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
-from apps.dispositivos.models import Favoritos, Juegos
+from apps.dispositivos.models import Dispositivos, Favoritos, Juegos
 
 #vista peticiones de busqueda
 
@@ -31,7 +31,6 @@ class BuscarJuegosView(View):
 
       return JsonResponse(data)
 
-# inicio
 class InicioView(TemplateView):
   template_name = 'index.html'
 
@@ -94,3 +93,16 @@ class JuegosFavoritosView(TemplateView):
 
 class BuscarJuegosDispoView(TemplateView):
   template_name="buscar_juegos.html"
+
+  def dispatch(self, request, *args, **kwargs):
+      if request.GET.get("nombre",""):
+        try:
+          kwargs['dispositivo']=Dispositivos.objects.get(nombre=request.GET.get("nombre"),usuario_id=request.user.id)
+        except Exception as e:
+          print(str(e))
+          kwargs['dispositivo']=None
+      return super().dispatch(request, *args, **kwargs)
+
+  def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      return context

@@ -1,14 +1,9 @@
 {% extends 'base.html' %} 
 {% load static %} 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/juegos/style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/juegos.css' %}" />
 {% endblock head %} 
 {% block contenido %} 
-{% comment %} 
-Div principal 
-{% endcomment %}
-<div class="min-h-85 w-100 d-flex flex-column">
-
 
   <div class="d-flex">
     <h1 class="me-2">{{object.nombre}}</h1>
@@ -64,8 +59,6 @@ Div principal
 
   </div>
 
-
-</div>
 {% endblock contenido %} 
 {% block js %}
 <script 

@@ -6,6 +6,12 @@
 
 {% block contenido %}
 <h1>Buscar juegos por dispositivo</h1>
+
+{% if dispositivo %}
+<h2>{{dispositivo.nombre}}</h2>
+{% else %}
+<h2>Sin dispositivo</h2>
+{% endif %}
 {% endblock contenido %}
 
 {% block js %}

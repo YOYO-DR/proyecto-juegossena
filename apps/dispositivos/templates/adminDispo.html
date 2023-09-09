@@ -2,8 +2,8 @@
 {% load widget_tweaks %} 
 {% load static %} 
 {% block contenido %}
-<div class="min-h-85 w-100 d-flex flex-column border">
-<h1 id="tituloH1">Dispositivos</h1>
+<div class="border">
+<h1>Dispositivos</h1>
 <!--Subir dispositivo-->
 <form
   id="envioTxt"
@@ -46,7 +46,7 @@
           Eliminar
         </button>
         {% comment %} En el dispoModal.js - 208 cambiarlo tambien {% endcomment %}
-        <a href="{% url 'juegos:buscar_juegos' %}#?nombre={{dispo.nombre}}" class="btn btn-secondary">
+        <a href="{% url 'juegos:buscar_juegos' %}?nombre={{dispo.nombre}}" class="btn btn-secondary">
           Buscar <i class="bi bi-controller"></i>
         </a>
       </div>
