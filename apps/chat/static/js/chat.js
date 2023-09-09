@@ -1,26 +1,35 @@
-
   //obtener el script
-  const scriptElement = document.currentScript;
+  const scriptElement = document.currentScript,
 
   //obtengo los valores de data
-  const username = scriptElement.getAttribute("data-username");
-  const chat = scriptElement.getAttribute("data-chat");
+  username = scriptElement.getAttribute("data-username"),
+  chat = scriptElement.getAttribute("data-chat"),
+
+  //constantes
+  chatInput = document.querySelector(".chat-input input"),
+  sendButton = document.querySelector(".chat-input button");
 
   // Web sockect
-  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+  let ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 
-  var chatSocket = new ReconnectingWebSocket(
+  let chatSocket = new ReconnectingWebSocket(
     ws_scheme + "://" + window.location.host + `/ws/chat/${chat}/`
-  );
+);
+chatSocket.addEventListener("open", (e) => {
+  //activo el boton y el input apenas se conecte
+  chatInput.placeholder = "Escribe un mensaje...";
+    chatInput.disabled = false;
+    sendButton.disabled = false;
+  })
 
   // Obtener referencia al contenedor de mensajes del chat
-  var chatMessages = document.querySelector(".chat-messages");
+  let chatMessages = document.querySelector(".chat-messages");
   chatMessages.scrollTop = chatMessages.scrollHeight;
   // Agregar un evento de mensaje recibido al WebSocket
   chatSocket.onmessage = function (e) {
-    var data = JSON.parse(e.data);
-    var message = data["message"];
-    var user = null;
+    let data = JSON.parse(e.data);
+    let message = data["message"];
+    let user = null;
     try {
       user = data["user"];
     } catch (e) {
@@ -46,7 +55,7 @@
     let timeFormat = hours + ":" + minutes + " " + ampm;
 
     // Crear un elemento de mensaje y agregarlo al contenedor de mensajes
-    var messageElement = document.createElement("div");
+    let messageElement = document.createElement("div");
     messageElement.classList.add("message");
     if (user == username) {
       messageElement.innerHTML = `<div class="local" style="margin-left:auto;">
@@ -75,14 +84,11 @@
 
     // Desplazarse hacia abajo para mostrar el mensaje más reciente
     chatMessages.scrollTop = chatMessages.scrollHeight;
-  };
-  // Obtener referencias a los elementos del chat
-  var chatInput = document.querySelector(".chat-input input");
-  var sendButton = document.querySelector(".chat-input button");
-
+};
+  
   // Agregar un evento de clic al botón de enviar
   sendButton.addEventListener("click", function () {
-    var message = chatInput.value.trim();
+    let message = chatInput.value.trim();
     if (message !== "") {
       // Enviar el mensaje al WebSocket
       chatSocket.send(
@@ -101,7 +107,7 @@
   chatInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
       // Obtener el mensaje del campo de entrada
-      var message = chatInput.value.trim();
+      let message = chatInput.value.trim();
       if (message !== "") {
         // Enviar el mensaje al WebSocket
         chatSocket.send(
