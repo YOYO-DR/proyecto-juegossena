@@ -15,12 +15,21 @@
   let chatSocket = new ReconnectingWebSocket(
     ws_scheme + "://" + window.location.host + `/ws/chat/${chat}/`
 );
+
+//cuando se conecta el socket
 chatSocket.addEventListener("open", (e) => {
   //activo el boton y el input apenas se conecte
   chatInput.placeholder = "Escribe un mensaje...";
-    chatInput.disabled = false;
-    sendButton.disabled = false;
-  })
+  chatInput.disabled = false;
+  sendButton.disabled = false;
+})
+
+//por si se desconecta del socket
+chatSocket.addEventListener("close", (e) => {
+  chatInput.placeholder = "Conectando...";
+  chatInput.disabled = true;
+  sendButton.disabled = true;
+ })
 
   // Obtener referencia al contenedor de mensajes del chat
   let chatMessages = document.querySelector(".chat-messages");
