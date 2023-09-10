@@ -41,3 +41,8 @@
 .form-check-input {
   cursor: pointer;
 }
+
+.form-check.disabled {
+  background-color: rgb(219, 219, 219);
+  cursor: default;
+}
