@@ -1,0 +1,43 @@
+.dispositivos .form-check {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.div-izquierdo {
+  max-height: 80vh;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.div-izquierdo .dispositivos {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.form-check {
+  padding-left: 10%;
+  margin: 10px;
+  border: solid 1px #dee2e6;
+  border-radius: 5px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.form-check-input {
+  margin-right: 10px;
+}
+
+.form-check-label {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.form-check-label:hover,
+.form-check-input {
+  cursor: pointer;
+}

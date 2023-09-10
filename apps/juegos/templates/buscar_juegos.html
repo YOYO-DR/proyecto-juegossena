@@ -1,19 +1,74 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block head %}
-
+<link rel="stylesheet" href="{% static 'css/buscar_juegos.css' %}">
 {% endblock head %}
 
 {% block contenido %}
-<h1>Buscar juegos por dispositivo</h1>
 
-{% if dispositivo %}
-<h2>{{dispositivo.nombre}}</h2>
-{% else %}
-<h2>Sin dispositivo</h2>
-{% endif %}
+<h1>Buscar juegos por dispositivo</h1>
+<div class="principal d-flex flex-column flex-md-row">
+  <div class="div-izquierdo col-12 col-md-4 border d-flex flex-column">
+    <div class="d-flex flex-nowrap my-2 px-2 mx-3">
+      <div class="input-group">
+        <input
+          name="busqueda"
+          id="inputBusqueda"
+          class="form-control"
+          type="text"
+          placeholder="Buscar juego"
+          autocomplete="off"
+        />
+        <button class="input-group-text espacio-button">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+    <h2 class="fs-3 text-center">Dispositivo{% if dispositivos.count > 1 %}s({{dispositivos.count}}) {% else %}({{dispositivos.count}}) {% endif %} </h2>
+    <hr class="mx-3">
+    <div class="dispositivos">
+      {% for disposi in dispositivos %}
+        {% if dispo %}
+          {% if disposi.nombre == dispo.nombre %}
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}" checked>
+              <label class="form-check-label w-100" for="{{disposi.id}}">
+                {{disposi.nombre}}
+              </label>
+            </div>
+          {% else %}
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}">
+              <label class="form-check-label w-100" for="{{disposi.id}}">
+                {{disposi.nombre}}
+              </label>
+            </div>
+          {% endif %}
+        {% elif disposi.nombre == dispositivos.first.nombre %}
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}" checked>
+              <label class="form-check-label w-100" for="{{disposi.id}}">
+                {{disposi.nombre}}
+              </label>
+            </div>
+        {% else %}
+          <div class="form-check">
+              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}">
+              <label class="form-check-label w-100" for="{{disposi.id}}">
+                {{disposi.nombre}}
+              </label>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col-12 col-md-8 border">
+    pro
+  </div>
+</div>
+
 {% endblock contenido %}
 
 {% block js %}
-
+<script src="{% static 'js/buscar_juegos.js' %}"></script>
 {% endblock js %}

@@ -97,12 +97,13 @@ class BuscarJuegosDispoView(TemplateView):
   def dispatch(self, request, *args, **kwargs):
       if request.GET.get("nombre",""):
         try:
-          kwargs['dispositivo']=Dispositivos.objects.get(nombre=request.GET.get("nombre"),usuario_id=request.user.id)
+          kwargs['dispo']=Dispositivos.objects.get(nombre=request.GET.get("nombre"),usuario_id=request.user.id)
         except Exception as e:
           print(str(e))
-          kwargs['dispositivo']=None
+          kwargs['dispo']=None
       return super().dispatch(request, *args, **kwargs)
 
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
+      context['dispositivos']=Dispositivos.objects.filter(usuario_id=self.request.user.id)
       return context

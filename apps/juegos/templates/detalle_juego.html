@@ -2,6 +2,7 @@
 {% load static %} 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/juegos.css' %}" />
+<link rel="stylesheet" href="{% static 'css/carrusel.css' %}">
 {% endblock head %} 
 {% block contenido %} 
 
@@ -61,8 +62,9 @@
 
 {% endblock contenido %} 
 {% block js %}
-<script 
-data-urlbuscarjuegos="{% url 'juegos:buscar' %}"
+
+<script src="{% static 'js/carrusel.js' %}"></script>
+<script
 data-juegolug="{{object.slug}}"
 src="{% static 'js/detalle_juegos.js' %}"
 ></script>
