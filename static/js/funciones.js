@@ -104,14 +104,10 @@ function peticionFormPost(idForm, url, funcion, resetForm = true) {
     e.preventDefault();
     //obtengo el boton del formulario
     const btnSubmit = form.querySelector('button[type="submit"]');
-    //obtengo el valor inicial del boton
-    let valorSubmit = btnSubmit.innerHTML;
     //creo el spiner de bootstrap
-    let spanLoading = `<div class="ms-1 spinner-border spinner-border-sm" role="status">
-  <span class="visually-hidden">Loading...</span>
-</div>`;
+    const spanLoading = spnCargando();
     //Agrego el valor del boton mas el spinner
-    btnSubmit.innerHTML = `${valorSubmit}${spanLoading}`;
+    btnSubmit.appendChild(spanLoading);
     //deshabilito el boton
     btnSubmit.disabled = true;
     const formData = new FormData(form);
@@ -147,11 +143,26 @@ function peticionFormPost(idForm, url, funcion, resetForm = true) {
     //habilito el boton
     btnSubmit.disabled = false;
     //dejo ahora solo el valor del botón
-    btnSubmit.innerHTML = `${valorSubmit}`;
+    btnSubmit.removeChild(spanLoading);
   });
 }
 
 // poner en mayuscula la primera letra de un string
 function toTitle(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+//para crear un spn como Nodo y asi quitarlo y ponerlo facil sin necesidad del "innerHTML"
+//por si quiere poner clases al spinner
+function spnCargando(clases = null) {
+  const spn = document.createElement("div");
+  spn.classList.add("ms-1", "spinner-border", "spinner-border-sm");
+  if (clases) {
+    clases.forEach((clase) => {
+      spn.classList.add(clase)
+    })
+  }
+  spn.setAttribute("role", "status");
+  spn.innerHTML = '<span class="visually-hidden">Loading...</span>';
+  return spn;
 }

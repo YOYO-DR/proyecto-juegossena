@@ -88,14 +88,9 @@ function dispoModal(
     boton.addEventListener("click", function (e) {
       e.preventDefault();
       const divAcordeones = modalBody.querySelector("#carateristicas");
-
-      //obtengo el valor inicial del boton
-      let valorBoton = boton.innerHTML;
       //creo el spiner de bootstrap
-      let spanLoading = `<div class="ms-1 spinner-border spinner-border-sm" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>`;
-      boton.innerHTML = `${valorBoton}${spanLoading}`;
+      const spanLoading = spnCargando()
+      boton.appendChild(spanLoading);
       disabledBotones(botonesModalDispo);
       let idDispo = 0;
       let clasesBoton = boton.className.split(" ");
@@ -139,7 +134,7 @@ function dispoModal(
         () => {
           //quito el spinner del boton
           disabledBotones(botonesModalDispo);
-          boton.innerHTML = valorBoton;
+          boton.removeChild(spanLoading);
         },
         //formdata
         false
@@ -155,13 +150,9 @@ function dispoModal(
       btnSubmit.disabled = true;
       inputForm.disabled = true;
 
-      //obtengo el valor inicial del boton
-      let valorBoton = boton.innerHTML;
       //creo el spiner de bootstrap
-      let spanLoading = `<div class="ms-1 spinner-border spinner-border-sm" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>`;
-      boton.innerHTML = `${valorBoton}${spanLoading}`;
+      const spanLoading = spnCargando();
+      boton.appendChild(spanLoading);
       disabledBotones(botonesEliminarDispo);
       let idDispo = 0;
       let clasesBoton = boton.className.split(" ");
@@ -189,7 +180,7 @@ function dispoModal(
         },
         () => {
           disabledBotones(botonesEliminarDispo);
-          boton.innerHTML = valorBoton;
+          boton.removeChild(spanLoading);
           //activar formulario
           btnSubmit.disabled = false;
           inputForm.disabled = false;

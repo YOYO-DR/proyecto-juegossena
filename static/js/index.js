@@ -22,10 +22,6 @@ const botonesJuegosMasB = document.querySelectorAll(
 const modalInfoJuego = document.getElementById("modal-info-juego");
 const modalTitle = modalInfoJuego.querySelector(".modal-title");
 const modalBody = modalInfoJuego.querySelector(".modal-body");
-//spinner
-const spnCargando = `<div class="ms-1 spinner-border spinner-border-sm align-self-center" role="status">
-<span class="visually-hidden">Loading...</span>
-</div>`;
 
 //funciones
 //crear vista de juego
@@ -185,8 +181,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
     boton.addEventListener("click", function (e) {
       e.preventDefault();
       const h5_boton = boton.querySelector("h5");
-      let valorh5 = h5_boton.innerHTML;
-      h5_boton.innerHTML += spnCargando;
+      const spn = spnCargando(["align-self-center"]);
+      h5_boton.appendChild(spn);
       boton.disabled = true;
       let slug = boton.getAttribute("data-slug").split("_")[2];
       //hacer peticion
@@ -211,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         //funcion cuando se realice la peticion
         () => {
           // le pongo el valor al h5 y activo el boton
-          h5_boton.innerHTML = valorh5;
+          h5_boton.removeChild(spn);
           boton.disabled = false;
         },
         //decir si es un formData

@@ -24,17 +24,15 @@ peticionPost(
 //evento para guardar el favorito de un juego
 btnAgregarFav.addEventListener("click", function (e) {
   e.preventDefault();
-  let html_btn = btnAgregarFav.innerHTML;
-  btnAgregarFav.innerHTML += `<div class="ms-1 spinner-border spinner-border-sm" role="status">
-        <span class="visually-hidden">Loading...</span>
-</div>`;
+  const spn=spnCargando()
+  btnAgregarFav.appendChild(spn);
   btnAgregarFav.disabled = true;
   //aqui se envia la petición - action: agrefav
   peticionPost(
     ".",
     { action: "agrefav" },
     (data) => {
-      btnAgregarFav.innerHTML = html_btn;
+      btnAgregarFav.removeChild(spn);
       const i_corazon = btnAgregarFav.querySelector("i");
       //para cambiar el icono del corazon
       if (data.fav == "agregado") {
