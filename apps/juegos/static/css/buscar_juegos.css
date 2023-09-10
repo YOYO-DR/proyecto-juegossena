@@ -46,3 +46,34 @@
   background-color: rgb(219, 219, 219);
   cursor: default;
 }
+
+.opciones .form-check {
+  border: none;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  margin: 5px !important;
+}
+
+.opciones .form-check label {
+  width: 100%;
+}
+
+.opciones .form-check:hover {
+  background-color: rgb(217, 217, 217);
+}
+
+.opciones {
+  height: 45px;
+  overflow: hidden;
+  transition: height .5s ease;
+  border-radius: 5px;
+}
+
+.opciones.activa button {
+  border-bottom: solid 1px #dee2e6;
+}
+
+.opciones.activa {
+  height: 100%;
+}
+

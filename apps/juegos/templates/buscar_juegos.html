@@ -24,6 +24,35 @@
         </button>
       </div>
     </div>
+    <div class="opciones mx-4 border">
+      <button class="btn-hidden w-100">Opciones</button>
+      <div class="">
+        <div class="form-check">
+          <input class="form-check-input" checked type="checkbox" value="procesador" id="procesador">
+          <label class="form-check-label" for="procesador">
+            Procesador
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" checked type="checkbox" value="ram" id="ram">
+          <label class="form-check-label" for="ram">
+            Ram
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" checked type="checkbox" value="grafica" id="grafica">
+          <label class="form-check-label" for="grafica">
+            Grafica
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" checked type="checkbox" value="espacio" id="espacio">
+          <label class="form-check-label" for="espacio">
+            Espacio requerido
+          </label>
+        </div>
+      </div>
+    </div>
     <h2 class="fs-3 text-center">Dispositivo{% if dispositivos.count > 1 %}s({{dispositivos.count}}) {% else %}({{dispositivos.count}}) {% endif %} </h2>
     <hr class="mx-3">
     <div class="dispositivos">
@@ -63,7 +92,7 @@
     </div>
   </div>
   <div class="col-12 col-md-8 border">
-    pro
+    Yoyo el mejor
   </div>
 </div>
 {% endblock contenido %}
