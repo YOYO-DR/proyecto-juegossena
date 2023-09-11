@@ -12,12 +12,21 @@ function actDesRadios(radioInputs,activar = true) {
   });
 }
 
+//height de cada checkbox
+function heightCheckbox(checkbox) {
+  let sumaHeight = 0
+  checkbox.forEach((check) => { 
+    sumaHeight += check.offsetHeight;
+  })
+  return sumaHeight;
+}
+
 document.addEventListener("DOMContentLoaded", (e) => {
   //constantes
   const radioInputs = document.querySelectorAll('input[name="dispo');
   const opciones = document.querySelector(".opciones");
   const botonOpciones = opciones.querySelector("button");
-  
+  let sumaCheckbox = heightCheckbox(opciones.querySelectorAll(".form-check"));
   //evento de cuando se seleccione un radio
   radioInputs.forEach((radio) => {
     radio.addEventListener("change", (e) => {
@@ -49,7 +58,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
     if (opciones.classList.contains("activa")) {
       opciones.style.maxHeight = `${botonOpcionesHeight}px`; // establece la altura máxima al tamaño del botón
     } else {
-      opciones.style.maxHeight = "1000px"; // establece la altura máxima a un valor muy grande
+      opciones.style.maxHeight="1000px"
+      opciones.style.height = sumaCheckbox+"px"; // establece la altura máxima a un valor muy grande
     }
     opciones.classList.toggle("activa");
   });
