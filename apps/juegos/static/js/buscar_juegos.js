@@ -58,8 +58,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     if (opciones.classList.contains("activa")) {
       opciones.style.maxHeight = `${botonOpcionesHeight}px`; // establece la altura máxima al tamaño del botón
     } else {
-      opciones.style.maxHeight="1000px"
-      opciones.style.height = sumaCheckbox+"px"; // establece la altura máxima a un valor muy grande
+      opciones.style.maxHeight = (sumaCheckbox+(sumaCheckbox*0.4))+"px"; // establece la altura máxima a un valor muy grande
     }
     opciones.classList.toggle("activa");
   });
