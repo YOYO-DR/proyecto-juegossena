@@ -42,8 +42,15 @@ document.addEventListener("DOMContentLoaded", (e) => {
     });
   });
 
+  let botonOpcionesHeight = botonOpciones.offsetHeight; // obtén la altura del botón
+  
   //boton de las opciones
   botonOpciones.addEventListener("click", (e) => {
+    if (opciones.classList.contains("activa")) {
+      opciones.style.maxHeight = `${botonOpcionesHeight}px`; // establece la altura máxima al tamaño del botón
+    } else {
+      opciones.style.maxHeight = "1000px"; // establece la altura máxima a un valor muy grande
+    }
     opciones.classList.toggle("activa");
   });
 })

@@ -63,9 +63,9 @@
 }
 
 .opciones {
-  height: 45px;
+  height: 10%;
   overflow: hidden;
-  transition: height .5s ease;
+  transition: height .5s ease, max-height .5s ease;
   border-radius: 5px;
 }
 
