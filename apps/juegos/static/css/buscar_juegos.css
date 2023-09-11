@@ -76,3 +76,8 @@
 .opciones.activa {
   height: 100vh;
 }
+
+.form-check.buscar-requi {
+  border: none;
+  margin-top: 15px;
+}
