@@ -26,7 +26,7 @@
     </div>
     <div class="opciones mx-4 border">
       <button class="btn-hidden w-100">Opciones</button>
-      <div class="">
+      <div class="options">
         <div class="form-check">
           <input class="form-check-input" checked type="checkbox" value="procesador" id="procesador">
           <label class="form-check-label" for="procesador">
@@ -53,6 +53,13 @@
         </div>
       </div>
     </div>
+    {% comment %} checkbox  {% endcomment %}
+    <div class="form-check mx-4">
+          <input class="form-check-input" checked type="checkbox" value="procesador" id="procesador">
+          <label class="form-check-label" for="procesador">
+            Buscar con requisitos
+          </label>
+        </div>
     <h2 class="fs-3 text-center">Dispositivo{% if dispositivos.count > 1 %}s({{dispositivos.count}}) {% else %}({{dispositivos.count}}) {% endif %} </h2>
     <hr class="mx-3">
     <div class="dispositivos">
