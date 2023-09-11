@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
   const radioInputs = document.querySelectorAll('input[name="dispo');
   const opciones = document.querySelector(".opciones");
   const botonOpciones = opciones.querySelector("button");
-
+  
   //evento de cuando se seleccione un radio
   radioInputs.forEach((radio) => {
     radio.addEventListener("change", (e) => {
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
   });
 
   let botonOpcionesHeight = botonOpciones.offsetHeight; // obtén la altura del botón
-  
+  opciones.style.maxHeight = `${botonOpcionesHeight}px`;
   //boton de las opciones
   botonOpciones.addEventListener("click", (e) => {
     if (opciones.classList.contains("activa")) {
