@@ -1,6 +1,8 @@
 import json
+from time import sleep
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
+from apps.dispositivos.functions import potenciaDispoJuego
 from apps.dispositivos.models import Dispositivos, Favoritos, Juegos
 
 #vista peticiones de busqueda
@@ -95,13 +97,32 @@ class BuscarJuegosDispoView(TemplateView):
   template_name="buscar_juegos.html"
 
   def dispatch(self, request, *args, **kwargs):
-      if request.GET.get("nombre",""):
-        try:
-          kwargs['dispo']=Dispositivos.objects.get(nombre=request.GET.get("nombre"),usuario_id=request.user.id)
-        except Exception as e:
-          print(str(e))
-          kwargs['dispo']=None
       return super().dispatch(request, *args, **kwargs)
+  
+  def post(self, request, *args, **kwargs):
+    sleep(1)
+    data={}
+    try:
+      datos=json.loads(request.body)
+    except Exception as e:
+      print(e)
+      data["error"]=str(e)
+      return JsonResponse(data)
+    checkbox=datos["checkbox"]
+    dispo_id=datos["dispo"]['id']
+    busqueda=datos['busqueda']
+    # obtener dispositivo del usuario
+    try:
+      dispositivo=Dispositivos.objects.get(id=dispo_id,usuario_id=request.user.id)
+    except Exception as e:
+       print(e)
+       data["error"]=str(e)
+       return JsonResponse(data)
+    # traer los juegos segun la busqueda y compararlo con el dispositivo y retornar el juego segun las opciones de los checkbox y el retorno de la funcion
+    # potenciaDispoJuego
+    data['juegos']=[juego.toJSON() for juego in Juegos.objects.filter(nombre__icontains=busqueda)]
+
+    return JsonResponse(data)
 
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
