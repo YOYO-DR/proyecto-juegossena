@@ -8,7 +8,6 @@ const urlDetalleJuego = scriptElement
   .getAttribute("data-url-detalle")
   .replace("_slug_/", "");
 
-
 //constantes
 const h2busqueda = document.querySelector(".h2-busqueda");
 const inputBusqueda = document.getElementById("inputBusqueda");
@@ -35,14 +34,6 @@ function vistaJuego(juego) {
         <div class="card-body">
           <div class="d-flex justify-content-center align-item-center">
             <h5 class="card-title me-3 fs-4">${juego.nombre}</h5>
-            <button
-              class="btn-hidden"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Agregar a favoritos"
-            >
-              <i class="fs-4 bi-heart"></i>
-            </button>
           </div>
           <p class="card-text">
             ${juego.descripcion}
@@ -54,13 +45,15 @@ function vistaJuego(juego) {
             >
             <a
               href="${urlDetalleJuego + juego.slug}"
-              class="btn btn-primary w-25"
+              data-slug="${juego.slug}"
+              class="btn btn-primary w-25 ver-juego"
               >Ver</a
             >
           </div>
         </div>
       </div>`;
 }
+
 function realizarBusqueda() {
   contenedorjuegos.innerHTML = `<div class="card w-100 mb-2" aria-hidden="true">
         <img
@@ -90,15 +83,13 @@ function realizarBusqueda() {
           </div>`;
   //muestro el h2 y le quito el texto que tenga
   h2busqueda.classList.remove("hidden");
-  h2busqueda.innerHTML=''
+  h2busqueda.innerHTML = "";
   espaciobutton.disabled = true;
   //hacer peticion
   //funcion cuando se realice la petición
   function petiReali(datos) {
     if (datos.juegos.length > 0) {
-      
       h2busqueda.innerHTML = `Resultados de la busqueda "${inputBusqueda.value.trim()}"`;
-      
 
       contenedorjuegos.innerHTML = ``;
       datos.juegos.forEach((juego) => {
@@ -106,31 +97,33 @@ function realizarBusqueda() {
       });
     } else if (datos.juegos.length < 1) {
       contenedorjuegos.innerHTML = ``;
-      h2busqueda.innerHTML="Sin resultados";
+      h2busqueda.innerHTML = "Sin resultados";
     }
   }
   //funcion final (error o sin error)
   function final() {
     espaciobutton.innerHTML = `<i class="bi bi-search"></i>`;
     espaciobutton.disabled = false;
+    eventoVerJuego();
   }
   peticionPost(
     urlBuscarJuegos,
     {
       busqueda: inputBusqueda.value.trim(),
-      action: "busqueda"
+      action: "busqueda",
     },
     petiReali,
     (funcionFinal = final)
   );
-
-  //prueba para que se vea el boton cargando
 }
+
 function cancelarBusqueda() {
   h2busqueda.classList.add("hidden");
   espaciobutton.innerHTML = `<i class="bi bi-search"></i>`;
   contenedorjuegos.innerHTML = valor_contenedorjuegos;
+  eventoVerJuego();
 }
+
 function plantillaModalBody(juego) {
   return `
   <div class="card" id="juego_{{juego.id}}">
@@ -145,8 +138,9 @@ function plantillaModalBody(juego) {
               >Página oficial</a
             >
             <a
-              href="${urlDetalleJuego+juego.slug}"
-              class="btn btn-primary w-25"
+              href="${urlDetalleJuego + juego.slug}"
+              data-slug="${juego.slug}"
+              class="btn btn-primary w-25 ver-juego"
               >Ver</a
             >
           </div>
@@ -155,8 +149,33 @@ function plantillaModalBody(juego) {
   `;
 }
 
+function eventoVerJuego() {
+  const a_ver = document.querySelectorAll(".ver-juego");
+  const spn = spnCargando();
+  a_ver.forEach((a) => {
+    let url_juego = a.getAttribute("href");
+    let slug_juego = a.getAttribute("data-slug");
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      a.appendChild(spn);
+      //enviar peticion y en la funcion final enviarlo al detalle del juego
+      peticionPost(
+        ".",
+        { juego: slug_juego },
+        () => {},
+        () => {
+          a.removeChild(spn);
+          window.location.href = url_juego;
+        },
+        (formdata = false)
+      );
+    });
+  });
+}
+
 //ejecutar funciones
 document.addEventListener("DOMContentLoaded", function (e) {
+  eventoVerJuego();
   //cuando le unda click al boton
   espaciobutton.addEventListener("click", function (e) {
     e.preventDefault();
@@ -196,13 +215,13 @@ document.addEventListener("DOMContentLoaded", function (e) {
         },
         //funciona a realizar
         (data) => {
-            // console.log(data);
-            let juego=data.juego
-            let modal = new bootstrap.Modal(modalInfoJuego);
-            modalTitle.innerHTML = juego.nombre;
-            modalBody.innerHTML = plantillaModalBody(juego);
-            modal.show();
-          
+          // console.log(data);
+          let juego = data.juego;
+          let modal = new bootstrap.Modal(modalInfoJuego);
+          modalTitle.innerHTML = juego.nombre;
+          modalBody.innerHTML = plantillaModalBody(juego);
+          eventoVerJuego();
+          modal.show();
         },
         //funcion cuando se realice la peticion
         () => {
@@ -214,9 +233,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
         (formdata = false)
       );
       //creo el objeto modal con bootstrap para poner mostrarlo y esconderlo y le paso el Nodo del div principal del modal
-      
-      
-      
     });
   });
 });

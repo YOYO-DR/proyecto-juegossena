@@ -36,6 +36,21 @@ class BuscarJuegosView(View):
 class InicioView(TemplateView):
   template_name = 'index.html'
 
+  def post(self, request, *args, **kwargs):
+    data={}
+    try:
+      datos=json.loads(request.body)
+    except Exception as e:
+      print(str(e))
+      return JsonResponse(data)
+    try:
+      juego=Juegos.objects.get(slug=datos['juego'])
+      juego.cantidadVisitas+=1
+      juego.save()
+    except Exception as e:
+      print(str(e))
+    return JsonResponse(data)
+
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
       context["titulo"] = 'Inicio'

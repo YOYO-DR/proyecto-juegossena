@@ -69,7 +69,8 @@
             >
             <a
               href="{% url 'juegos:detalle_juego' juego.slug %}"
-              class="btn btn-primary w-25"
+              data-slug="{{juego.slug}}"
+              class="btn btn-primary w-25 ver-juego"
               >Ver</a
             >
           </div>
