@@ -206,9 +206,6 @@ function mostrarDispo(id, nombre, contenedor) {
         <button class="btn btn-danger eliminarDispo${id}">
           Eliminar
         </button>
-        <a href="${urlBuscarJuegosDispo}?id=${nombre}" class="btn btn-secondary">
-          Buscar <i class="bi bi-controller"></i>
-        </a>
       </div>
     </div>
   </div>

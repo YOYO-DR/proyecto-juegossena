@@ -77,7 +77,15 @@
   height: 100vh;
 }
 
+.opciones button:hover {
+  background-color: rgb(215, 215, 215);
+}
+
 .form-check.buscar-requi {
   border: none;
   margin-top: 15px;
+}
+
+.dispositivos .form-check:hover {
+  background-color: rgb(215, 215, 215);;
 }

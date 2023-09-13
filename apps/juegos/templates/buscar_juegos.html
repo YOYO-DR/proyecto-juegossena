@@ -64,37 +64,12 @@
     <hr class="mx-3">
     <div class="dispositivos">
       {% for disposi in dispositivos %}
-        {% if request.GET.nombre %}
-          {% if disposi.nombre == request.GET.nombre %}
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}" checked>
-              <label class="form-check-label w-100" for="{{disposi.id}}">
-                {{disposi.nombre}}
-              </label>
-            </div>
-          {% else %}
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}">
-              <label class="form-check-label w-100" for="{{disposi.id}}">
-                {{disposi.nombre}}
-              </label>
-            </div>
-          {% endif %}
-        {% elif disposi.nombre == dispositivos.first.nombre %}
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}" checked>
-              <label class="form-check-label w-100" for="{{disposi.id}}">
-                {{disposi.nombre}}
-              </label>
-            </div>
-        {% else %}
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}">
-              <label class="form-check-label w-100" for="{{disposi.id}}">
-                {{disposi.nombre}}
-              </label>
-          </div>
-        {% endif %}
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}" {% if disposi.nombre == dispositivos.first.nombre %}checked{% endif %}>
+            <label class="form-check-label w-100" for="{{disposi.id}}">
+              {{disposi.nombre}}
+            </label>
+        </div>
       {% endfor %}
     </div>
   </div>
@@ -104,6 +79,17 @@
 {% endblock contenido %}
 
 {% block js %}
+<script>
+  {% if not dispositivos %}
+    Swal.fire({
+    icon: 'error',
+    text: 'No tiene un dispositivo agregado para buscar con sus características',
+    title:"Oops..."
+  }).then((result) => {
+    window.location.href=`{% url "dispositivos:inicio" %}`
+  })
+  {% endif %}
+</script>
 <script 
 data-url-detalle-juego="{% url "juegos:detalle_juego" "_slug_" %}"
 src="{% static 'js/buscar_juegos.js' %}"></script>

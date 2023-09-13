@@ -115,7 +115,6 @@ class BuscarJuegosDispoView(TemplateView):
       return super().dispatch(request, *args, **kwargs)
   
   def post(self, request, *args, **kwargs):
-    sleep(1)
     data={}
     try:
       datos=json.loads(request.body)
@@ -123,9 +122,14 @@ class BuscarJuegosDispoView(TemplateView):
       print(e)
       data["error"]=str(e)
       return JsonResponse(data)
-    checkbox=datos["checkbox"]
-    dispo_id=datos["dispo"]['id']
-    busqueda=datos['busqueda']
+    try:
+      checkbox=datos["checkbox"]
+      dispo_id=datos["dispo"]['id']
+      busqueda=datos['busqueda']
+    except Exception as e:
+      print(str(e))
+      data["error"]="No se enviaron todos los datos, error: " + str(e)
+      return JsonResponse(data)
     # obtener dispositivo del usuario
     try:
       dispositivo=Dispositivos.objects.get(id=dispo_id,usuario_id=request.user.id)

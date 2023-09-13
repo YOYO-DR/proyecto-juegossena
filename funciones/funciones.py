@@ -28,7 +28,6 @@ def verificar_sesion(session_id):
     except Session.DoesNotExist:
         return None
 
-
 def validar_patron_correo(email):
     try:
         validate_email(email)

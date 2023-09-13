@@ -76,6 +76,7 @@ function buscar(input, radios, check = null,buscar=null) {
         datosEnvio.dispo = { id: radio.getAttribute("id") };
       }
     });
+
     //datos a enviar
     //datosEnvio
     //hacer peticion

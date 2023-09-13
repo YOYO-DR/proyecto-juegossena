@@ -29,7 +29,10 @@
   >
     Subir
   </button>
+  <a href="{% url 'juegos:buscar_juegos' %}" class="mt-2 link">Buscar juegos por dispositivo</a>
 </form>
+
+
 
 <div class="d-flex flex-column flex-md-row flex-wrap p-2 contenedorDispo ">
   {% for dispo in object_list %}
@@ -45,10 +48,6 @@
         <button class="btn btn-danger eliminarDispo{{dispo.id}}" disabled>
           Eliminar
         </button>
-        {% comment %} En el dispoModal.js - 208 cambiarlo tambien {% endcomment %}
-        <a href="{% url 'juegos:buscar_juegos' %}?nombre={{dispo.nombre}}" class="btn btn-secondary">
-          Buscar <i class="bi bi-controller"></i>
-        </a>
       </div>
     </div>
   </div>

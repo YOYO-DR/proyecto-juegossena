@@ -290,33 +290,39 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
 def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos):
   data={"procesador":False,"ram":False,"grafica":False,"disco":False}
   # procesador
-  dispoPro=dispositivo.procesador
   juegoPro=juego.procesador
-  if ((float(dispoPro.mhz)/1000) + float(dispoPro.hilos)) >= ((float(juegoPro.mhz)/1000) + float(juegoPro.hilos)):
-    data["procesador"]=True
-  
+  if dispositivo.procesador:
+    dispoPro=dispositivo.procesador
+    if dispoPro.mhz and dispoPro.hilos:
+      if ((float(dispoPro.mhz)/1000) + float(dispoPro.hilos)) >= ((float(juegoPro.mhz)/1000) + float(juegoPro.hilos)):
+        data["procesador"]=True
+
   # ram
   gbRamPro=0
   gbRamJue=0
   if dispositivo.ram:
     for i in dispositivo.ram.all():
-      gbRamPro+=i.gb
+      if i.gb:
+        gbRamPro+=i.gb
     for i in juego.ram.all():
       gbRamJue+=i.gb
     
     data['ram']=False if gbRamPro<gbRamJue else True
   
   # grafica
-  dispoGraficas=dispositivo.grafica.all()
   juegoGraficas=juego.grafica.all()
+  dispoGraficas=dispositivo.grafica.all()
   for i in dispoGraficas:
-    if float(i.gb.gb)>=float(juegoGraficas[0].gb.gb):
-      if (i.nucleos+i.velocidad.velocidadMhz)>=(juegoGraficas[0].nucleos+juegoGraficas.velocidad.velocidadMhz):
-        data['grafica']=True
-        break
+    if i.gb:
+      if float(i.gb.gb)>=float(juegoGraficas[0].gb.gb):
+        if i.nucleos and i.velocidad:
+          if (i.nucleos+i.velocidad.velocidadMhz)>=(juegoGraficas[0].nucleos+juegoGraficas.velocidad.velocidadMhz):
+            data['grafica']=True
+            break
   
   #disco
-  if dispositivo.espacioGb>=juego.espacio:
-    data['disco']=True
+  if dispositivo.espacioGb:
+    if dispositivo.espacioGb>=juego.espacio:
+      data['disco']=True
   
   return data
