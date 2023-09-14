@@ -1,10 +1,6 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/buscar_juegos.css' %}">
-{% endblock head %}
-
-{% block contenido %}
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/buscar_juegos.css' %}" />
+{% endblock head %} {% block contenido %}
 
 <h1>Buscar juegos por dispositivo</h1>
 <div class="principal d-flex flex-column flex-md-row">
@@ -28,57 +24,126 @@
       <button class="btn-hidden w-100">Opciones</button>
       <div class="options">
         <div class="form-check">
-          <input class="form-check-input" checked type="checkbox" value="procesador" id="procesador">
-          <label class="form-check-label" for="procesador">
-            Procesador
-          </label>
+          <input
+            class="form-check-input"
+            checked
+            type="checkbox"
+            value="procesador"
+            id="procesador"
+          />
+          <label class="form-check-label" for="procesador"> Procesador </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" checked type="checkbox" value="ram" id="ram">
-          <label class="form-check-label" for="ram">
-            Ram
-          </label>
+          <input
+            class="form-check-input"
+            checked
+            type="checkbox"
+            value="ram"
+            id="ram"
+          />
+          <label class="form-check-label" for="ram"> Ram </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" checked type="checkbox" value="grafica" id="grafica">
-          <label class="form-check-label" for="grafica">
-            Grafica
-          </label>
+          <input
+            class="form-check-input"
+            checked
+            type="checkbox"
+            value="grafica"
+            id="grafica"
+          />
+          <label class="form-check-label" for="grafica"> Grafica </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" checked type="checkbox" value="espacio" id="espacio">
+          <input
+            class="form-check-input"
+            checked
+            type="checkbox"
+            value="espacio"
+            id="espacio"
+          />
           <label class="form-check-label" for="espacio">
             Espacio requerido
           </label>
         </div>
       </div>
     </div>
-    {% comment %} checkbox  {% endcomment %}
+    {% comment %} checkbox {% endcomment %}
     <div class="form-check buscar-requi">
-          <input class="form-check-input" checked type="checkbox" value="requi" id="requi">
-          <label class="form-check-label" for="requi">
-            Buscar con requisitos
-          </label>
-        </div>
-    <h2 class="fs-3 text-center">Dispositivo{% if dispositivos.count > 1 %}s({{dispositivos.count}}) {% else %}({{dispositivos.count}}) {% endif %} </h2>
-    <hr class="mx-3">
+      <input
+        class="form-check-input"
+        checked
+        type="checkbox"
+        value="requi"
+        id="requi"
+      />
+      <label class="form-check-label" for="requi">
+        Buscar con requisitos
+      </label>
+    </div>
+    <h2 class="fs-3 text-center">
+      Dispositivo{% if dispositivos.count > 1 %}s({{dispositivos.count}}) {%
+      else %}({{dispositivos.count}}) {% endif %}
+    </h2>
+    <hr class="mx-3" />
     <div class="dispositivos">
       {% for disposi in dispositivos %}
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="dispo" id="{{disposi.id}}" {% if disposi.nombre == dispositivos.first.nombre %}checked{% endif %}>
-            <label class="form-check-label w-100" for="{{disposi.id}}">
-              {{disposi.nombre}}
-            </label>
-        </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="dispo"
+        id="{{disposi.id}}" {% if disposi.nombre == dispositivos.first.nombre %}checked{% endif %}>
+        <label class="form-check-label w-100" for="{{disposi.id}}">
+          {{disposi.nombre}}
+        </label>
+      </div>
       {% endfor %}
     </div>
   </div>
-  <div class="col-12 col-md-8 border juegos-muestra">
+  <div class="col-12 col-md-8 border juegos-muestra res-juegos">
+    {% comment %} Juegos resultado {% endcomment %}
+    <div class="border rounded p-2 m-2 d-flex flex-column flex-md-row juego_12">
+      <div
+        class="col-12 col-md-6 p-2 d-flex flex-column align-items-center justify-content-center"
+      >
+        <img
+          class="img-fluid rounded"
+          src="/media/imagenes_juegos/2023/09/descarga_0LiTHqj.jpg"
+          alt=""
+        />
+        <a href="/juegos/detalle/call-of-duty-warzone/" class="fs-4 mt-2 text-center"
+          >Call Of Duty Warzone</a
+        >
+      </div>
+      <div class="col-12 col-md-6 p-2 d-flex flex-column">
+        <div class="d-flex flex-column border p-2 my-1 bg-compatible">
+          <h5><b>Procesador</b></h5>
+          <span><b>Juego:</b> Intel Core i3-6100</span>
+          <span
+            ><b>Dispositivo:</b> Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz</span
+          >
+          <button class="btn-hidden btn-info w-75 mx-auto mt-1">Información</button>
+        </div>
+        <div class="d-flex flex-column border p-2 my-1 bg-compatible">
+          <h5><b>Ram</b></h5>
+          <span><b>Juego:</b> 8 GB</span>
+          <span><b>Dispositivo:</b> 12 GB</span>
+          <button class="btn-hidden btn-info w-75 mx-auto mt-1">Información</button>
+        </div>
+        <div class="d-flex flex-column border p-2 my-1 bg-incompatible">
+          <h5><b>Gráfica</b></h5>
+          <span><b>Juego:</b> NVIDIA GeForce GTX 960</span>
+          <span><b>Dispositivo:</b> AMD Radeon(TM) R5 340X</span>
+          <button class="btn-hidden btn-info w-75 mx-auto mt-1">Información</button>
+        </div>
+        <div class="d-flex flex-column border p-2 my-1 bg-compatible">
+          <h5><b>Espacio requerido</b></h5>
+          <span><b>Juego:</b> 54 GB</span>
+          <span><b>Dispositivo:</b> (C) 199.28 GB </span>
+          <button class="btn-hidden btn-info w-75 mx-auto mt-1">Información</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-{% endblock contenido %}
-
-{% block js %}
+{% endblock contenido %} {% block js %}
 <script>
   {% if not dispositivos %}
     Swal.fire({

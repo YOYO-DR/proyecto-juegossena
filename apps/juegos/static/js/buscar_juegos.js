@@ -94,9 +94,9 @@ function buscar(input, radios, check = null,buscar=null) {
           juegos.forEach((juego) => {
             ul += `<li><a href="${urlDetalleJuego}${juego.slug}">${juego.nombre}</a></li>`;
           });
-          juegosDiv.innerHTML = ul + `</ul>`;
+          // juegosDiv.innerHTML = ul + `</ul>`;
         } else {
-          juegosDiv.innerHTML=`<h2>Sin resultados</h2>`
+          // juegosDiv.innerHTML=`<h2>Sin resultados</h2>`
         }
       },
       () => {

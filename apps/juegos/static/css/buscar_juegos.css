@@ -89,3 +89,44 @@
 .dispositivos .form-check:hover {
   background-color: rgb(215, 215, 215);;
 }
+
+div[class*="juego_"]>div:first-child {
+  border-right: solid 0.5px #dee2e6 !important;
+}
+
+div[class*="juego_"]>div:nth-child(2) {
+  border-left: solid 0.5px #dee2e6 !important;
+}
+
+.res-juegos {
+  max-height: 80vh !important;
+  overflow-y: auto;
+}
+
+.bg-compatible {
+  background-color: rgb(173, 236, 173) !important;
+}
+.bg-incompatible {
+background-color: rgba(251, 4, 4,.55) !important;
+}
+
+.btn-info {
+  padding: 2.5px 0;
+  background-color: rgb(110, 243, 110)!important;
+  border-radius: 5px;
+  border: 1px solid rgb(110, 243, 110);
+}
+
+.btn-info:hover {
+  background-color: rgb(93, 204, 93)!important;
+  border: 1px solid rgb(93, 204, 93);
+}
+
+.btn-info:active {
+  background-color: rgb(82, 179, 82)!important;
+  border: 1px solid rgb(82, 179, 82);
+}
+
+div[class*="juego_"]>div:nth-child(2) div {
+  border-radius: 10px !important;
+}
