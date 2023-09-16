@@ -81,20 +81,20 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
     dispo_datos={}
     # pregunto si se pide el procesador
     if "procesador" in datos_a_buscar:
-      dispo_datos.setdefault({"procesador":{
+      dispo_datos.update({"procesador":{
         "hilos":dispositivo.procesador.hilos,
         "mhz":dispositivo.procesador.mhz
       }})
 
     # pregunto si se pide la ram
     if "ram" in datos_a_buscar:
-      dispo_datos.setdefault({"ram":{
+      dispo_datos.update({"ram":{
         "gb":suma_rams,
       }})
 
     # pregunto si se pide la grafica
-    if "ram" in datos_a_buscar:
-      dispo_datos.setdefault({"grafica":{
+    if "grafica" in datos_a_buscar:
+      dispo_datos.update({"grafica":{
         "gb":float(grafica_dispo.gb.gb) if grafica_dispo.gb else 0,
         "nucleos":grafica_dispo.nucleos if grafica_dispo.nucleos else 0,
         "velocidad":grafica_dispo.velocidad.velocidadMhz if grafica_dispo.velocidad else 0
@@ -102,7 +102,7 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
 
     # pregunto si se pide el espacio
     if "espacio" in datos_a_buscar:
-      dispo_datos.setdefault({"espacio":{
+      dispo_datos.update({"espacio":{
         "gb":dispositivo.espacioGb,
         "disco":valor_mayor_discos[0] # letra de partición
       }})
