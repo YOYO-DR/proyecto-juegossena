@@ -234,7 +234,10 @@ def guardarCara(carate:dict,idUsuario,nombreArchivo):
       r,rCreado=Rams.objects.get_or_create(gb=r.gb,tipo=r.tipo,velocidad=r.velocidad)
       if not rCreado:
         r.save()
-      dispositivo.ram.add(r)
+      if dispositivo.ram.filter(pk=r.pk).exists():
+        dispositivo.ram_re=True
+      else:
+        dispositivo.ram.add(r)
 
   procesador=carate['procesador']
   for pro in procesador:

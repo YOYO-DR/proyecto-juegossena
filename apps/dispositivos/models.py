@@ -188,6 +188,8 @@ class Dispositivos(models.Model):
     procesador=models.ForeignKey(Procesadores,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Procesador")
     # porque puede tener varias rams
     ram=models.ManyToManyField(Rams,verbose_name="Ram")
+    #hay veces que tiene la misma ram, pero no se repite por el ManyToMany, entonces con este campo puedo saber si hay ram repetidas y asi en vez de acceder al atributo ram, accedo al json para ello
+    ram_re=models.BooleanField(default=False)
     # porque puede tener varias graficas
     grafica=models.ManyToManyField(Graficas,verbose_name="Grafica")
     sistemaOperativo=models.ForeignKey(SistemasOperativos,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Sistema operativo") 

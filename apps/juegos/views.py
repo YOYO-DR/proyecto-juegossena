@@ -1,12 +1,11 @@
 import json
-from time import sleep
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
-from apps.dispositivos.functions import potenciaDispoJuego
+from apps.dispositivos.funciones import potenciaDispoJuego
 from apps.dispositivos.models import Dispositivos, Favoritos, Juegos
+from apps.juegos.funciones import filtroJuegos
 
 #vista peticiones de busqueda
-
 class BuscarJuegosView(View):
    def post(self, request, *args, **kwargs):
       data={}
@@ -139,7 +138,8 @@ class BuscarJuegosDispoView(TemplateView):
        return JsonResponse(data)
     # traer los juegos segun la busqueda y compararlo con el dispositivo y retornar el juego segun las opciones de los checkbox y el retorno de la funcion
     # potenciaDispoJuego
-    data['juegos']=[juego.toJSON() for juego in Juegos.objects.filter(nombre__icontains=busqueda)]
+    # data['juegos']=[juego.toJSON() for juego in Juegos.objects.filter(nombre__icontains=busqueda)]
+    data['juegos']=filtroJuegos(dispositivo,busqueda,checkbox)
 
     return JsonResponse(data)
 

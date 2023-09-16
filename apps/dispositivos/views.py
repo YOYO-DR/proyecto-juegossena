@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import View,ListView
 
-from apps.dispositivos.functions import guardarCara, obtenerCara
+from apps.dispositivos.funciones import guardarCara, obtenerCara
 from apps.dispositivos.models import Dispositivos
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required

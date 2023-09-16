@@ -1,8 +1,7 @@
 //funciones
 //obtener script y obtener la url del detalle juego
-const urlDetalleJuego = document.currentScript
-  .getAttribute("data-url-detalle-juego")
-  .replace("_slug_/", "");
+const urlDetalleJuego = document.currentScript.getAttribute("data-url-detalle-juego").replace("_slug_/", "");
+
 //height de cada checkbox
 function heightCheckbox(checkbox) {
   let sumaHeight = 0;
@@ -151,11 +150,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
   const radioInputs = document.querySelectorAll('input[name="dispo');
   const opciones = document.querySelector(".opciones");
   const botonOpciones = opciones.querySelector("button");
-  const checkboxs = document.querySelectorAll(
-    `.form-check input[type="checkbox"]`
-  );
+  const checkboxs = document.querySelectorAll(`.form-check input[type="checkbox"]`);
   const inputBuscar = document.querySelector("#inputBusqueda");
   const botonBusqueda = document.querySelector(".espacio-button");
+  
   let sumaCheckbox = heightCheckbox(opciones.querySelectorAll(".form-check"));
 
   //evento de los checkboxs
@@ -202,7 +200,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     if (opciones.classList.contains("activa")) {
       opciones.style.maxHeight = `${botonOpcionesHeight}px`; // establece la altura máxima al tamaño del botón
     } else {
-      opciones.style.maxHeight = sumaCheckbox + sumaCheckbox * 0.4 + "px"; //sumo el tamaño de cada checkbox mas un 40%
+      opciones.style.maxHeight = `${sumaCheckbox + sumaCheckbox * 0.4}px`; //sumo el tamaño de cada checkbox mas un 40%
     }
     opciones.classList.toggle("activa");
   });
