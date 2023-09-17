@@ -1,4 +1,49 @@
-from apps.dispositivos.models import Dispositivos
+from apps.dispositivos.models import Dispositivos, Juegos
+
+def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,grafica_com,valor_mayor_discos):
+  data={"procesador":False,"ram":False,"grafica":[False,grafica_com.nombre],"disco":[False,valor_mayor_discos]}
+  # procesador
+  juegoPro=juego.procesador
+  if dispositivo.procesador:
+    dispoPro=dispositivo.procesador
+    if dispoPro.mhz and dispoPro.hilos:
+      if ((float(dispoPro.mhz)/1000) + float(dispoPro.hilos)) >= ((float(juegoPro.mhz)/1000) + float(juegoPro.hilos)):
+        data["procesador"]=True
+
+  # ram
+  gbRamPro=0
+  # el juego utiliza una foreign key
+  gbRamJue=juego.ram.gb
+  if dispositivo.ram:
+    if not dispositivo.ram_re:
+      for i in dispositivo.ram.all():
+        if i.gb:
+          gbRamPro+=i.gb
+    else:
+      for i in dispositivo.json['rams']:
+        for clave,valor in i.items():
+          if "tamano" in clave:
+            gbRamPro+=float(valor.replace(" GB",""))
+    
+    data['ram']=False if gbRamPro<gbRamJue else True
+  
+  # grafica
+  # la grafica a comparar es la que le paso en la llamada de la funcion en la cual ya verifique cual es la pontente
+  juegoGrafica=juego.grafica
+  if grafica_com.gb:
+    if float(grafica_com.gb.gb)>=float(juegoGrafica.gb.gb):
+      if grafica_com.nucleos and grafica_com.velocidad:
+        if (grafica_com.nucleos+grafica_com.velocidad.velocidadMhz)>=(juegoGrafica.nucleos+juegoGrafica.velocidad.velocidadMhz):
+          data['grafica']=[True,grafica_com.nombre]
+
+  
+  #disco
+  if valor_mayor_discos[1]>=juego.espacio:
+    data['disco']=[True,valor_mayor_discos]
+  
+  return data
+
+
 
 def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
   datos_retorno=[]
@@ -55,6 +100,7 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
         clave=clave.replace("disponible_","")
         valor=float(valor.replace(" GB",""))
         discos.append({clave:valor})
+
   valor_mayor_discos=[]
   for i in discos:
     for clave,valor in i.items():
@@ -84,13 +130,17 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
     if i['checked']:
       datos_a_buscar.append(i['value'])
 
+  # realizar consulta con Q y F
+
   # si requi esta, significa que si se filtra la busqueda con los requisitos, de lo contrario, si no esta, aplica la busqueda normal, aun asi mostrando si algunos datos son compatibles o no
   if "requi" in datos_a_buscar:
     # busco con los requisitos
     pass
   else:
     # busco sin requisitos pero de igual forma comparo las caracteriticas
-    pass 
+    juegos=Juegos.objects.filter(nombre__icontains=busqueda)
+  
+  # comparar juego con dispositivo
+  datos_retorno=[{"juego":i.toJSON(),"comparacion":potenciaDispoJuego(dispositivo,i,grafica_dispo,valor_mayor_discos)} for i in juegos]
 
-   # realizar consulta con Q y F
   return datos_retorno

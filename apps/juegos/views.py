@@ -1,7 +1,6 @@
 import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
-from apps.dispositivos.funciones import potenciaDispoJuego
 from apps.dispositivos.models import Dispositivos, Favoritos, Juegos
 from apps.juegos.funciones import filtroJuegos
 
@@ -136,9 +135,7 @@ class BuscarJuegosDispoView(TemplateView):
        print(e)
        data["error"]=str(e)
        return JsonResponse(data)
-    # traer los juegos segun la busqueda y compararlo con el dispositivo y retornar el juego segun las opciones de los checkbox y el retorno de la funcion
-    # potenciaDispoJuego
-    # data['juegos']=[juego.toJSON() for juego in Juegos.objects.filter(nombre__icontains=busqueda)]
+    data['dispo']=dispositivo.json
     data['juegos']=filtroJuegos(dispositivo,busqueda,checkbox)
 
     return JsonResponse(data)
