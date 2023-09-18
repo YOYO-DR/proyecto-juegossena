@@ -6,6 +6,7 @@
 }
 
 .div-izquierdo {
+  min-height: 80vh;
   max-height: 80vh;
   display: flex !important;
   flex-direction: column !important;
