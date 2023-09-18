@@ -135,44 +135,36 @@ function buscar(input, radios) {
         <div class="d-flex flex-column border p-2 my-1">
         <!--Titulo procesador-->
           <span class="placeholder-glow"><span class="placeholder col-6"></span></span>
-        <!--juego y valor-->
-          <span class="placeholder-glow"><span class="placeholder col-3"></span></span>
-
+        <!--juego-->
           <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
 
           <!--dispositivo y valor-->
           <span class="placeholder-glow"><span class="placeholder col-5"></span></span>
-
           <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
+
         </div>
 
         <!--ram-->
         <div class="d-flex flex-column border p-2 my-1">
         <!--Titulo ram-->
           <span class="placeholder-glow"><span class="placeholder col-3"></span></span>
-        <!--juego y valor-->
+        <!--juego-->
           <span class="placeholder-glow"><span class="placeholder col-3"></span></span>
 
-          <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
-
-          <!--dispositivo y valor-->
+          <!--dispositivo-->
           <span class="placeholder-glow"><span class="placeholder col-5"></span></span>
-
-          <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
         </div>
 
         <!--grafica-->
         <div class="d-flex flex-column border p-2 my-1">
         <!--Titulo grafica-->
           <span class="placeholder-glow"><span class="placeholder col-4"></span></span>
-        <!--juego y valor-->
+        <!--juego-->
           <span class="placeholder-glow"><span class="placeholder col-3"></span></span>
-
-          <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
 
           <!--dispositivo y valor-->
           <span class="placeholder-glow"><span class="placeholder col-5"></span></span>
-
+          
           <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
         </div>
         
@@ -180,18 +172,12 @@ function buscar(input, radios) {
         <div class="d-flex flex-column border p-2 my-1">
         <!--Titulo espacio requerido-->
           <span class="placeholder-glow"><span class="placeholder col-8"></span></span>
-        <!--juego y valor-->
+        <!--juego-->
           <span class="placeholder-glow"><span class="placeholder col-3"></span></span>
 
-          <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
-
-          <!--dispositivo y valor-->
+          <!--dispositivo-->
           <span class="placeholder-glow"><span class="placeholder col-5"></span></span>
-
-          <span class="placeholder-glow"><span class="placeholder col-11"></span></span>
         </div>
-
-
       </div>`;
 
     //datos a enviar
