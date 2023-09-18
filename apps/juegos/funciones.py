@@ -1,4 +1,7 @@
 from apps.dispositivos.models import Dispositivos, Juegos
+from django.db.models import Q, F, ExpressionWrapper,FloatField
+from functools import reduce
+from operator import and_
 
 def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,grafica_com,valor_mayor_discos):
   data={"procesador":False,"ram":False,"grafica":[False,grafica_com.nombre],"disco":[False,valor_mayor_discos]}
@@ -31,10 +34,14 @@ def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,grafica_com,valor_m
   # la grafica a comparar es la que le paso en la llamada de la funcion en la cual ya verifique cual es la pontente
   juegoGrafica=juego.grafica
   if grafica_com.gb:
-    if float(grafica_com.gb.gb)>=float(juegoGrafica.gb.gb):
+    # si es igual, verifico la potencia de nucleos más velocidad de grafica
+    if float(grafica_com.gb.gb)==float(juegoGrafica.gb.gb):
       if grafica_com.nucleos and grafica_com.velocidad:
         if (grafica_com.nucleos+grafica_com.velocidad.velocidadMhz)>=(juegoGrafica.nucleos+juegoGrafica.velocidad.velocidadMhz):
           data['grafica']=[True,grafica_com.nombre]
+    # si las gb son mayores, lo paso por valido
+    elif float(grafica_com.gb.gb)>float(juegoGrafica.gb.gb):
+      data["grafica"]=[True,grafica_com.nombre]
 
   
   #disco
@@ -42,8 +49,6 @@ def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,grafica_com,valor_m
     data['disco']=[True,valor_mayor_discos]
   
   return data
-
-
 
 def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
   datos_retorno=[]
@@ -108,17 +113,37 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
         valor_mayor_discos=[clave,valor]
       elif valor>valor_mayor_discos[1]:
         valor_mayor_discos=[clave,valor]
+  
+  #potencia procesador, verificar los hilos y mhz
+  potencia_pro_dispo=0
+  if dispositivo.procesador.hilos:
+    if dispositivo.procesador.mhz:
+      potencia_pro_dispo=float(dispositivo.procesador.hilos)*(float(dispositivo.procesador.mhz)/1000)
+    else:
+      potencia_pro_dispo=float(dispositivo.procesador.hilos)
+  elif dispositivo.procesador.mhz:
+    potencia_pro_dispo=float(dispositivo.procesador.mhz)/1000
+  
+  # grafica verificaciones
+
+  potencia_graf_dispo=0
+  if grafica_dispo.nucleos:
+    if grafica_dispo.velocidad:
+      potencia_graf_dispo=grafica_dispo.nucleos+grafica_dispo.velocidad.velocidadMhz
+    else:
+      potencia_graf_dispo=grafica_dispo.nucleos
+  elif grafica_dispo.velocidad:
+    potencia_graf_dispo=grafica_dispo.velocidad.velocidadMhz
+
  # datos para realizar la busqueda
   # puedo agregar if para preguntar si agregar o no la caraceristica según los checkboxs
   dispo_datos={"procesador":{
-      "hilos":dispositivo.procesador.hilos,
-      "mhz":dispositivo.procesador.mhz
+      "potencia":potencia_pro_dispo
     },"ram":{
       "gb":suma_rams,
     },"grafica":{
       "gb":float(grafica_dispo.gb.gb) if grafica_dispo.gb else 0,
-      "nucleos":grafica_dispo.nucleos if grafica_dispo.nucleos else 0,
-      "velocidad":grafica_dispo.velocidad.velocidadMhz if grafica_dispo.velocidad else 0
+      "potencia":potencia_graf_dispo
     },"espacio":{
       "gb":dispositivo.espacioGb,
       "disco":valor_mayor_discos[0] # letra de partición
@@ -134,13 +159,81 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
 
   # si requi esta, significa que si se filtra la busqueda con los requisitos, de lo contrario, si no esta, aplica la busqueda normal, aun asi mostrando si algunos datos son compatibles o no
   if "requi" in datos_a_buscar:
-    # busco con los requisitos
-    pass
+    # busco con los requisitos pedidos
+    # utilizo Q para construir la consulta y guardar en el arreglo para luego pasarla al filter
+
+    juegos=Juegos.objects
+
+    # comienzo a realizar la consulta
+    consulta=[
+      Q(
+        nombre__icontains=busqueda
+      )
+    ]
+
+    if "ram" in datos_a_buscar:
+      consulta.append(
+        Q(
+          ram__gb__lte=dispo_datos["ram"]["gb"]
+        )
+      )
+
+    if "procesador" in datos_a_buscar:
+      # utilizo el anotate para agregar un campo con la operacion de los hilos y mhz del procesador, para luego comparar con el valor que necesite
+      # puedo separarlos por comas, o si abajo necesito otro campo, ejecuto de nuevo el anonotate "juegos.annotate(valor)"
+      juegos=juegos.annotate(
+        procesadorpotencia=ExpressionWrapper(
+          F('procesador__hilos') * F('procesador__mhz') / 1000, 
+          output_field=FloatField()
+        )
+      )
+      # utilizo el ExpressionWrapper para que el resultado de la division salga como un float y poder hacer la comparacion, porque sale como un CombinedExpression, esa division
+      consulta.append(
+        Q(
+          # lte es menor o igual, porque si es menor o igual al del dispositivo, es compatible
+          procesadorpotencia__lte=dispo_datos["procesador"]["potencia"]
+        )
+      )
+
+    if "grafica" in datos_a_buscar:
+      juegos=juegos.annotate(
+        potenciagrafica=ExpressionWrapper(
+          F("grafica__nucleos")+F("grafica__velocidad__velocidadMhz"),
+          output_field=FloatField()
+        )
+      )
+
+      consulta.append(
+        # aqui le digo que si las gb del juego son menores o iguales a la del dispositivo, verifica la potencia, si el dispositivo tiene más gb que el juego, entonces no se valida la potencia
+        # si esto grafica__gb__gb__lte=dispo_datos["grafica"]["gb"] da false, osea, que la gb del juego sean menores del dispositivo, la potencia en si no se valida porque la segunda condicion de grafica__gb__gb__gt=dispo_datos["grafica"]["gb"] daria true y trae los juegos de igual forma con la grafica en valido por el OR |
+        # pero si esto grafica__gb__gb__lte=dispo_datos["grafica"]["gb"] da true, se valida la potencia [potenciagrafica__lte=dispo_datos["grafica"]["potencia"]] y si o si debe dar true, porque esto [grafica__gb__gb__gt=dispo_datos["grafica"]["gb"]] daria false, pero si la potencia da false, la segunda verificacion esta false, entonces no trae nada porque no se cunplio la grafica
+
+        Q(grafica__gb__gb__lte=dispo_datos["grafica"]["gb"]) &
+          (Q(potenciagrafica__lte=dispo_datos["grafica"]["potencia"]) | 
+          Q(grafica__gb__gb__gt=dispo_datos["grafica"]["gb"])) 
+
+        # En resumen, si la condición es verdadera, se validará tanto la potencia como las GB de la gráfica. Si la condición es falsa, solo se validará que las GB de la gráfica sean mayores a dispo_datos["grafica"]["gb"].
+      )
+    
+    # espacio
+    if "espacio" in datos_a_buscar:
+      consulta.append(
+        Q(
+          espacio__lte=dispo_datos['espacio']['gb']
+        )
+      )
+
+    # Combinamos todas las condiciones con operador AND para construir la consulta final
+    condicion_and = reduce(and_,consulta)
+
+    # como converti la consulta porque esta en OR por defecto, las paso a AND (&) y condicion_and queda toda la condicion, si quisiera solo OR, paso directamente consulta al filter como .filter(*consulta)
+    # el distinct() es para que los resultados sean unicos
+    juegos_filtrados=juegos.filter(condicion_and).distinct()
   else:
     # busco sin requisitos pero de igual forma comparo las caracteriticas
-    juegos=Juegos.objects.filter(nombre__icontains=busqueda)
+    juegos_filtrados=Juegos.objects.filter(nombre__icontains=busqueda)
   
   # comparar juego con dispositivo
-  datos_retorno=[{"juego":i.toJSON(),"comparacion":potenciaDispoJuego(dispositivo,i,grafica_dispo,valor_mayor_discos)} for i in juegos]
+  datos_retorno=[{"juego":i.toJSON(),"comparacion":potenciaDispoJuego(dispositivo,i,grafica_dispo,valor_mayor_discos)} for i in juegos_filtrados]
 
   return datos_retorno
