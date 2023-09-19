@@ -243,7 +243,6 @@ class Favoritos(models.Model):
 def crear_fav(sender, instance, created, **kwargs):
   if created:
     Favoritos.objects.create(usuario=instance)
-
 # Conecta la señal al modelo User
 post_save.connect(crear_fav, sender=Usuario)
 

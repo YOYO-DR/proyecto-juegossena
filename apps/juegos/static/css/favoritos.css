@@ -1,0 +1,30 @@
+.form-check {
+  padding-left: 10%;
+  margin: 10px;
+  border: solid 1px #dee2e6;
+  border-radius: 5px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 50px;
+}
+
+.form-check-input {
+  margin-right: 10px;
+}
+
+.form-check-label {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.form-check-label:hover,
+.form-check-input {
+  cursor: pointer;
+}
+
+.form-check.disabled {
+  background-color: rgb(219, 219, 219);
+  cursor: default;
+}

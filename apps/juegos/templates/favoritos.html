@@ -1,14 +1,30 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/favoritos.css" %}">
+<link rel="stylesheet" href="{% static "css/carrusel.css" %}">
+{% endblock head %}
 {% block contenido %}
-
 <h1>Juegos favoritos</h1>
-<div>
-{% for juego in juegos %}
-<p><strong>{{juego.nombre}}</strong></p>
-{% empty %}
-<h3>Sin juegos favoritos</h3>
-{% endfor %}
+<div class="d-flex flex-column flex-md-row">
+<div class="col-12 col-md-4 border h-100 d-flex flex-column">
+  <h2 class="fs-3 text-center">Juegos agregados (2)</h2>
+  <hr class="mx-3">
+  <div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="dispo"
+        id="1">
+        <label class="form-check-label w-100" for="1">
+          Call Of Duty Warzone
+        </label>
+      </div>
+  </div>
+</div>
+<div class="col-12 col-md-8 border h-100"></div>
 </div>
 
 {% endblock contenido %}
+{% block js %}
+<script src="{% static "js/carrusel.js" %}"></script>
+<script src="{% static "js/favoritos.js" %}"></script>
+{% endblock js %}
