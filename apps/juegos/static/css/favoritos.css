@@ -1,3 +1,8 @@
+.div-izquierda,
+.div-derecha{
+  min-height: 80vh;
+  max-height: 80vh;
+}
 .form-check {
   padding-left: 10%;
   margin: 10px;
@@ -27,4 +32,9 @@
 .form-check.disabled {
   background-color: rgb(219, 219, 219);
   cursor: default;
+}
+
+.container-carousel {
+  width: 80%;
+  height: 400px;
 }

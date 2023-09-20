@@ -6,7 +6,7 @@
   box-shadow: 0 8px 25px 5px rgba(0,0,0,0.66);
   border-radius: 15px;
   overflow: hidden;
-  position: relative;
+  position: relative !important;
 }
 /*md de bootstrap*/
 @media (min-width: 768px) {
@@ -39,7 +39,7 @@
 .btn-right {
   display: flex;
   position: absolute;
-  top: 50%;
+  top: 50% !important;
   font-size: 1.5rem;
   background-color: transparent;
   padding: 5px;
