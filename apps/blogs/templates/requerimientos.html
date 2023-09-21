@@ -101,7 +101,7 @@
         mensaje.innerHTML = "Requisitos actualizados correctamente";
         setTimeout(function () {
           mensaje.classList.remove("mensaje-correcto");
-          mensaje.innerHTML = "";
+          mensaje.textContent = ``;
         }, 4000);
       }
     };

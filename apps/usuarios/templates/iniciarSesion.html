@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function(){
       mensaje.innerHTML=data.error
     }else{
       mensaje.className ="";
-      mensaje.innerHTML="";
+      mensaje.textContent="";
       // Comprobar si el parámetro '?next' existe en la URL
       const nextParameterValue = getParameterValue('next');
       if (nextParameterValue) {

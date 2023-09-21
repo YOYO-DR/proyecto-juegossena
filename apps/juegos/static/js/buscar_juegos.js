@@ -97,7 +97,7 @@ function buscar(input, radios) {
     //desactivar boton del input
     btnInputBuscar.disabled = true;
     //quitar el i del boton solo si se hace la peticion por el enter del input o click del boton y poner el spinner
-      btnInputBuscar.innerHTML = "";
+      btnInputBuscar.textContent = ``;
       btnInputBuscar.appendChild(spnCargar);
     
     //inicializar el campo de checkbox para enviar

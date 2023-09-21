@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+
   function activarCarrusel(
     btn_leftQ,
     btn_rightQ,
@@ -62,11 +62,3 @@ document.addEventListener("DOMContentLoaded", function () {
     btnLeft.addEventListener("click", (e) => moveToLeft());
     btnRight.addEventListener("click", (e) => moveToRight());
   }
-  activarCarrusel(
-    ".btn-left",
-    ".btn-right",
-    "#slider",
-    ".slider-section",
-    ".carruseles"
-  );
-})

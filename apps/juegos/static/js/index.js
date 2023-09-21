@@ -83,7 +83,7 @@ function realizarBusqueda() {
           </div>`;
   //muestro el h2 y le quito el texto que tenga
   h2busqueda.classList.remove("hidden");
-  h2busqueda.innerHTML = "";
+  h2busqueda.textContent = ``;
   espaciobutton.disabled = true;
   //hacer peticion
   //funcion cuando se realice la petición
@@ -91,12 +91,12 @@ function realizarBusqueda() {
     if (datos.juegos.length > 0) {
       h2busqueda.innerHTML = `Resultados de la busqueda "${inputBusqueda.value.trim()}"`;
 
-      contenedorjuegos.innerHTML = ``;
+      contenedorjuegos.textContent = ``;
       datos.juegos.forEach((juego) => {
         contenedorjuegos.innerHTML += vistaJuego(juego);
       });
     } else if (datos.juegos.length < 1) {
-      contenedorjuegos.innerHTML = ``;
+      contenedorjuegos.textContent = ``;
       h2busqueda.innerHTML = "Sin resultados";
     }
   }

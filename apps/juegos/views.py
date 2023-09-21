@@ -2,7 +2,7 @@ import json
 from time import sleep
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
-from apps.dispositivos.models import Dispositivos, Favoritos, Juegos
+from apps.dispositivos.models import Dispositivos, Favoritos, ImagenesJuego, Juegos
 from apps.juegos.funciones import filtroJuegos
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -108,7 +108,6 @@ class JuegosFavoritosView(TemplateView):
       return super().dispatch(request, *args, **kwargs)
   
   def post(self, request, *args, **kwargs):
-    sleep(2)
     data={}
     try:
       datos=json.loads(request.body)
@@ -117,7 +116,17 @@ class JuegosFavoritosView(TemplateView):
       return JsonResponse({"error":str(e)})
     action=datos.get("action","")
     if action=="juegos":
-      data["juegos"]=[juego.toJSON() for juego in Juegos.objects.filter(favoritos__usuario_id=request.user.id)]
+      data["juegos"]=[juego.toJSON() for juego in Juegos.objects.filter(favoritos__usuario_id=request.user.id).order_by("nombre")]
+    elif action=="imagenes":
+      try:
+        data['juego']=Juegos.objects.get(favoritos__usuario_id=request.user.id,slug=datos.get("slug")).toJSON()
+      except Exception as e:
+        print(str(e))
+        return JsonResponse({"error":"Slug o usuario de juego invalido"})
+        
+      data['imagenes']=[img.get_imagen() for img in ImagenesJuego.objects.filter(juego_id=data['juego']["id"])]
+    else:
+      return JsonResponse({"error":"No se envio una accion [action]"})
     return JsonResponse(data)
 
   def get_context_data(self, **kwargs):
