@@ -1,33 +1,31 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block head %}
-<link rel="stylesheet" href="{% static "css/carrusel.css" %}">
-<link rel="stylesheet" href="{% static "css/favoritos.css" %}">
-{% endblock head %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %} 
+<link rel="stylesheet" href="{% static "css/carrusel.css" %}"> 
+<link rel="stylesheet" href="{% static "css/favoritos.css" %}"> 
+{% endblock head %} 
 {% block contenido %}
 <h1>Juegos favoritos</h1>
 <div class="d-flex flex-column flex-md-row principal">
-<div class="div-izquierda col-12 col-md-4 border d-flex flex-column">
-  <h2 class="fs-3 text-center mt-2">Juegos agregados (2)</h2>
-  <hr class="mx-3">
-  <div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="dispo"
-        id="1" checked>
-        <label class="form-check-label w-100" for="1">
-          Call Of Duty Warzone
-        </label>
-      </div>
+  <div class="div-izquierda col-12 col-md-4 border d-flex flex-column">
+    <h2 class="fs-3 text-center mt-2 placeholder-glow"><span class="w-75 placeholder"></span></h2>
+    <hr class="mx-3" />
+    <div>
+      
+    </div>
+  </div>
+  <div
+    class="div-derecha col-12 col-md-8 border h-100 d-flex flex-column justify-content-center align-items-center"
+  >
+    <h5 class="fs-3 text-center">
+      <a href="#" class="link">Call Of Duty Mobile</a>
+    </h5>
+    {% comment %} Carrusel {% endcomment %}
   </div>
 </div>
-<div class="div-derecha col-12 col-md-8 border h-100 d-flex flex-column justify-content-center align-items-center">
-  <h5 class="fs-3 text-center"><a href="#" class="link">Call Of Duty Mobile</a></h5>
-  {% comment %} Carrusel {% endcomment %}
-  
-</div>
 
-{% endblock contenido %}
-{% block js %}
+{% endblock contenido %} 
+{% block js %} 
 <script src="{% static "js/carrusel.js" %}"></script>
 <script src="{% static "js/favoritos.js" %}"></script>
 {% endblock js %}

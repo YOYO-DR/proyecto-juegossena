@@ -1,8 +1,11 @@
 import json
+from time import sleep
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
 from apps.dispositivos.models import Dispositivos, Favoritos, Juegos
 from apps.juegos.funciones import filtroJuegos
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 #vista peticiones de busqueda
 class BuscarJuegosView(View):
@@ -99,6 +102,23 @@ class DetalleJuegoView(DetailView):
 
 class JuegosFavoritosView(TemplateView):
   template_name="favoritos.html"
+
+  @method_decorator(login_required)
+  def dispatch(self, request, *args, **kwargs):
+      return super().dispatch(request, *args, **kwargs)
+  
+  def post(self, request, *args, **kwargs):
+    sleep(2)
+    data={}
+    try:
+      datos=json.loads(request.body)
+    except Exception as e:
+      print(str(e))
+      return JsonResponse({"error":str(e)})
+    action=datos.get("action","")
+    if action=="juegos":
+      data["juegos"]=[juego.toJSON() for juego in Juegos.objects.filter(favoritos__usuario_id=request.user.id)]
+    return JsonResponse(data)
 
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
