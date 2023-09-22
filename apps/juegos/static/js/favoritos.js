@@ -37,6 +37,18 @@ function plantillaRadioJuego(juego) {
   `;
 }
 
+function plantillaBaseCarrusel() {
+  return `
+  <img
+          class="img-fluid rounded img-carga"
+          src="https://djangoyoiner.blob.core.windows.net/juegossena/static/media/img/empty-card.jpg"
+          alt="Imagen de carga"
+        />
+        <h5 class="w-75 text-center">
+          ¡Selecciona un juego para ver sus imagenes!
+        </h5>`;
+}
+
 function eventoClickRadios(e) {
   const radios = document.querySelectorAll(`.form-check input[type="radio"`)
   const divCarrusel = document.querySelector(".div-derecha");
@@ -142,6 +154,8 @@ function eventoClickRadios(e) {
       const slug_juego = btn.getAttribute("data-slug");
       const radio = document.querySelector(`[data-slug="${slug_juego}"]`);
       const nombre_juego = btn.previousElementSibling.textContent.trim()
+      const form_check = radio.closest(".form-check");
+      const btn_eliminar = radio.nextElementSibling;
       //Alerta de sweetalert para confirmar la eliminación
 
       Swal.fire({
@@ -152,9 +166,46 @@ function eventoClickRadios(e) {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          //desactivar el boton
-          //manda la peticion
-          // desactivar input, disabled al form-check, desactivar boton eliminar, hover_scale quitar al btn_eliminar, eliminar el form-check, traer el padre y el form-chect con el closets aqui para solo llamrlos si se confirma la eliminacion
+          // poner spn al label
+          radio.nextElementSibling.appendChild(spnCargando());
+          
+          //desactivar radio
+          radio.disabled = true;
+
+          //desactivar el boton eliminar
+          btn_eliminar.classList.replace("text-danger", "text-secondary");
+          btn_eliminar.disabled = true;
+
+          //poner disabled al form-check
+          form_check.classList.add("disabled");
+
+          //peticion de eliminacion
+          peticionPost(
+            //url
+            ".",
+            //datos a enviar
+            {
+              action: "eliminar",
+              slug: slug_juego,
+            },
+            (datos) => {
+              if (radio.checked) {
+                divCarrusel.textContent = ''
+                divCarrusel.insertAdjacentHTML(
+                  "afterbegin",
+                  plantillaBaseCarrusel()
+                );
+              }
+              //animacion de eliminacion
+              form_check.classList.toggle("remove");
+              setTimeout(() => {
+                //lo elimino despues de 0.3s despues de la transiccion
+                form_check.remove();
+              }, 300);
+            },
+            (funcionFinal = null),
+            (formdata = false)
+          );
         }
       });
 

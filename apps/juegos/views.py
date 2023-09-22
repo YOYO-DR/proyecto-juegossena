@@ -108,7 +108,7 @@ class JuegosFavoritosView(TemplateView):
       return super().dispatch(request, *args, **kwargs)
   
   def post(self, request, *args, **kwargs):
-    sleep(2)
+    sleep(1.5)
     data={}
     try:
       datos=json.loads(request.body)
@@ -126,6 +126,22 @@ class JuegosFavoritosView(TemplateView):
         return JsonResponse({"error":"Slug o usuario de juego invalido"})
         
       data['imagenes']=[img.get_imagen() for img in ImagenesJuego.objects.filter(juego_id=data['juego']["id"])]
+    elif action=="eliminar":
+      slug=datos.get("slug")
+      # obtener juego
+      try:
+        juego=Juegos.objects.get(slug=slug)
+        favorito=Favoritos.objects.get(usuario_id=request.user.id)
+
+        # eliminar favorito del usuario
+        favorito.juegos.remove(juego)
+      except Juegos.DoesNotExist:
+        return JsonResponse({"error":"Slug de juego invalido"})
+      except Favoritos.DoesNotExist:
+        return JsonResponse({"error":"Favorito de usuario invalido"})
+      except Exception as e:
+        print("error: "+str(e))
+        return JsonResponse({"error":str(e)})
     else:
       return JsonResponse({"error":"No se envio una accion [action]"})
     return JsonResponse(data)

@@ -13,6 +13,7 @@
   justify-content: start;
   align-items: center;
   height: 50px;
+  transition: opacity 0.3s ease;
 }
 
 .form-check button {
@@ -55,4 +56,8 @@ scale: 1.3;
 
 .img-carga {
   width: 70%;
+}
+
+.remove {
+  opacity: 0;
 }
