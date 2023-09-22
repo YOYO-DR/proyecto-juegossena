@@ -163,6 +163,9 @@ function spnCargando(clases = null) {
     })
   }
   spn.setAttribute("role", "status");
-  spn.innerHTML = '<span class="visually-hidden">Loading...</span>';
+  spn.insertAdjacentHTML(
+    "afterbegin",
+    '<span class="visually-hidden">Loading...</span>'
+  );
   return spn;
 }

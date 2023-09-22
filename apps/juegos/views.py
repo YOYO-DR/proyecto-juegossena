@@ -108,6 +108,7 @@ class JuegosFavoritosView(TemplateView):
       return super().dispatch(request, *args, **kwargs)
   
   def post(self, request, *args, **kwargs):
+    sleep(2)
     data={}
     try:
       datos=json.loads(request.body)

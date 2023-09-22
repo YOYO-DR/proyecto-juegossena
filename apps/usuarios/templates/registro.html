@@ -35,10 +35,10 @@
     let callback = (data) => {
       if ("error" in data) {
         mensaje.className = "mensaje-error";
-        mensaje.innerHTML = data.error;
+        mensaje.textContent = data.error;
       } else {
         mensaje.className ="mensaje-correcto";
-        mensaje.innerHTML="Se ha enviado un correo para activar su cuenta, revisa tu bandeja de entrada";
+        mensaje.textContent="Se ha enviado un correo para activar su cuenta, revisa tu bandeja de entrada";
         form.remove()
       }
     };

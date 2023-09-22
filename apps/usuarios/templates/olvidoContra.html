@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', function(){
   let callback=(data)=>{
     if ('error'in data){
       mensaje.className="mensaje-error"
-      mensaje.innerHTML=data.error
+      mensaje.textContent=data.error
     }else{
       mensaje.className="mensaje-correcto"
-      mensaje.innerHTML="Correo enviado correctamente, revisa tu bandeja de entrada"
+      mensaje.textContent="Correo enviado correctamente, revisa tu bandeja de entrada"
       form.remove()
     }
   }

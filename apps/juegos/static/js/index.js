@@ -55,7 +55,10 @@ function vistaJuego(juego) {
 }
 
 function realizarBusqueda() {
-  contenedorjuegos.innerHTML = `<div class="card w-100 mb-2" aria-hidden="true">
+  contenedorjuegos.textContent = ''
+  contenedorjuegos.insertAdjacentHTML(
+    "afterbegin",
+    `<div class="card w-100 mb-2" aria-hidden="true">
         <img
           src="${urlEmptyCard}"
           class="card-img-top card-img-top img-juego mx-auto m-1"
@@ -77,10 +80,15 @@ function realizarBusqueda() {
             aria-disabled="true"
           ></a>
         </div>
-      </div>`;
-  espaciobutton.innerHTML = `<div class="spinner-border spinner-border-sm" role="status">
+      </div>`
+  );
+  espaciobutton.textContent = ''
+  espaciobutton.insertAdjacentHTML(
+    "afterbegin",
+    `<div class="spinner-border spinner-border-sm" role="status">
             <span class="visually-hidden">Loading...</span>
-          </div>`;
+          </div>`
+  );
   //muestro el h2 y le quito el texto que tenga
   h2busqueda.classList.remove("hidden");
   h2busqueda.textContent = ``;
@@ -89,20 +97,25 @@ function realizarBusqueda() {
   //funcion cuando se realice la petición
   function petiReali(datos) {
     if (datos.juegos.length > 0) {
-      h2busqueda.innerHTML = `Resultados de la busqueda "${inputBusqueda.value.trim()}"`;
+      h2busqueda.textContent = ''
+      h2busqueda.insertAdjacentHTML(
+        "afterbegin",
+        `Resultados de la busqueda "${inputBusqueda.value.trim()}"`
+      );
 
       contenedorjuegos.textContent = ``;
       datos.juegos.forEach((juego) => {
-        contenedorjuegos.innerHTML += vistaJuego(juego);
+        contenedorjuegos.insertAdjacentHTML("afterend",vistaJuego(juego))
       });
     } else if (datos.juegos.length < 1) {
       contenedorjuegos.textContent = ``;
-      h2busqueda.innerHTML = "Sin resultados";
+      h2busqueda.textContent="Sin resultados"
     }
   }
   //funcion final (error o sin error)
   function final() {
-    espaciobutton.innerHTML = `<i class="bi bi-search"></i>`;
+    espaciobutton.textContent = ''
+    espaciobutton.insertAdjacentHTML("afterbegin",`<i class="bi bi-search"></i>`)
     espaciobutton.disabled = false;
     eventoVerJuego();
   }
@@ -119,8 +132,10 @@ function realizarBusqueda() {
 
 function cancelarBusqueda() {
   h2busqueda.classList.add("hidden");
-  espaciobutton.innerHTML = `<i class="bi bi-search"></i>`;
-  contenedorjuegos.innerHTML = valor_contenedorjuegos;
+  espaciobutton.textContent = ''
+  espaciobutton.insertAdjacentHTML("afterbegin", `<i class="bi bi-search"></i>`)
+  contenedorjuegos.textContent = ''
+  contenedorjuegos.insertAdjacentHTML("afterbegin",valor_contenedorjuegos)
   eventoVerJuego();
 }
 
@@ -218,8 +233,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
           // console.log(data);
           let juego = data.juego;
           let modal = new bootstrap.Modal(modalInfoJuego);
-          modalTitle.innerHTML = juego.nombre;
-          modalBody.innerHTML = plantillaModalBody(juego);
+          modalTitle.textContent = juego.nombre;
+          modalBody.textContent = ''
+          modalBody.insertAdjacentHTML("afterbegin",plantillaModalBody(juego))
           eventoVerJuego();
           modal.show();
         },

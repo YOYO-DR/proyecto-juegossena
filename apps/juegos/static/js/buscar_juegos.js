@@ -117,7 +117,10 @@ function buscar(input, radios) {
     });
 
     //pongo la pantalla de carga
-    juegosDiv.innerHTML = `<div class="border rounded p-2 m-2 d-flex flex-column flex-md-row juego_0">
+    juegosDiv.textContent = ''
+    juegosDiv.insertAdjacentHTML(
+      "afterbegin",
+      `<div class="border rounded p-2 m-2 d-flex flex-column flex-md-row juego_0">
       <div
         class="col-12 col-md-6 p-2 d-flex flex-column align-items-center justify-content-center"
       >
@@ -178,7 +181,8 @@ function buscar(input, radios) {
           <!--dispositivo-->
           <span class="placeholder-glow"><span class="placeholder col-5"></span></span>
         </div>
-      </div>`;
+      </div>`
+    );
 
     //datos a enviar
     //datosEnvio
@@ -202,10 +206,11 @@ function buscar(input, radios) {
               juegos[i].comparacion
             );
           }
-
-          juegosDiv.innerHTML = juegosLista;
+          juegosDiv.textContent = ''
+          juegosDiv.insertAdjacentHTML("afterbegin", juegosLista);
         } else {
-          juegosDiv.innerHTML = `<h2 class="w-100 text-center mt-3">Sin resultados</h2>`;
+          juegosDiv.textContent = "";
+          juegosDiv.insertAdjacentHTML("afterbegin",  `<h2 class="w-100 text-center mt-3">Sin resultados</h2>`);
         }
       },
       () => {
@@ -214,7 +219,8 @@ function buscar(input, radios) {
         //activar boton del input
         btnInputBuscar.disabled = false;
         //lo limpio quitando el spinner y ponerle el i del icono
-        btnInputBuscar.innerHTML = `<i class="bi bi-search"></i>`;
+        btnInputBuscar.textContent = ''
+        btnInputBuscar.insertAdjacentHTML("afterbegin",`<i class="bi bi-search"></i>`)
       },
       (formdata = false)
     );

@@ -15,7 +15,8 @@ peticionPost(
       // recordar que valoresTextos esta en funciones.js y es una constante con los valores que se recibe del servidor y que los paso a palabras para mostrar
       lis_requi += `<li><strong>${valoresTextos[clave]}:</strong> ${valor}</li>`;
     }
-    listaRequi.innerHTML = lis_requi;
+    listaRequi.textContent = ''
+    listaRequi.insertAdjacentHTML("afterbegin", lis_requi);
   },
   (funcionFinal = null),
   (formdata = false)

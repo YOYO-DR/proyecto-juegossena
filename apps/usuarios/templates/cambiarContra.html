@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function(){
   let callback=(data)=>{
     if ('error'in data){
       mensaje.className="mensaje-error"
-      mensaje.innerHTML=data.error
+      mensaje.textContent=data.error
     }else{
       mensaje.className="mensaje-correcto"
       let iniciarSesion =`<a href="{% url 'usuarios:iniciarsesion' %}" class="link-primary">iniciar sesión</a>`
-      mensaje.innerHTML="La contraseña se cambio correctamente, ya puedes "+iniciarSesion
+      mensaje.textContent="La contraseña se cambio correctamente, ya puedes "+iniciarSesion
       form.remove()
     }
   }

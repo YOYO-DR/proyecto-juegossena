@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function(){
   let callback=(data)=>{
     if ('error'in data){
       mensaje.className="mensaje-error"
-      mensaje.innerHTML=data.error
+      mensaje.textContent=data.error
     }else{
       mensaje.className ="";
       mensaje.textContent="";

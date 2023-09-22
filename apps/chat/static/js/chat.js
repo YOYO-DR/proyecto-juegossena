@@ -67,12 +67,16 @@ chatSocket.addEventListener("close", (e) => {
     let messageElement = document.createElement("div");
     messageElement.classList.add("message");
     if (user == username) {
-      messageElement.innerHTML = `<div class="local" style="margin-left:auto;">
+      messageElement.textContent=''
+      messageElement.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="local" style="margin-left:auto;">
             <div class="d-flex flex-column">
               <span class="align-self-end t-wordwrap">${message}</span>
               <small class="align-self-end">${timeFormat}</small>
             </div>
-          </div>`;
+          </div>`
+      );
     } else {
       let usernameMensaje=username;
       try {
@@ -80,13 +84,17 @@ chatSocket.addEventListener("close", (e) => {
       } catch (e) {
         usernameMensaje = username;
       }
-      messageElement.innerHTML = `<div class="no-local" style="margin-right:auto;">
+      messageElement.textContent=""
+      messageElement.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="no-local" style="margin-right:auto;">
             <strong style="display:block;">${usernameMensaje}</strong>
             <div class="d-flex flex-column">
               <span class="align-self-start t-wordwrap">${message}</span>
               <small>${timeFormat}</small>
             </div>
-          </div>`;
+          </div>`
+      );
     }
 
     chatMessages.appendChild(messageElement);

@@ -93,12 +93,12 @@
       if ("error" in data) {
         mensaje.classList.remove("mensaje-correcto");
         mensaje.classList.add("mensaje-error");
-        mensaje.innerHTML = data.error;
+        mensaje.textContent = data.error;
       } else {
         const mensaje = document.getElementById("mensaje");
         mensaje.classList.remove("mensaje-error");
         mensaje.classList.add("mensaje-correcto");
-        mensaje.innerHTML = "Requisitos actualizados correctamente";
+        mensaje.textContent = "Requisitos actualizados correctamente";
         setTimeout(function () {
           mensaje.classList.remove("mensaje-correcto");
           mensaje.textContent = ``;

@@ -110,7 +110,7 @@ function dispoModal(
         { id: idDispo, action: "datosDispo" },
         (data) => {
           let dispo = data.dispositivo;
-          modalTitulo.innerHTML = data.nombre;
+          modalTitulo.textContent = data.nombre;
 
           let acordeones = ``; //donde voy a crear el acordeon
           let keys = {
@@ -127,8 +127,8 @@ function dispoModal(
               acordeones += acordeon(keys[key], value); //le paso la clave y el valor a la funcion para crear el acordeon y luego sumarlo a los acordeones
             }
           }
-
-          divAcordeones.innerHTML = acordeones;
+          divAcordeones.textContent=''
+          divAcordeones.insertAdjacentHTML("afterbegin",acordeones);
           modal.show();
         },
         () => {
@@ -174,7 +174,11 @@ function dispoModal(
               '[class*="dispoCont"]'
             ).length;
             if (divDispoCount == 0) {
-              contenedor.innerHTML = "<h2>Sin dispositivos</h2>";
+              contenedor.textContent=''
+              contenedor.insertAdjacentHTML(
+                "afterbegin",
+                "<h2>Sin dispositivos</h2>"
+              );
             }
           }
         },
@@ -214,8 +218,9 @@ function mostrarDispo(id, nombre, contenedor) {
   const dispositivos = contenedor.querySelectorAll('[class*="dispoCont"]');
 
   if (dispositivos.length == 0) {
-    contenedor.innerHTML = plantilla;
+    contenedor.textContent = ''
+    contenedor.insertAdjacentHTML("afterbegin", plantilla);
   } else {
-    contenedor.innerHTML += plantilla;
+    contenedor.insertAdjacentHTML("beforend", plantilla);
   }
 }
