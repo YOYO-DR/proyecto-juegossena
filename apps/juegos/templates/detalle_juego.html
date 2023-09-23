@@ -34,8 +34,23 @@
       <h2 class="fs-5">Requisitos de PC para {{object.nombre}}</h2>
       <ul class="lista-requi"></ul>
     </div>
+    {% comment %} Dispositivos compatibles - solo lo muestro si el usuario esta registrado y si tiene dispositivos agregados {% endcomment %}
+    {% if user.is_authenticated and dispo_compatibles %}
+    <div class="border rounded w-100 m-2 p-3">
+      <h5 class="fs-5 text-center">Dispositivos compatibles</h5>
+      <hr class="mx-3">
+      <div class="dispo-compatibles d-flex flex-wrap justify-content-center">
+        {% for dispo in dispo_compatibles %}
+        <div class="border rounded m-2 p-2 col-10 text-center">
+          <span><b>{{dispo}}</b></span>
+        </div>
+        {% endfor %}
+      </div>
+      <a href="{% url 'dispositivos:inicio' %}" class="btn btn-primary">Ver dispositivos</a>
+    </div>
+    {% endif %}
   </div>
-  <div class="container-carousel col-12 col-md-6 ms-0 ms-md-3">
+  <div class="align-self-center container-carousel col-12 col-md-6 ms-0 ms-md-3">
     {% comment %} Contenedor de imagenes {% endcomment %}
     <div class="carruseles" id="slider">
       {% for img in img_juego %}
@@ -56,14 +71,4 @@
   data-juegolug="{{object.slug}}"
   src="{% static 'js/detalle_juegos.js' %}"
 ></script>
-<script>
-  document.addEventListener("DOMContentLoaded",
-  activarCarrusel(
-    ".btn-left",
-    ".btn-right",
-    "#slider",
-    ".slider-section",
-    ".carruseles"
-  ))
-</script>
 {% endblock js %}

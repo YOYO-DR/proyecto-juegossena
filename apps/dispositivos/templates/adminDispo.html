@@ -3,11 +3,14 @@
 {% load static %} 
 {% block contenido %}
 <div class="border">
-<h1>Dispositivos</h1>
+  <div class="d-flex align-items-center flex-column flex-md-row ms-2">
+    <h1 class="w-auto mb-1">Dispositivos</h1> 
+<a href="{% url 'juegos:buscar_juegos' %}" class="ms-2 btn btn-primary">Buscar juegos por dispositivo</a>
+  </div>
 <!--Subir dispositivo-->
 <form
   id="envioTxt"
-  class="d-flex flex-column border p-2 mx-3 col col-md-6"
+  class="d-flex flex-column border p-2 mx-3 col col-md-6 mt-1"
   enctype="multipart/form-data"
 >
   <div class="mb-3">
@@ -30,9 +33,6 @@
     Subir
   </button>
 </form>
-<a href="{% url 'juegos:buscar_juegos' %}" class="ms-3 mt-2 btn btn-primary">Buscar juegos por dispositivo</a>
-
-
 
 <div class="d-flex flex-column flex-md-row flex-wrap p-2 contenedorDispo ">
   {% for dispo in object_list %}

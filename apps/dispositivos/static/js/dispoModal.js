@@ -221,6 +221,6 @@ function mostrarDispo(id, nombre, contenedor) {
     contenedor.textContent = ''
     contenedor.insertAdjacentHTML("afterbegin", plantilla);
   } else {
-    contenedor.insertAdjacentHTML("beforend", plantilla);
+    contenedor.insertAdjacentHTML("beforeend", plantilla);
   }
 }

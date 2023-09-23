@@ -3,3 +3,13 @@
   color:red;
   cursor: pointer;
 }
+
+.dispo-compatibles{
+  max-height: 130px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dispo-compatibles div:hover {
+  background-color: #dee2e6;
+}

@@ -3,8 +3,61 @@ from django.db.models import Q, F, ExpressionWrapper,FloatField
 from functools import reduce
 from operator import and_
 
-def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,grafica_com,valor_mayor_discos):
-  data={"procesador":False,"ram":False,"grafica":[False,grafica_com.nombre],"disco":[False,valor_mayor_discos]}
+def obtenerGrafica(dispositivo:Dispositivos):
+  # obtener la grafica con más gb
+  grafica_dispo=""
+  #pregunto si hay mas de 2 graficas
+  if len(dispositivo.grafica.all())==1:
+    grafica_dispo=dispositivo.grafica.all()[0]
+  else:
+    # mirar que grafica es mejor
+    for i in dispositivo.grafica.all():
+      if i.gb:
+        if grafica_dispo=="":
+          grafica_dispo=i
+        elif grafica_dispo.gb.gb<i.gb.gb:
+          grafica_dispo=i
+      elif i.velocidad:
+        if grafica_dispo=="":
+          grafica_dispo=i
+        elif grafica_dispo.velocidad:
+          if i.velocidad.velocidadMhz>grafica_dispo.velocidad.velocidadMhz:
+            grafica_dispo=i
+      elif i.nucleos:
+        if grafica_dispo!="":
+          grafica_dispo=i
+        elif grafica_dispo.nucleos:
+          if i.nucleos>grafica_dispo.nucleos:
+            grafica_dispo=i
+      else:
+        # si no tiene nada de lo anterior, entonces continuo
+        continue
+    # si no se guardo la grafica, posiblemente sea solo una integrada entonces la guardo
+    if grafica_dispo=="":
+      grafica_dispo=dispositivo.grafica.all()[0]
+  return grafica_dispo
+
+def obtenerParticionMayorEspacio(dispositivo:Dispositivos):
+    # traer los discos del json, y ver que particion tiene más espacio
+  discos=[]
+  for i in dispositivo.json['discos']:
+    for clave,valor in i.items():
+      if "disponible" in clave:
+        clave=clave.replace("disponible_","")
+        valor=float(valor.replace(" GB",""))
+        discos.append({clave:valor})
+
+  valor_mayor_discos=[]
+  for i in discos:
+    for clave,valor in i.items():
+      if len(valor_mayor_discos)==0:
+        valor_mayor_discos=[clave,valor]
+      elif valor>valor_mayor_discos[1]:
+        valor_mayor_discos=[clave,valor]
+  return valor_mayor_discos
+
+def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,valor_mayor_discos):
+  data={"procesador":False,"ram":False,"grafica":[False],"disco":[False,valor_mayor_discos]}
   # procesador
   juegoPro=juego.procesador
   if dispositivo.procesador:
@@ -31,6 +84,9 @@ def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,grafica_com,valor_m
     data['ram']=False if gbRamPro<gbRamJue else True
   
   # grafica
+  #obtener grafica de dispositivo
+  grafica_com=obtenerGrafica(dispositivo)
+  data['grafica']=[False,grafica_com.nombre]
   # la grafica a comparar es la que le paso en la llamada de la funcion en la cual ya verifique cual es la pontente
   juegoGrafica=juego.grafica
   if grafica_com.gb:
@@ -65,55 +121,6 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
         if "tamano" in clave:
           suma_rams+=float(valor.replace(" GB",""))
 
-  # obtener la grafica con más gb
-  grafica_dispo=""
-  #pregunto si hay mas de 2 graficas
-  if len(dispositivo.grafica.all())==1:
-    grafica_dispo=dispositivo.grafica.all()[0]
-  else:
-    # mirar que grafica es mejor
-    for i in dispositivo.grafica.all():
-      if i.gb:
-        if grafica_dispo=="":
-          grafica_dispo=i
-        elif grafica_dispo.gb.gb<i.gb.gb:
-          grafica_dispo=i
-      elif i.velocidad:
-        if grafica_dispo=="":
-          grafica_dispo=i
-        elif grafica_dispo.velocidad:
-          if i.velocidad.velocidadMhz>grafica_dispo.velocidad.velocidadMhz:
-            grafica_dispo=i
-      elif i.nucleos:
-        if grafica_dispo!="":
-          grafica_dispo=i
-        elif grafica_dispo.nucleos:
-          if i.nucleos>grafica_dispo.nucleos:
-            grafica_dispo=i
-      else:
-        # si no tiene nada de lo anterior, entonces continuo
-        continue
-    # si no se guardo la grafica, posiblemente sea solo una integrada entonces la guardo
-    if grafica_dispo=="":
-      grafica_dispo=dispositivo.grafica.all()[0]
-
-  # traer los discos del json, y ver que particion tiene más espacio
-  discos=[]
-  for i in dispositivo.json['discos']:
-    for clave,valor in i.items():
-      if "disponible" in clave:
-        clave=clave.replace("disponible_","")
-        valor=float(valor.replace(" GB",""))
-        discos.append({clave:valor})
-
-  valor_mayor_discos=[]
-  for i in discos:
-    for clave,valor in i.items():
-      if len(valor_mayor_discos)==0:
-        valor_mayor_discos=[clave,valor]
-      elif valor>valor_mayor_discos[1]:
-        valor_mayor_discos=[clave,valor]
-  
   #potencia procesador, verificar los hilos y mhz
   potencia_pro_dispo=0
   if dispositivo.procesador.hilos:
@@ -124,6 +131,8 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
   elif dispositivo.procesador.mhz:
     potencia_pro_dispo=float(dispositivo.procesador.mhz)/1000
   
+  # obtener grafica del dispositivo
+  grafica_dispo=obtenerGrafica(dispositivo)
   # grafica verificaciones
 
   potencia_graf_dispo=0
@@ -136,6 +145,8 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
     potencia_graf_dispo=grafica_dispo.velocidad.velocidadMhz
 
  # datos para realizar la busqueda
+  # obtener la particion con mayor espacio y su valor
+  valor_mayor_discos=obtenerParticionMayorEspacio(dispositivo)
   # puedo agregar if para preguntar si agregar o no la caraceristica según los checkboxs
   dispo_datos={"procesador":{
       "potencia":potencia_pro_dispo
@@ -234,6 +245,20 @@ def filtroJuegos(dispositivo:Dispositivos,busqueda:str,checkboxs:dict):
     juegos_filtrados=Juegos.objects.filter(nombre__icontains=busqueda)
   
   # comparar juego con dispositivo
-  datos_retorno=[{"juego":i.toJSON(),"comparacion":potenciaDispoJuego(dispositivo,i,grafica_dispo,valor_mayor_discos)} for i in juegos_filtrados]
+  datos_retorno=[{"juego":i.toJSON(),"comparacion":potenciaDispoJuego(dispositivo,i,valor_mayor_discos)} for i in juegos_filtrados]
 
   return datos_retorno
+
+def validarJuegoDispo(dispositivo:Dispositivos,juego:Juegos):
+  comparacion=potenciaDispoJuego(dispositivo,juego,obtenerParticionMayorEspacio(dispositivo))
+  res=True
+  for clave,valor in comparacion.items():
+    if isinstance(valor,list):
+      if not valor[0]:
+        res=False
+        break
+      continue
+    if not valor:
+      res=False
+      break
+  return res
