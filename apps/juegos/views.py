@@ -97,7 +97,8 @@ class DetalleJuegoView(DetailView):
       # accedo a los favoritos del usuario, selecciono el primero y unico '[0]', y accedo a los juegos y aplico un filter buscando el juego y pregunto si existe el juego en esa lista (o bueno, queryset)
       if self.request.user.is_authenticated:
         context['en_fav']=self.request.user.favoritos.juegos.filter(nombre=self.get_object().nombre).exists()
-      context["dispo_compatibles"]=[dispo.nombre for dispo in Dispositivos.objects.filter(usuario_id=self.request.user.id) if validarJuegoDispo(dispo,self.get_object())]
+      if self.request.user.is_authenticated:
+        context["dispo_compatibles"]=[dispo.nombre for dispo in Dispositivos.objects.filter(usuario_id=self.request.user.id) if validarJuegoDispo(dispo,self.get_object())]
       return context
 
 class JuegosFavoritosView(TemplateView):
