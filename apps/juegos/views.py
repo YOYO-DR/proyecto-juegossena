@@ -1,5 +1,4 @@
 import json
-from time import sleep
 from django.http import JsonResponse
 from django.views.generic import TemplateView,View,DetailView
 from apps.dispositivos.models import Dispositivos, Favoritos, ImagenesJuego, Juegos
