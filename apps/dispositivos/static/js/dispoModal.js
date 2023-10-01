@@ -89,7 +89,7 @@ function dispoModal(
       e.preventDefault();
       const divAcordeones = modalBody.querySelector("#carateristicas");
       //creo el spiner de bootstrap
-      const spanLoading = spnCargando()
+      const spanLoading = F.spnCargando()
       boton.appendChild(spanLoading);
       disabledBotones(botonesModalDispo);
       let idDispo = 0;
@@ -105,7 +105,7 @@ function dispoModal(
       let modal = new bootstrap.Modal(modalDispo);
       //Aqui pongo los valores del dispositivo en el formulario
       //funcion de js/funciones.js
-      peticionPost(
+      F.peticionPost(
         window.location.pathname,
         { id: idDispo, action: "datosDispo" },
         (data) => {
@@ -151,7 +151,7 @@ function dispoModal(
       inputForm.disabled = true;
 
       //creo el spiner de bootstrap
-      const spanLoading = spnCargando();
+      const spanLoading = F.spnCargando();
       boton.appendChild(spanLoading);
       disabledBotones(botonesEliminarDispo);
       let idDispo = 0;
@@ -161,20 +161,23 @@ function dispoModal(
           idDispo = element.replace("eliminarDispo", "");
         }
       });
+
       //funcion de js/funciones.js
-      peticionPost(
+      F.peticionPost(
         window.location.pathname,
         { id: idDispo, action: "eliminar" },
         (data) => {
           if (data.eliminacion) {
+            console.log("Id_dispom",idDispo)
             const contenedor = document.querySelector(".contenedorDispo");
             const divDispo = contenedor.querySelector(`.dispoCont${idDispo}`);
+            console.log(divDispo)
             contenedor.removeChild(divDispo);
             let divDispoCount = contenedor.querySelectorAll(
               '[class*="dispoCont"]'
             ).length;
             if (divDispoCount == 0) {
-              contenedor.textContent=''
+              contenedor.textContent = "";
               contenedor.insertAdjacentHTML(
                 "afterbegin",
                 "<h2>Sin dispositivos</h2>"
@@ -184,7 +187,6 @@ function dispoModal(
         },
         () => {
           disabledBotones(botonesEliminarDispo);
-          boton.removeChild(spanLoading);
           //activar formulario
           btnSubmit.disabled = false;
           inputForm.disabled = false;

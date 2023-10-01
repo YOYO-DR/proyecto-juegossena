@@ -106,7 +106,7 @@ src="{% static 'js/dispoModal.js' %}"></script>
     dispoModal('button[class*="modalDispo"]','button[class*="eliminarDispo"]',"modalDispoForm",".modal-title",".modal-body","btn-form-juegos","formFile")
     //formulario de subida
       //esta funcion agrega el evento asi que solo la ejecuto, y no dentro del evento submit
-    peticionFormPost( // le paso los valores requeridos
+    F.peticionFormPost( // le paso los valores requeridos
       "envioTxt", // id formulario
       "{% url 'dispositivos:procesar' %}", //url hacia donde va a mandar la petición
        // la funcion a realizar
@@ -144,7 +144,7 @@ src="{% static 'js/dispoModal.js' %}"></script>
                   const formArchivo=document.getElementById("envioTxt");
                   const formdata=new FormData(formArchivo)
                   formdata.append("reemplazar","true")
-                  peticionPost(
+                  F.peticionPost(
                     "{% url 'dispositivos:procesar' %}",
                     formdata,
                     (data)=>{

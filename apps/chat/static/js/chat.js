@@ -80,7 +80,7 @@ chatSocket.addEventListener("close", (e) => {
     } else {
       let usernameMensaje=username;
       try {
-        usernameMensaje = toTitle(user);
+        usernameMensaje = F.toTitle(user);
       } catch (e) {
         usernameMensaje = username;
       }

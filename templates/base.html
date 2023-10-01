@@ -65,18 +65,6 @@
     <!--Funciones-->
     <script src="{% static 'js/funciones.js' %}"></script>
 
-    <script>
-      //Funciones del menu
-      document.addEventListener("DOMContentLoaded", function () {
-        const botonMenu = document.getElementById("btnmenu");
-        const containerMenu = document.getElementById("container-menu");
-
-        botonMenu.addEventListener("click", function (e) {
-          e.preventDefault();
-          containerMenu.classList.toggle("es_activo");
-        });
-      });
-    </script>
     {% block js %}{% endblock js %}
   </body>
 </html>

@@ -14,11 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
   //evento para guardar el favorito de un juego
   btnAgregarFav.addEventListener("click", function (e) {
     e.preventDefault();
-    const spn = spnCargando();
+    const spn = F.spnCargando();
     btnAgregarFav.appendChild(spn);
     btnAgregarFav.disabled = true;
     //aqui se envia la petición - action: agrefav
-    peticionPost(
+    F.peticionPost(
       ".",
       { action: "agrefav" },
       (data) => {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   //lista de requisitos
   let lis_requi = "";
-  peticionPost(
+  F.peticionPost(
     ".",
     {
       action: "requisitos",
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     (data) => {
       //el Object.entries coje el objeto y crea un arreglo de pares [[clave,valor],[clave,valor]] y asi hago destructuración por cada recorrido y obtengo la clave y el valor del objeto
       for (const [clave, valor] of Object.entries(data.juego)) {
-        // recordar que valoresTextos esta en funciones.js y es una constante con los valores que se recibe del servidor y que los paso a palabras para mostrar
+        // recordar que valoresTextos esta en F.js y es una constante con los valores que se recibe del servidor y que los paso a palabras para mostrar
         lis_requi += `<li><strong>${valoresTextos[clave]}:</strong> ${valor}</li>`;
       }
       listaRequi.textContent = "";

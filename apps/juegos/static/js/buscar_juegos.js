@@ -66,9 +66,9 @@ function plantillaBusqueda(dispositivo, juego, comparacion) {
         }">
           <h5><b>Espacio requerido</b></h5>
           <span><b>Juego:</b> ${juego.espacio} GB</span>
-          <span><b>Dispositivo:</b> (${toTitle(comparacion.disco[1][0])}) ${
-    comparacion.disco[1][1]
-  } GB </span>
+          <span><b>Dispositivo:</b> (${F.toTitle(
+            comparacion.disco[1][0]
+          )}) ${comparacion.disco[1][1]} GB </span>
         </div>
       </div>
     </div>`;
@@ -85,7 +85,7 @@ function buscar(input, radios) {
   if (input.value.trim()) {
     //constantes
     const btnInputBuscar = document.querySelector(".espacio-button");
-    const spnCargar = spnCargando();
+    const spnCargar = F.spnCargando();
 
     //datos a enviar
     let datosEnvio = { busqueda: input.value };
@@ -188,7 +188,7 @@ function buscar(input, radios) {
     //datosEnvio
     //hacer peticion
     console.log(datosEnvio)
-    peticionPost(
+    F.peticionPost(
       //url
       ".",
       //datos
@@ -206,11 +206,14 @@ function buscar(input, radios) {
               juegos[i].comparacion
             );
           }
-          juegosDiv.textContent = ''
+          juegosDiv.textContent = "";
           juegosDiv.insertAdjacentHTML("afterbegin", juegosLista);
         } else {
           juegosDiv.textContent = "";
-          juegosDiv.insertAdjacentHTML("afterbegin",  `<h2 class="w-100 text-center mt-3">Sin resultados</h2>`);
+          juegosDiv.insertAdjacentHTML(
+            "afterbegin",
+            `<h2 class="w-100 text-center mt-3">Sin resultados</h2>`
+          );
         }
       },
       () => {
@@ -219,13 +222,16 @@ function buscar(input, radios) {
         //activar boton del input
         btnInputBuscar.disabled = false;
         //lo limpio quitando el spinner y ponerle el i del icono
-        btnInputBuscar.textContent = ''
-        btnInputBuscar.insertAdjacentHTML("afterbegin",`<i class="bi bi-search"></i>`)
+        btnInputBuscar.textContent = "";
+        btnInputBuscar.insertAdjacentHTML(
+          "afterbegin",
+          `<i class="bi bi-search"></i>`
+        );
       },
       (formdata = false)
     );
   } else {
-    mensajeSweet("Debe ingresar un valor en la busqueda", "warning");
+    F.mensajeSweet("Debe ingresar un valor en la busqueda", "warning");
   }
 }
 

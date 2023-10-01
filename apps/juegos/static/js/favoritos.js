@@ -71,7 +71,7 @@ function eventoClickRadios(e) {
       btnEliminar.classList.remove("hover_scale");
       
       //poner spinner al label
-      const spn = spnCargando()
+      const spn = F.spnCargando()
       label.appendChild(spn)
       
       //poner clase disabled al todos los form-check de los radios
@@ -95,7 +95,7 @@ function eventoClickRadios(e) {
 
       //Ejecutar lo del carrusel
       //hacer peticion para pedir las imagenes del juego
-      peticionPost(
+      F.peticionPost(
         //url
         ".",
         //datos a enviar
@@ -167,7 +167,7 @@ function eventoClickRadios(e) {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           // poner spn al label
-          radio.nextElementSibling.appendChild(spnCargando());
+          radio.nextElementSibling.appendChild(F.spnCargando());
           
           //desactivar radio
           radio.disabled = true;
@@ -180,7 +180,7 @@ function eventoClickRadios(e) {
           form_check.classList.add("disabled");
 
           //peticion de eliminacion
-          peticionPost(
+          F.peticionPost(
             //url
             ".",
             //datos a enviar
@@ -190,7 +190,7 @@ function eventoClickRadios(e) {
             },
             (datos) => {
               if (radio.checked) {
-                divCarrusel.textContent = ''
+                divCarrusel.textContent = "";
                 divCarrusel.insertAdjacentHTML(
                   "afterbegin",
                   plantillaBaseCarrusel()
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const divRadiosH2 = document.querySelector(".div-izquierda h2")
 
   //hacer peticion para traer los juegos de favoritos
-  peticionPost(
+  F.peticionPost(
     //url
     ".",
     //datos a enviar
@@ -246,5 +246,6 @@ document.addEventListener("DOMContentLoaded", function () {
       eventoClickRadios();
     },
     (funcionFinal = null),
-    (formdata = false));
+    (formdata = false)
+  );
 })

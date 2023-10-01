@@ -119,7 +119,7 @@ function realizarBusqueda() {
     espaciobutton.disabled = false;
     eventoVerJuego();
   }
-  peticionPost(
+  F.peticionPost(
     urlBuscarJuegos,
     {
       busqueda: inputBusqueda.value.trim(),
@@ -166,7 +166,7 @@ function plantillaModalBody(juego) {
 
 function eventoVerJuego() {
   const a_ver = document.querySelectorAll(".ver-juego");
-  const spn = spnCargando();
+  const spn = F.spnCargando();
   a_ver.forEach((a) => {
     let url_juego = a.getAttribute("href");
     let slug_juego = a.getAttribute("data-slug");
@@ -174,7 +174,7 @@ function eventoVerJuego() {
       e.preventDefault();
       a.appendChild(spn);
       //enviar peticion y en la funcion final enviarlo al detalle del juego
-      peticionPost(
+      F.peticionPost(
         ".",
         { juego: slug_juego },
         () => {},
@@ -215,12 +215,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
     boton.addEventListener("click", function (e) {
       e.preventDefault();
       const h5_boton = boton.querySelector("h5");
-      const spn = spnCargando(["align-self-center"]);
+      const spn = F.spnCargando(["align-self-center"]);
       h5_boton.appendChild(spn);
       boton.disabled = true;
       let slug = boton.getAttribute("data-slug").split("_")[2];
       //hacer peticion
-      peticionPost(
+      F.peticionPost(
         //url
         urlBuscarJuegos,
         //datos
@@ -234,8 +234,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
           let juego = data.juego;
           let modal = new bootstrap.Modal(modalInfoJuego);
           modalTitle.textContent = juego.nombre;
-          modalBody.textContent = ''
-          modalBody.insertAdjacentHTML("afterbegin",plantillaModalBody(juego))
+          modalBody.textContent = "";
+          modalBody.insertAdjacentHTML("afterbegin", plantillaModalBody(juego));
           eventoVerJuego();
           modal.show();
         },
