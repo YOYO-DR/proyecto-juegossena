@@ -179,9 +179,11 @@ const valoresTextos = {
   espacio: "Espacio",
 };
 
+//Inicializo la clase
+const F = new Funciones();
+
 //Funciones del menu
 document.addEventListener("DOMContentLoaded", function () {
-  const F = new Funciones()
   const botonMenu = document.getElementById("btnmenu");
   const containerMenu = document.getElementById("container-menu");
 
