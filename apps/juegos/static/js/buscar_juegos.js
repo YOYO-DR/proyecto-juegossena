@@ -1,3 +1,6 @@
+//inicializo la clase de las peticiones
+const P = new Peticiones();
+
 //funciones
 //obtener script y obtener la url del detalle juego
 const urlDetalleJuego = document.currentScript
@@ -187,8 +190,7 @@ function buscar(input, radios) {
     //datos a enviar
     //datosEnvio
     //hacer peticion
-    console.log(datosEnvio)
-    F.peticionPost(
+    P.peticionPost(
       //url
       ".",
       //datos

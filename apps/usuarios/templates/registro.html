@@ -28,25 +28,24 @@
 
 {% endblock contenido %} {% block js %}
 <script>
+  //Inicializo la clase de peticiones
+const P = new Peticiones();
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("form");
     const mensaje = document.getElementById("mensaje");
 
-    let callback = (data) => {
-      if ("error" in data) {
-        mensaje.className = "mensaje-error";
-        mensaje.textContent = data.error;
-      } else {
-        mensaje.className ="mensaje-correcto";
-        mensaje.textContent="Se ha enviado un correo para activar su cuenta, revisa tu bandeja de entrada";
-        form.remove()
-      }
-    };
-    F.peticionFormPost(
-      "form", // id formulario
-      ".",
-      callback
-    );
+    form.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      P.peticionFormPost(
+        "form", // id formulario
+        ".",
+        (data) => {
+          mensaje.className ="mensaje-correcto";
+          mensaje.textContent="Se ha enviado un correo para activar su cuenta, revisa tu bandeja de entrada";
+          form.remove()
+        }
+      );
+    })
   });
 </script>
 {% endblock js %}

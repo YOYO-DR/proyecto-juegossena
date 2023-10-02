@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block contenido %}
-
-
     {% if not token_expirado %}
     <h1>Cambiar contraseña</h1>
     <p id="mensaje"></p>
@@ -29,27 +27,7 @@
 
 {% endblock contenido %}
 {% block js %}
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const form = document.getElementById('form')
-  const mensaje=document.getElementById('mensaje')
-
-  let callback=(data)=>{
-    if ('error'in data){
-      mensaje.className="mensaje-error"
-      mensaje.textContent=data.error
-    }else{
-      mensaje.className="mensaje-correcto"
-      let iniciarSesion =`<a href="{% url 'usuarios:iniciarsesion' %}" class="link-primary">iniciar sesión</a>`
-      mensaje.textContent="La contraseña se cambio correctamente, ya puedes "+iniciarSesion
-      form.remove()
-    }
-  }
-  F.peticionFormPost(
-    "form", // id formulario
-    ".",
-    callback
-  )
-})
-</script>
+<script 
+    data-url-iniciar-sesion="{% url 'usuarios:iniciarsesion' %}"
+  src="{% static "js/cambiarContra.js" %}"></script>
 {% endblock js %}

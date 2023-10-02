@@ -1,5 +1,7 @@
-// funcion para cuando se cambie de carrusel : activarCarrusel(".btn-left",".btn-right","#slider",".slider-section",".carruseles");
+//inicializo la clase de las peticiones
+const P = new Peticiones()
 
+// funcion para cuando se cambie de carrusel : activarCarrusel(".btn-left",".btn-right","#slider",".slider-section",".carruseles");
 function plantillaCarrusel(imagenes) {
   let sliders = ``;
   for (const imagen of imagenes) {
@@ -95,7 +97,7 @@ function eventoClickRadios(e) {
 
       //Ejecutar lo del carrusel
       //hacer peticion para pedir las imagenes del juego
-      F.peticionPost(
+      P.peticionPost(
         //url
         ".",
         //datos a enviar
@@ -180,7 +182,7 @@ function eventoClickRadios(e) {
           form_check.classList.add("disabled");
 
           //peticion de eliminacion
-          F.peticionPost(
+          P.peticionPost(
             //url
             ".",
             //datos a enviar
@@ -219,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const divRadiosH2 = document.querySelector(".div-izquierda h2")
 
   //hacer peticion para traer los juegos de favoritos
-  F.peticionPost(
+  P.peticionPost(
     //url
     ".",
     //datos a enviar

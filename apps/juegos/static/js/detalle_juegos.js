@@ -1,3 +1,6 @@
+//Inicializo la clase de las peticiones
+const P = new Peticiones();
+
 document.addEventListener("DOMContentLoaded", () => {
   //constantes
   const listaRequi = document.querySelector(".lista-requi"),
@@ -18,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAgregarFav.appendChild(spn);
     btnAgregarFav.disabled = true;
     //aqui se envia la petición - action: agrefav
-    F.peticionPost(
+    P.peticionPost(
       ".",
       { action: "agrefav" },
       (data) => {
@@ -47,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   //lista de requisitos
   let lis_requi = "";
-  F.peticionPost(
+  P.peticionPost(
     ".",
     {
       action: "requisitos",

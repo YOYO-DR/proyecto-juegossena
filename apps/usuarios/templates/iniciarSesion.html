@@ -33,43 +33,33 @@
 {% endblock contenido %}
 {% block js %}
 <script>
+  //Inicializo la clase de peticiones
+const P = new Peticiones();
   //funcion para saber si la url tiene un paramtro next
  
-// Crear una función para obtener el valor de un parámetro de la cadena de consulta
-function getParameterValue(parameterName) {
-  // Obtener la cadena de consulta de la URL actual
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  return urlParams.get(parameterName);
-}
-
 document.addEventListener('DOMContentLoaded', function(){
-  const form = document.getElementById('form')
+  const form = document.querySelector('#form')
   const mensaje=document.getElementById('mensaje')
 
-  let callback=(data)=>{
-    if ('error'in data){
-      mensaje.className="mensaje-error"
-      mensaje.textContent=data.error
-    }else{
-      mensaje.className ="";
-      mensaje.textContent="";
-      // Comprobar si el parámetro '?next' existe en la URL
-      const nextParameterValue = getParameterValue('next');
+  form.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    P.peticionFormPost(
+    "form", // id formulario
+    ".",//url
+    //funcion
+    (data)=>{
+      // Comprobar si el parámetro 'next' existe en la URL
+      const nextParameterValue = F.getParametroUrl('next');
       if (nextParameterValue) {
         window.location.href=nextParameterValue
       } else {
         window.location.href=data.urlRedirect
-      }       
-      
-    }
-  }
-  F.peticionFormPost(
-    "form", // id formulario
-    ".",//url
-    callback,//funcion
+      }
+  },
     false // resetear o no el formulario
   )
+  })
+  
 })
 </script>
 {% endblock js %}

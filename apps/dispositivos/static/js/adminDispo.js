@@ -1,3 +1,6 @@
+//Inicializo la clase de peticiones
+const P = new Peticiones();
+
 //obtener el script
 const scriptElement = document.currentScript;
 
@@ -96,7 +99,7 @@ function eventoVerDispoBtn(boton) {
     let modal = new bootstrap.Modal(modalDispo);
     //Aqui pongo los valores del dispositivo en el formulario
     //funcion de js/funciones.js
-    F.peticionPost(
+    P.peticionPost(
       window.location.pathname,
       { id: idDispo, action: "datosDispo" },
       (data) => {
@@ -161,7 +164,7 @@ function eventoEliminarDispoBtn(boton) {
     let idDispo = idDispositivo(boton.className, "eliminarDispo");
 
     //funcion de js/funciones.js
-    F.peticionPost(
+    P.peticionPost(
       window.location.pathname,
       { id: idDispo, action: "eliminar" },
       (data) => {
@@ -264,86 +267,90 @@ document.addEventListener("DOMContentLoaded", function (e) {
   dispoModal();
 
   //formulario de subida
-  //esta funcion agrega el evento asi que solo la ejecuto, y no dentro del evento submit
-  F.peticionFormPost(
-    // le paso los valores requeridos
-    "envioTxt", // id formulario
-    urlProcesarDispo, //url hacia donde va a mandar la petición
-    // la funcion a realizar
-    (data) => {
-      //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
-      //agregar el dispositivo
-      mostrarDispo(data.id, data.nombre, contenedorDispo);
-      // mensaje de guardado
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-      Toast.fire({
-        icon: "success",
-        title: `Dispositivo <i>${data.nombre}</i> guardado`,
-      });
-    },
-    //resetForm
-    true,
-    //si sale "error" en la data
-    (data) => {
-      console.log(data);
-      if (data.error[0] == "dipositivo ya existe") {
-        Swal.fire({
-          title: "El dispositivo ya existe, ¿Desea reemplazarlo?",
-          showDenyButton: true,
-          confirmButtonText: "Si",
-          denyButtonText: `No`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            //obtengo el formulario para enviar el archivo de nuevo
-            const formArchivo = document.getElementById("envioTxt");
-            const formdata = new FormData(formArchivo);
-            formdata.append("reemplazar", "true");
-            F.peticionPost(
-              urlProcesarDispo,
-              formdata,
-              (data) => {
-                formArchivo.reset();
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: "bottom-end",
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.addEventListener("mouseenter", Swal.stopTimer);
-                    toast.addEventListener("mouseleave", Swal.resumeTimer);
-                  },
-                });
-                Toast.fire({
-                  icon: "success",
-                  title: `Dispositivo <i>${data.nombre}</i> modificado`,
-                });
-              },
-              null,
-              true
-            );
-          } else if (result.isDenied) {
-            const formArchivo = document.getElementById("envioTxt");
-            formArchivo.reset();
-          }
+  const form = document.querySelector("#envioTxt")
+  //evento submit
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    P.peticionFormPost(
+      // le paso los valores requeridos
+      "envioTxt", // id formulario
+      urlProcesarDispo, //url hacia donde va a mandar la petición
+      // la funcion a realizar
+      (data) => {
+        //creo la funcion la cual se la voy a pasar a la funcion de enviar peticion post
+        //agregar el dispositivo
+        mostrarDispo(data.id, data.nombre, contenedorDispo);
+        // mensaje de guardado
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
         });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: data.error,
+        Toast.fire({
+          icon: "success",
+          title: `Dispositivo <i>${data.nombre}</i> guardado`,
         });
+      },
+      //resetForm
+      true,
+      //si sale "error" en la data
+      (data) => {
+        if (data.error[0] == "dipositivo ya existe") {
+          Swal.fire({
+            title: "El dispositivo ya existe, ¿Desea reemplazarlo?",
+            showDenyButton: true,
+            confirmButtonText: "Si",
+            denyButtonText: `No`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              //obtengo el formulario para enviar el archivo de nuevo
+              const formArchivo = document.getElementById("envioTxt");
+              const formdata = new FormData(formArchivo);
+              formdata.append("reemplazar", "true");
+              P.peticionPost(
+                urlProcesarDispo,
+                formdata,
+                (data) => {
+                  formArchivo.reset();
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener("mouseenter", Swal.stopTimer);
+                      toast.addEventListener("mouseleave", Swal.resumeTimer);
+                    },
+                  });
+                  Toast.fire({
+                    icon: "success",
+                    title: `Dispositivo <i>${data.nombre}</i> modificado`,
+                  });
+                },
+                null,
+                true
+              );
+            } else if (result.isDenied) {
+              const formArchivo = document.getElementById("envioTxt");
+              formArchivo.reset();
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: data.error,
+          });
+        }
       }
-    }
-  );
+    );
+  })
+  
 });

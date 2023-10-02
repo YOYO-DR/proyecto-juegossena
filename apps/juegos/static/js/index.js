@@ -1,3 +1,6 @@
+//inicializo la clase de las peticiones
+const P = new Peticiones();
+
 //obtener el script
 const scriptElement = document.currentScript;
 
@@ -119,7 +122,7 @@ function realizarBusqueda() {
     espaciobutton.disabled = false;
     eventoVerJuego();
   }
-  F.peticionPost(
+  P.peticionPost(
     urlBuscarJuegos,
     {
       busqueda: inputBusqueda.value.trim(),
@@ -174,10 +177,10 @@ function eventoVerJuego() {
       e.preventDefault();
       a.appendChild(spn);
       //enviar peticion y en la funcion final enviarlo al detalle del juego
-      F.peticionPost(
+      P.peticionPost(
         ".",
         { juego: slug_juego },
-        () => {},
+        () => { },
         () => {
           a.removeChild(spn);
           window.location.href = url_juego;
@@ -220,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
       boton.disabled = true;
       let slug = boton.getAttribute("data-slug").split("_")[2];
       //hacer peticion
-      F.peticionPost(
+      P.peticionPost(
         //url
         urlBuscarJuegos,
         //datos
