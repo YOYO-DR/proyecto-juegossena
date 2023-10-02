@@ -58,6 +58,20 @@ function acordeon(nombre, valores) {
 }
 
 //activar - desactivar botones
+//activar elementos con atributo disabled
+function activarElementosDisabled(elementos) {
+  elementos.forEach((elemento) => {
+    elemento.disabled = false;
+  })
+}
+
+//desactivar elementos con atributo disabled
+function desactivarElementosDisabled(elementos) {
+  elementos.forEach((elemento) => {
+    elemento.disabled = true;
+  })
+}
+
 function disabledBotones(botones) {
   botones.forEach((boton) => {
     boton.disabled = !boton.disabled;
@@ -91,7 +105,8 @@ function eventoVerDispoBtn(boton) {
   boton.addEventListener("click", function (e) {
     e.preventDefault();
     boton.appendChild(spanLoading);
-    disabledBotones(botonesModalDispo);
+    boton.disabled = true;
+    desactivarElementosDisabled(botonesModalDispo);
     let idDispo = idDispositivo(boton.className, "modalDispo");
 
     //con el id del dispositivo mando una petición con fetch para obtener la información del boton
@@ -119,8 +134,10 @@ function eventoVerDispoBtn(boton) {
         modal.show();
       },
       () => {
+        //activar boton y botones
+        boton.disabled = false;
+        activarElementosDisabled(botonesModalDispo);
         //quito el spinner del boton
-        disabledBotones(botonesModalDispo);
         boton.removeChild(spanLoading);
       },
       //formdata
@@ -160,7 +177,8 @@ function eventoEliminarDispoBtn(boton) {
     //creo el spiner de bootstrap
     const spanLoading = F.spnCargando();
     boton.appendChild(spanLoading);
-    disabledBotones(botonesEliminarDispo);
+    boton.disabled = true;
+    desactivarElementosDisabled(botonesEliminarDispo);
     let idDispo = idDispositivo(boton.className, "eliminarDispo");
 
     //funcion de js/funciones.js
@@ -184,7 +202,7 @@ function eventoEliminarDispoBtn(boton) {
         }
       },
       () => {
-        disabledBotones(botonesEliminarDispo);
+        activarElementosDisabled(botonesEliminarDispo);
         //activar formulario
         btnSubmit.disabled = false;
         inputForm.disabled = false;

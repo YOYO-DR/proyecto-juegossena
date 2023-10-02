@@ -103,14 +103,14 @@ class Peticiones {
           if (data.error == "no-auth") {
             window.location.href = `/usuarios/iniciarsesion/?next=${window.location.pathname}`;
           }
-          this.mensajeSweet(data.error, "error");
+          F.mensajeSweet(data.error, "error");
         } else {
           funcion(data);
         }
       })
       //si sale un error lo paso por consola
       .catch((error) => {
-        this.mensajeSweet(error, "error");
+        F.mensajeSweet(error, "error");
       })
       .finally(() => {
         if (funcionFinal != null) {
