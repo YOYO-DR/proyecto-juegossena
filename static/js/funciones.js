@@ -80,7 +80,7 @@ class Funciones {
   }
 
   //enviar post desde un formulario, lo ejecuto apenas cargue el forulario porque el agrega el evento del submit
-  peticionFormPost(idForm, url, funcion, resetForm = true) {
+  peticionFormPost(idForm, url, funcion, resetForm = true,funcionError=null) {
     const form = document.getElementById(idForm);
     const inputs = form.querySelectorAll("input");
 
@@ -114,10 +114,15 @@ class Funciones {
             }
             funcion(data); //ejecutar funcion si la respuesta es correcta
           } else {
+            if (funcionError) {
+              funcionError(data);
+              return;
+            }
             this.mensajeSweet(data.error, "error");
           }
         })
         .catch((error) => {
+          console.error(error)
           this.mensajeSweet(error, "error");
         })
         .finally(() => {
@@ -159,6 +164,7 @@ class Funciones {
 
 //objeto con los valores que se obtienen del servidor pero ya para mostrar
 const valoresTextos = {
+  discos: "Discos",
   tipo: "Tipo",
   tamano: "Tamaño",
   velocidad: "Velocidad",
@@ -172,9 +178,12 @@ const valoresTextos = {
   nucleos: "Núcleos",
   velocidadMaxima: "Velocidad de máxima",
   so: "Sistema operativo",
+  sisOpe: "Sistema operativo",
   ram: "Ram",
+  rams: "Rams",
   procesador: "Procesador",
   grafica: "Tarjeta gráfica",
+  graficas: "Graficas",
   espaciore: "Espacio requerido",
   espacio: "Espacio",
 };
