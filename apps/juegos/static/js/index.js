@@ -108,7 +108,7 @@ function realizarBusqueda() {
 
       contenedorjuegos.textContent = ``;
       datos.juegos.forEach((juego) => {
-        contenedorjuegos.insertAdjacentHTML("afterend",vistaJuego(juego))
+        contenedorjuegos.insertAdjacentHTML("beforeend",vistaJuego(juego))
       });
     } else if (datos.juegos.length < 1) {
       contenedorjuegos.textContent = ``;

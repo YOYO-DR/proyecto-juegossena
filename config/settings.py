@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'apps.juegos',
     'apps.usuarios',
     'apps.chat',
-    'apps.apiAndroid'
+    'apps.info'
 ]
 
 MIDDLEWARE = [
