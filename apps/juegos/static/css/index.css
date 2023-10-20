@@ -10,8 +10,13 @@
   width: 20%;
 }
 
+.juegos-mas-buscados button {
+  color: white;
+}
+
 .juegos-mas-buscados button div:hover {
   background-color: rgb(215, 215, 215) !important;
+  color: black;
   scale: 1.1;
 }
 /*

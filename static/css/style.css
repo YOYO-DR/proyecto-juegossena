@@ -6,6 +6,11 @@
   transition: background-color .2s ease;
 }
 
+body{
+  background-color: #001823;
+  color: white;
+}
+
 .foto-perfil {
   width: 40px;
   border-radius: 50%;
