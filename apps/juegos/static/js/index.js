@@ -29,11 +29,13 @@ const modalBody = modalInfoJuego.querySelector(".modal-body");
 //crear vista de juego
 function vistaJuego(juego) {
   return `<div class="card w-100 mb-2" id="juego_${juego.id}">
+          <div class="img-juego-index">
         <img
           src="${juego.imagen}"
           class="card-img-top img-juego mx-auto m-1"
           alt="${juego.nombre}"
         />
+        </div>
         <div class="card-body">
           <div class="d-flex justify-content-center align-item-center">
             <h5 class="card-title me-3 fs-4">${juego.nombre}</h5>
@@ -144,12 +146,14 @@ function cancelarBusqueda() {
 
 function plantillaModalBody(juego) {
   return `
-  <div class="card" id="juego_{{juego.id}}">
+  <div class="card" id="juego_${juego.id}">
+  <div class="img-juego-index d-flex justify-content-center">
         <img
           src="${juego.imagen}"
           class="card-img-top img-juego mx-auto m-1"
           alt="${juego.nombre}"
         />
+        </div>
         <div class="card-body">
           <div class="d-flex flex-column align-items-center">
             <a href="${juego.urlPagina}" class="link mb-2" target="_blank"

@@ -53,11 +53,13 @@
     <div class="contenedor-juegos mx-4 border">
       {% for juego in juegos %}
       <div class="card w-100 mb-2" id="juego_{{juego.id}}">
-        <img
+        <div class="img-juego-index">
+          <img
           src="{{juego.get_imagen}}"
           class="card-img-top img-juego mx-auto m-1"
           alt="{{juego.nombre}}"
         />
+        </div>
         <div class="card-body">
           <div class="d-flex justify-content-center align-item-center">
             <h5 class="card-title me-3 fs-4">{{juego.nombre}}</h5>

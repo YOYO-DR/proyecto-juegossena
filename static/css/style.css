@@ -1,14 +1,33 @@
-*,*::before,*::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   padding: 0;
   margin: 0;
-  transition: background-color .2s ease;
+  transition: background-color 0.2s ease;
 }
 
-body{
+body,
+.modal .modal-content,
+.card .card-body,
+.card .card-footer,
+.img-juego-index {
   background-color: #001823;
   color: white;
+}
+
+.card {
+  border: none;
+}
+
+.card .card-footer,
+.card .card-body{
+  border: #c3c2c2 1px solid;
+}
+
+.btn-close {
+  background-color: #042d33;
 }
 
 .foto-perfil {
@@ -21,16 +40,17 @@ body{
 .mensaje-correcto {
   color: green;
 }
-.mensaje-error,.mensaje-correcto {
-border: solid 1px;
-display: inline-block;
-padding: 3px 5px;
-border-radius: 5px;
-font-style: italic;
+.mensaje-error,
+.mensaje-correcto {
+  border: solid 1px;
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 5px;
+  font-style: italic;
 }
 
-.empty-requi img{
-width: 20px;
+.empty-requi img {
+  width: 20px;
   height: auto;
   padding: 0;
   margin: 0;
@@ -43,14 +63,14 @@ width: 20px;
 }
 
 .menu {
-  position: fixed; 
+  position: fixed;
   right: 0;
   top: auto;
   transform: translateX(100%);
-  transition: transform .4s ease;
+  transition: transform 0.4s ease;
 }
 
-.menu.es_activo{
+.menu.es_activo {
   transform: translateX(0%);
 }
 
@@ -58,26 +78,26 @@ width: 20px;
   width: 40px;
 }
 
-.min-h-85{
+.min-h-85 {
   min-height: 85vh !important;
 }
 
 .img-logo {
-  max-width: 200px ;
+  max-width: 200px;
 }
 .hidden {
   display: none !important;
 }
 
-.btn-hidden{
-background-color: transparent;
-border: none;
-padding: 0;
-margin: 0;
+.btn-hidden {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
-.espacio-button:hover{
-background-color: #e5e5e5;
+.espacio-button:hover {
+  background-color: #e5e5e5;
 }
 .espacio-button:active {
   background-color: #c3c2c2;
