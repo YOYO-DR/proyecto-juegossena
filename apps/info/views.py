@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from apps.info.models import PreguntaAyuda
 
-# Create your views here.
+class PreguntasAyudaView(ListView):
+  model=PreguntaAyuda
+  template_name="ayuda.html"

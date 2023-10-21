@@ -30,6 +30,7 @@ urlpatterns = [
     path('dispositivos/',include('apps.dispositivos.urls')),
     path('blogs/',include('apps.blogs.urls')),
     path('chat/',include('apps.chat.urls')),
+    path('info/',include('apps.info.urls')),
 ]
 if not 'WEBSITE_HOSTNAME' in os.environ:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

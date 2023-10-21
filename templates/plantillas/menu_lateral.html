@@ -60,6 +60,12 @@
     </li>
     {% endif %}
     <li class="nav-item">
+      <a href="{% url 'info:preguntas_ayuda' %}" class="nav-link align-middle px-0">
+        <i class="fs-4 bi-info-circle"></i>
+        <span class="ms-1">Ayuda</span>
+      </a>
+    </li>
+    <li class="nav-item">
       <a href="{% url 'usuarios:cerrar' %}" class="nav-link px-0 align-middle">
         <i class="fs-4 bi-escape"></i>
         <span class="ms-1">Cerrar sesión</span></a
