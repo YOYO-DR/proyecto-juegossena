@@ -3,7 +3,8 @@
 {% block contenido %}
 <h1>Ayuda</h1>
 <div class="d-flex flex-column">
-  <div class="input-group">
+  <div class="col-12 col-md-6">
+  <div class="input-group col-6">
     <input
       name="busqueda"
       id="inputBusqueda"
@@ -16,6 +17,7 @@
       <i class="bi bi-search"></i>
     </button>
   </div>
+</div>
   <div class="preguntas mt-3">
     {% for pre in object_list %}
       <a href="#" class="link" data-id="{{pre.id}}">{{pre.pregunta}}</a>

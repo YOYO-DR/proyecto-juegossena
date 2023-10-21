@@ -1,3 +1,6 @@
+//Inicializo la clase de peticiones
+const P = new Peticiones();
+
 class modalBootstrap5 {
   constructor(modal, title, body) {
     this.title = title;
@@ -23,7 +26,7 @@ class modalBootstrap5 {
     modal_dialog.classList.add("modal-dialog");
     //insertar en el modal
     this.modal.textContent = "";
-    this.modal.appendChild(modal_dialog)
+    this.modal.appendChild(modal_dialog);
 
     //modal content
     let modal_content = document.createElement("div");
@@ -63,21 +66,46 @@ class modalBootstrap5 {
 }
 
 /* crear objeto para crear un modal con createelement y ponerlo antes del cierre del body para luego mostralo*/
+//funciones
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const preguntas = document.querySelectorAll(".preguntas a");
   preguntas.forEach((pregunta) => {
     pregunta.addEventListener("click", (e) => {
       e.preventDefault();
-      let modal_body = `
-      <h1>Subiendo el archivo de cpu-z</h1>
-      `;
-      let modal = new modalBootstrap5(
-        "modal",
-        pregunta.textContent,
-        modal_body
+      //spn cargando
+      let spn = F.spnCargando()
+      //ponerlo al final de la pregunta
+      pregunta.insertAdjacentElement("beforeend", spn);
+      //inhabilitar todos los links
+      preguntas.forEach((pregunta) => {
+        pregunta.classList.add("link-disabled");
+      })
+      // id de la pregunta
+      let id = pregunta.getAttribute("data-id");
+      //funcion despues de la peticion
+      const funcion = (data) => {
+        let modal = new modalBootstrap5(
+          "modal",
+          data.pregunta,
+          data.respuesta
+        );
+        modal.show();
+      };
+      //mandar peticion
+      P.peticionPost(
+        window.location.pathname,
+        { id: id },
+        funcion,
+        () => {
+          //habilitar todos los links
+          preguntas.forEach((pregunta) => {
+            pregunta.classList.remove("link-disabled");
+          });
+          pregunta.removeChild(spn);
+        },
+        (formdata = false)
       );
-      modal.show();
     });
   });
 });
