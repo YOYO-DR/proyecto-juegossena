@@ -1,4 +1,9 @@
-{% extends 'base.html' %} {% load static %} {% block head %}
+{% extends 'base.html' %} {% load static %} 
+{% block description %}
+Juegos Sena es una plataforma para buscar videojuegos y sus requisitos para pc/computador. ¡Encuentre sus juegos favoritos y revisa si son compatibles con su computador!
+{% endblock description %}
+
+{% block head %}
 <link rel="stylesheet" href="{% static 'css/index.css' %}" />
 {% endblock head %} {% block contenido %}
 
