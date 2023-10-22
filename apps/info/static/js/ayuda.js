@@ -60,6 +60,14 @@ class modalBootstrap5 {
     let modal_body = document.createElement("div");
     modal_body.classList.add("modal-body");
     modal_body.insertAdjacentHTML("afterbegin", this.body);
+    // si la nota viene con imagenes, les pongo la clase img-fluid
+    let imagenes_body = modal_body.querySelectorAll("img");
+    if (imagenes_body.length > 0) {
+      imagenes_body.forEach((img) => {
+        if (!img.classList.contains("img-fluid"))
+          img.classList.add("img-fluid");
+      })
+    }
     //insertar en el final del modal content
     modal_content.insertAdjacentElement("beforeend", modal_body);
   }
@@ -68,28 +76,49 @@ class modalBootstrap5 {
 /* crear objeto para crear un modal con createelement y ponerlo antes del cierre del body para luego mostralo*/
 //funciones
 
+function quitarTildes(str) {
+    //objeto con las vocales y su expresión regular para quitar las tildes
+    let mapaAcentosHex = {
+      a: /[\xE0-\xE6]/g,
+      e: /[\xE8-\xEB]/g,
+      i: /[\xEC-\xEF]/g,
+      o: /[\xF2-\xF6]/g,
+      u: /[\xF9-\xFC]/g,
+      A: /[\xC0-\xC6]/g,
+      E: /[\xC8-\xCB]/g,
+      I: /[\xCC-\xCF]/g,
+      O: /[\xD2-\xD6]/g,
+      U: /[\xD9-\xDC]/g,
+    };
+  for (let letra in mapaAcentosHex) {
+      // obtengo cada expresión regular y se la aplico a la cadena deseada y asi quitar todas las tildes
+      let expresionRegular = mapaAcentosHex[letra];
+      str = str.replace(expresionRegular, letra);
+    }
+    return str;
+  
+}
+
 document.addEventListener("DOMContentLoaded", (e) => {
   const preguntas = document.querySelectorAll(".preguntas a");
+  const input = document.querySelector(".input-group input");
+  // evento para ver cada respuesta
   preguntas.forEach((pregunta) => {
     pregunta.addEventListener("click", (e) => {
       e.preventDefault();
       //spn cargando
-      let spn = F.spnCargando()
+      let spn = F.spnCargando();
       //ponerlo al final de la pregunta
       pregunta.insertAdjacentElement("beforeend", spn);
       //inhabilitar todos los links
       preguntas.forEach((pregunta) => {
         pregunta.classList.add("link-disabled");
-      })
+      });
       // id de la pregunta
       let id = pregunta.getAttribute("data-id");
       //funcion despues de la peticion
       const funcion = (data) => {
-        let modal = new modalBootstrap5(
-          "modal",
-          data.pregunta,
-          data.respuesta
-        );
+        let modal = new modalBootstrap5("modal", data.pregunta, data.respuesta);
         modal.show();
       };
       //mandar peticion
@@ -107,5 +136,35 @@ document.addEventListener("DOMContentLoaded", (e) => {
         (formdata = false)
       );
     });
+  });
+
+  //evento para buscar mientras escribe
+  input.addEventListener("input", (e) => {
+    let bus = quitarTildes(input.value)
+      .toLowerCase()
+      .trim();
+    if (bus !== "") {
+      preguntas.forEach((pregunta) => {
+        //quitar las tildes
+        const normalizar = quitarTildes(pregunta.textContent)
+          .toLowerCase();
+        console.log(normalizar)
+        if (normalizar.includes(bus)) {
+          console.log(normalizar);
+          if (pregunta.classList.contains("hidden")) {
+            pregunta.classList.remove("hidden");
+          }
+        } else {
+          if (!pregunta.classList.contains("hidden")) {
+            pregunta.classList.add("hidden");
+          }
+        }
+      });
+    } else {
+      preguntas.forEach((pregunta) => {
+        if (pregunta.classList.contains("hidden"))
+          pregunta.classList.remove("hidden");
+      });
+    }
   });
 });

@@ -13,14 +13,11 @@
       placeholder="Buscar pregunta"
       autocomplete="off"
     />
-    <button class="input-group-text espacio-button">
-      <i class="bi bi-search"></i>
-    </button>
   </div>
 </div>
-  <div class="preguntas mt-3">
+  <div class="preguntas mt-3 d-flex flex-column">
     {% for pre in object_list %}
-      <a href="#" class="link" data-id="{{pre.id}}">{{pre.pregunta}}</a>
+      <a href="#" class="link my-2 fs-5 align-self-start" data-id="{{pre.id}}">{{pre.pregunta}}</a>
     {% endfor %}
   </div>
 </div>
