@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-07@aoydkpwh*_oq)ir#wzs^6r3ut)djnp0zp-^a$6o_54c-05o
 DEBUG = True
 
 # el segundo es la ip local del pc
-ALLOWED_HOSTS = ['127.0.0.1','192.168.110.39','172.30.144.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
