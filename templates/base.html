@@ -40,6 +40,7 @@
     {% block head %} {% endblock head %}
   </head>
   <body>
+    {% csrf_token %}
     {% include 'plantillas/navbar.html' %}
     <div class="container-fluid">
       <div class="row flex-nowrap">

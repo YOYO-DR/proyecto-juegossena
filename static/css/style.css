@@ -8,13 +8,22 @@
   transition: background-color 0.2s ease;
 }
 
+body {
+background-image: url("https://djangoyoiner.blob.core.windows.net/juegossena/static/media/img/fondo.png");
+background-repeat: no-repeat;
+background-size: cover;
+}
+
 body,
 .modal .modal-content,
 .card .card-body,
 .card .card-footer,
 .img-juego-index {
-  background-color: #001823;
   color: white;
+}
+
+.card {
+  background: transparent;
 }
 
 .card {
