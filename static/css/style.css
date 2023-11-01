@@ -92,6 +92,11 @@ body,
 }
 }
 
+@media (min-width: 578px){
+  .menu:hover{
+  transform: translateX(28%);
+}
+}
 
 .logo-navbar {
   width: 40px;
