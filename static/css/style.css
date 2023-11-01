@@ -73,14 +73,20 @@ body,
 
 .menu {
   position: fixed;
-  right: 0;
+  right: 62px;
   top: auto;
   transform: translateX(100%);
   transition: transform 0.4s ease;
 }
 
+@media (max-width: 577px) {
+  .menu {
+    right: 52px;
+  }
+}
+
 .menu.es_activo {
-  transform: translateX(0%);
+  transform: translateX(28%);
 }
 
 .logo-navbar {
