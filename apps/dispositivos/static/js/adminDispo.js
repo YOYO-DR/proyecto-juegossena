@@ -34,7 +34,7 @@ function acordeon(nombre, valores) {
   let acor = `<div class="accordion-item"> 
           <h2 class="accordion-header">
           <button
-          class="accordion-button collapsed"
+          class="accordion-button collapsed text-white bg-black"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapse${nombre.replace(/\s+/g, "")}"
@@ -49,7 +49,7 @@ function acordeon(nombre, valores) {
           class="accordion-collapse collapse"
           data-bs-parent="#carateristicas"
           >
-          <div class="accordion-body">
+          <div class="accordion-body text-white bg-black">
           ${ul}
           </div>
           </div>

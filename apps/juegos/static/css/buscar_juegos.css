@@ -61,6 +61,7 @@
 
 .opciones .form-check:hover {
   background-color: rgb(217, 217, 217);
+  color: black;
 }
 
 .opciones {
@@ -68,6 +69,7 @@
   overflow: hidden;
   transition: height .5s ease, max-height .5s ease;
   border-radius: 5px;
+  color: white;
 }
 
 .opciones.activa button {
@@ -78,8 +80,13 @@
   height: 100vh;
 }
 
+.opciones button {
+  color: white;
+}
+
 .opciones button:hover {
   background-color: rgb(215, 215, 215);
+  color: black;
 }
 
 .form-check.buscar-requi {
@@ -88,7 +95,8 @@
 }
 
 .dispositivos .form-check:hover {
-  background-color: rgb(215, 215, 215);;
+  background-color: rgb(215, 215, 215);
+  color: black;
 }
 
 div[class*="juego_"]>div:first-child {
