@@ -215,6 +215,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const botonMenu = document.getElementById("btnmenu");
   const containerMenu = document.getElementById("container-menu");
 
+  // Agregar un event listener al documento
+  document.addEventListener("click", function (e) {
+    // Verificar si el clic ocurrió fuera del botón y el contenedor
+    // !containerMenu.contains(e.target) verifica que el elemento que se hizo click no este dentro del contenedor, por eso el "contains"
+    if (e.target !== botonMenu && e.target !==botonMenu.querySelector("span") && !containerMenu.contains(e.target)) {
+      containerMenu.classList.remove("es_activo");
+    }
+  });
+
   botonMenu.addEventListener("click", function (e) {
     e.preventDefault();
     containerMenu.classList.toggle("es_activo");
