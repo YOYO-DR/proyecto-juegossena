@@ -20,7 +20,7 @@ def traerDatosDeProd():
         print(e)
         pass
 
-  # graficas
+  # graficas - esta la traigo de ultimo pq tiene las llaves foraneas de las otras dos anteriores
   graficasProd=Graficas.objects.using('production').all()
   for grafica in graficasProd:
       try:
