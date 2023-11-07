@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-from config.db import MYSQL_AZURE, MYSQL_LOCAL, SQLITE
+from config.db import MYSQL, SQLITE
 from config.dictChannels import CHANNELS_AZURE, CHANNELS_LOCAL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -91,7 +91,7 @@ CHAT_CANT_MSJ=20
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = MYSQL_LOCAL #SQLITE # MYSQL_AZURE 
+DATABASES = MYSQL
 
 
 # Password validation
