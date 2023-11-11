@@ -168,7 +168,7 @@ class Juegos(models.Model):
         return {
             'ram':f"{self.ram.gb} GB",
             'procesador':self.procesador.nombre,
-            'grafica':f'{self.grafica.nombre} - {redondear(self.grafica.gb.gb,2) if self.grafica.gb else ""} GB',
+            'grafica':f'{self.grafica.nombre} {"- "+str(redondear(self.grafica.gb.gb,2))+" GB" if self.grafica.gb else ""}',
             'espaciore':f'{self.espacio} GB',
             'so':self.sistemaOperativo.nombre
         }
