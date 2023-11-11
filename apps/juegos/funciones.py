@@ -89,7 +89,7 @@ def potenciaDispoJuego(dispositivo:Dispositivos,juego:Juegos,valor_mayor_discos)
   data['grafica']=[False,grafica_com.nombre]
   # la grafica a comparar es la que le paso en la llamada de la funcion en la cual ya verifique cual es la pontente
   juegoGrafica=juego.grafica
-  if grafica_com.gb:
+  if grafica_com.gb and juegoGrafica.gb:
     # si es igual, verifico la potencia de nucleos más velocidad de grafica
     if float(grafica_com.gb.gb)==float(juegoGrafica.gb.gb):
       if grafica_com.nucleos and grafica_com.velocidad:
