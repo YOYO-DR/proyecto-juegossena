@@ -30,7 +30,7 @@ class modalBootstrap5 {
 
     //modal content
     let modal_content = document.createElement("div");
-    modal_content.classList.add("modal-content");
+    modal_content.classList.add("modal-content", "bg-black");
     //insertarlo dentro del modal dialog
     modal_dialog.appendChild(modal_content);
 
@@ -50,7 +50,7 @@ class modalBootstrap5 {
 
     //btn close - modal header
     let btn_close = document.createElement("button");
-    btn_close.classList.add("btn-close");
+    btn_close.classList.add("btn-close", "bg-white");
     btn_close.setAttribute("data-bs-dismiss", "modal");
     btn_close.setAttribute("aria-label", "Close");
     //insertar en el modal header
