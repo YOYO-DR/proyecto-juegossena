@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
       true,
       //si sale "error" en la data
       (data) => {
-        if (data.error[0] == "dipositivo ya existe") {
+        if (data.error.includes("dipositivo ya existe")) {
           Swal.fire({
             title: "El dispositivo ya existe, ¿Desea reemplazarlo?",
             showDenyButton: true,
@@ -366,6 +366,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             title: "Oops...",
             text: data.error,
           });
+          form.reset();
         }
       }
     );

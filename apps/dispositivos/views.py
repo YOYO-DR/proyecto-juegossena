@@ -19,28 +19,29 @@ class ProcesarDatos(View):
         data={}
         archivo=request.FILES.get('archivo',"")
         if archivo=="":
-            data['error']="No se envio un archivo"
-            return JsonResponse(data)
+            return JsonResponse({"error": "No se envio un archivo"})
         nombreArchivo=archivo.name.rstrip(".txt")
         # pregunto si viene el valor "reemplazar"
         if "reemplazar" not in request.POST:
           nombreDispo=nombreArchivo+"_"+str(request.user.id)
           dispositivosUsuario=Dispositivos.objects.filter(nombre=nombreDispo,usuario=request.user)
           if dispositivosUsuario.exists():
-              data['error']=["dipositivo ya existe",archivo.name]
-              return JsonResponse(data)
+              return JsonResponse({"error": f"dipositivo ya existe {archivo.name}"})
         try:
           # cuando le aplico el readlines(), python automaticamente cierra el archivo
           lineas=archivo.readlines()
         except Exception as e:
-            data['error']=str(e)
-            return JsonResponse(data)
+            return JsonResponse({'error':str(e)})
         dataArchivo = []
+        es_cpuz=False
         for linea in lineas:
            linea_decodificada=linea.decode('utf-8',errors='ignore')
+           if "CPU-Z TXT Report" in linea_decodificada.strip():
+             es_cpuz=True
            dataArchivo.append(linea_decodificada)
+        if not es_cpuz:
+          return JsonResponse({"error": "No es un archivo de CPU-Z"})
         cara=obtenerCara(dataArchivo)
-        
         dispositivo=guardarCara(cara,request.user.id,nombreArchivo)
         data['nombre']=dispositivo.nombre
         data['id']=dispositivo.id
