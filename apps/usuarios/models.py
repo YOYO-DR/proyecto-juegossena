@@ -16,7 +16,7 @@ class Usuario(AbstractUser):
         return f'{STATIC_URL_AZURE}media/img/empty.png' if 'WEBSITE_HOSTNAME' in os.environ else f'{STATIC_URL}media/img/empty.png'
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        if self.is_superuser:
+        if self.is_superuser and not self.pk:
             self.is_active=True
         return super(Usuario, self).save()
 

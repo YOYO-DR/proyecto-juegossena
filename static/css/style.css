@@ -130,3 +130,11 @@ body,
 .link-disabled {
   pointer-events: none;
 }
+
+.cambiar-foto:hover{
+opacity: .5 !important;
+}
+
+.cambiar-foto:active{
+opacity: .3 !important;
+}

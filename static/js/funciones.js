@@ -214,12 +214,18 @@ const F = new Funciones();
 document.addEventListener("DOMContentLoaded", function () {
   const botonMenu = document.getElementById("btnmenu");
   const containerMenu = document.getElementById("container-menu");
+  const btnCargarFoto = document.querySelector(".cambiar-foto");
+  const P = new Peticiones();
 
   // Agregar un event listener al documento
   document.addEventListener("click", function (e) {
     // Verificar si el clic ocurrió fuera del botón y el contenedor
     // !containerMenu.contains(e.target) verifica que el elemento que se hizo click no este dentro del contenedor, por eso el "contains"
-    if (e.target !== botonMenu && e.target !==botonMenu.querySelector("span") && !containerMenu.contains(e.target)) {
+    if (
+      e.target !== botonMenu &&
+      e.target !== botonMenu.querySelector("span") &&
+      !containerMenu.contains(e.target)
+    ) {
       containerMenu.classList.remove("es_activo");
     }
   });
@@ -227,5 +233,35 @@ document.addEventListener("DOMContentLoaded", function () {
   botonMenu.addEventListener("click", function (e) {
     e.preventDefault();
     containerMenu.classList.toggle("es_activo");
+  });
+
+  //Boton cargar foto de perfil
+  btnCargarFoto.addEventListener("click", function (e) {
+    // Crea un input de tipo file de forma dinámica y lo oculta
+    let inputFile = document.createElement("input");
+    inputFile.type = "file";
+    inputFile.accept = "image/*"; // Restringe la selección a imágenes
+    inputFile.style.display = "none";
+
+    // Agrega el input al cuerpo del documento
+    document.body.appendChild(inputFile);
+
+    inputFile.addEventListener("change", function () {
+      let archivo = this.files[0];
+      if (archivo) {
+        let formData = new FormData();
+        formData.append("foto", archivo);
+        P.peticionPost(
+          "/",
+          formData,
+          (data) => {
+            btnCargarFoto.querySelector("img").src = data.urlFoto;
+          },
+          (funcionFinal = null),
+          (formdata = true)
+        );
+      }
+    });
+    inputFile.click();
   });
 });

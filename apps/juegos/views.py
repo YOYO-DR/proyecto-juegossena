@@ -38,6 +38,13 @@ class InicioView(TemplateView):
 
   def post(self, request, *args, **kwargs):
     data={}
+    # si se envia una imagen,es el cambio de foto de perfil
+    if request.FILES.get("foto"):
+      request.user.imagen = request.FILES.get("foto")
+      print(request.FILES.get("foto"))
+      request.user.save()
+      return JsonResponse({"urlFoto":request.user.get_imagen()})
+
     try:
       datos=json.loads(request.body)
     except Exception as e:
