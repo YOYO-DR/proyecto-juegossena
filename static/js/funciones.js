@@ -247,7 +247,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.appendChild(inputFile);
 
     inputFile.addEventListener("change", function () {
+      // obtengo el primer archivo (y unico practicamente)
       let archivo = this.files[0];
+      // si hay algun archivo, lo envio
       if (archivo) {
         let formData = new FormData();
         formData.append("foto", archivo);
@@ -262,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }
     });
+    // Ejecuto el click del input para abrir el explorador de archivos
     inputFile.click();
   });
 });

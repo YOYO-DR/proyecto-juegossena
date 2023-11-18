@@ -1,11 +1,10 @@
 import os
 from django.db import models
 from django.forms import model_to_dict
+from apps.dispositivos.senales import activarSenales
 from apps.funciones_gen import redondear
 from apps.usuarios.models import Usuario
 from config.settings import MEDIA_URL,STATIC_URL, STATIC_URL_AZURE
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 class Telefonos(models.Model):
     numeroTelefono=models.CharField(max_length=20,null=False, blank=False,verbose_name="Numero de telefono")
@@ -238,14 +237,6 @@ class Favoritos(models.Model):
     def __str__(self):
         return self.usuario.username
 
-# señal para la creacion del objeto favorito de cada usuario cuando se cree
-@receiver(post_save, sender=Usuario)
-def crear_fav(sender, instance, created, **kwargs):
-  if created:
-    Favoritos.objects.create(usuario=instance)
-# Conecta la señal al modelo User
-post_save.connect(crear_fav, sender=Usuario)
-
 class ImagenesJuego(models.Model):
   juego=models.ForeignKey(Juegos,on_delete=models.CASCADE,null=False, blank=False)
   imagen=models.ImageField(upload_to=f'{MEDIA_URL}imagenes_juegos/%Y/%m/' if 'WEBSITE_HOSTNAME' in os.environ else 'imagenes_juegos/%Y/%m/',null=True,blank=True, verbose_name='Imagen')
@@ -262,3 +253,9 @@ class ImagenesJuego(models.Model):
       item=model_to_dict(self)
       item['imagen']=self.get_imagen()
       return item
+
+# activar las señales
+activarSenales({
+  'usuario':Usuario,
+  'favoritos':Favoritos
+})
